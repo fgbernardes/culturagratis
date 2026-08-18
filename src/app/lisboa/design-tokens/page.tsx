@@ -6,7 +6,7 @@ const swatches = [
   { nome: "Tejo 500", classe: "bg-tejo-500" },
 ];
 
-export default function Home() {
+export default function DesignTokens() {
   return (
     <main className="flex flex-1 flex-col items-center gap-10 px-16 py-32">
       <h1 className="font-display text-4xl font-semibold tracking-tight">

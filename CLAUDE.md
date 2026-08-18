@@ -8,13 +8,22 @@ Cultura Grátis Lisboa (CGL) é uma plataforma editorial de eventos culturais gr
 
 Este repositório é o código do site (culturagratis.com), parte do relançamento CGL 2.0.
 
+### Arquitetura de rotas (ADR-030) — multi-cidade
+
+`culturagratis.com` vai alojar várias cidades no futuro. Lisboa vive em **`/lisboa`**, não na raiz.
+
+- `/` faz redirect automático para `/lisboa` (por agora — enquanto só existir uma edição).
+- Todas as páginas da edição Lisboa ficam sob `/lisboa/...` (agenda, categorias, freguesias, eventos, sobre, contactos).
+- **Âmbito editorial continua só Lisboa** — isto é arquitetura de URLs, não expansão de conteúdo. Não confundir as duas coisas.
+- Rotas já construídas hoje (Brevemente, `/design-tokens`, `/supabase-test`) estão na raiz — precisam de ser movidas para dentro de `/lisboa` (ou mantidas como exceções deliberadas — a página Brevemente pode fazer sentido continuar acessível em `/`, confirmar com Filipe antes de mover).
+
 ## 2. Stack
 
 - Framework: Next.js
 - Deploy / infraestrutura: Cloudflare Workers
 - Base de dados: Supabase
 - Gestão de conteúdo: por decidir — tendência atual para Git-based CMS [a confirmar]
-- Página "Brevemente": já construída e testada. Não recriar — localizar e reutilizar.
+- Página "Brevemente": já construída e testada. Não recriar — localizar e reutilizar. **Sem formulário de newsletter por agora — é intencional, não é falta a corrigir.** O formulário só entra quando o Teaser 3 (que revela o endereço do site) for publicado. Não adiantar isto sem confirmação de Filipe.
 
 ## 3. Estrutura do repositório
 

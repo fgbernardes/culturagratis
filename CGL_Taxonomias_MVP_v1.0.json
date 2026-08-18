@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "project": "Cultura Grátis Lisboa",
+  "edition": "lisboa",
+  "status": "vigente",
+  "language": "pt-PT",
+  "published_on": "2026-08-07",
+  "source_of_truth": [
+    {
+      "title": "Briefing CGL 2.0",
+      "version": "2.1",
+      "url": "https://docs.google.com/document/d/1-5FRPmNbhnlngBkuvuoV4XkdxOdiVhCuqSjgW3NT6Fs/edit",
+      "sections": ["Taxonomias e acessibilidade dos eventos", "MVP aprovado"]
+    },
+    {
+      "title": "CGL — Site, Automação e Redes",
+      "version": "1.2",
+      "url": "https://drive.google.com/file/d/1UMCFNd4puzeUnKwZPRwl6Kqi-Wc9CefB/view",
+      "sections": ["Taxonomias e vocabulários controlados", "Modelo canónico do evento"]
+    },
+    {
+      "title": "Juntas de Freguesia",
+      "url": "https://docs.google.com/spreadsheets/d/1DF7V6wzIP4okpGslMTezc-A3sL8qL6ez8Cbwm_T7_Ok/edit",
+      "purpose": "Lista de 24 freguesias de Lisboa"
+    }
+  ],
+  "categories": [
+    {"id": "musica", "label": "Música"},
+    {"id": "teatro-e-performance", "label": "Teatro e performance"},
+    {"id": "danca", "label": "Dança"},
+    {"id": "cinema", "label": "Cinema"},
+    {"id": "exposicoes-e-artes-visuais", "label": "Exposições e artes visuais"},
+    {"id": "literatura-e-conversas", "label": "Literatura e conversas"},
+    {"id": "museus-e-patrimonio", "label": "Museus e património"},
+    {"id": "cultura-comunitaria-e-festivais", "label": "Cultura comunitária e festivais"}
+  ],
+  "tags": [
+    {"id": "familias", "label": "Famílias"},
+    {"id": "ar-livre", "label": "Ar livre"},
+    {"id": "visita-guiada", "label": "Visita guiada"},
+    {"id": "oficina", "label": "Oficina"},
+    {
+      "id": "acessibilidade",
+      "label": "Acessibilidade",
+      "assignment_rule": "Só pode ser atribuída quando existir pelo menos um recurso de acessibilidade confirmado."
+    }
+  ],
+  "geography": {
+    "parish": {
+      "required": true,
+      "public_filter": true,
+      "values": [
+        {"id": "ajuda", "label": "Ajuda"},
+        {"id": "alcantara", "label": "Alcântara"},
+        {"id": "alvalade", "label": "Alvalade"},
+        {"id": "areeiro", "label": "Areeiro"},
+        {"id": "arroios", "label": "Arroios"},
+        {"id": "avenidas-novas", "label": "Avenidas Novas"},
+        {"id": "beato", "label": "Beato"},
+        {"id": "belem", "label": "Belém"},
+        {"id": "benfica", "label": "Benfica"},
+        {"id": "campo-de-ourique", "label": "Campo de Ourique"},
+        {"id": "campolide", "label": "Campolide"},
+        {"id": "carnide", "label": "Carnide"},
+        {"id": "estrela", "label": "Estrela"},
+        {"id": "lumiar", "label": "Lumiar"},
+        {"id": "marvila", "label": "Marvila"},
+        {"id": "misericordia", "label": "Misericórdia"},
+        {"id": "olivais", "label": "Olivais"},
+        {"id": "parque-das-nacoes", "label": "Parque das Nações"},
+        {"id": "penha-de-franca", "label": "Penha de França"},
+        {"id": "santa-clara", "label": "Santa Clara"},
+        {"id": "santa-maria-maior", "label": "Santa Maria Maior"},
+        {"id": "santo-antonio", "label": "Santo António"},
+        {"id": "sao-domingos-de-benfica", "label": "São Domingos de Benfica"},
+        {"id": "sao-vicente", "label": "São Vicente"}
+      ]
+    },
+    "zone": {
+      "required": false,
+      "enabled": false,
+      "public_filter": false,
+      "public_url": false,
+      "sitemap": false,
+      "values": [],
+      "rule": "Sem vocabulário controlado aprovado no MVP; não aceitar, inferir nem expor valores."
+    }
+  },
+  "accessibility": {
+    "on_source_silence": "Acessibilidade não confirmada",
+    "resources_rule": "Registar individualmente apenas recursos confirmados por fonte específica."
+  }
+}
