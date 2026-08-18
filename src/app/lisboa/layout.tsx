@@ -5,6 +5,7 @@ const navLinks = [
   { href: "/lisboa/categorias", label: "Categorias" },
   { href: "/lisboa/freguesias", label: "Freguesias" },
   { href: "/lisboa/sobre", label: "Sobre" },
+  { href: "/lisboa/contactos", label: "Contactos" },
 ];
 
 export default function LisboaLayout({ children }: { children: React.ReactNode }) {
