@@ -1,3 +1,11 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sobre",
+  description:
+    "A Cultura Grátis Lisboa é uma plataforma editorial de eventos culturais gratuitos, com âmbito exclusivo ao município de Lisboa.",
+};
+
 export default function Sobre() {
   return (
     <main className="flex flex-1 flex-col items-center px-16 py-24">

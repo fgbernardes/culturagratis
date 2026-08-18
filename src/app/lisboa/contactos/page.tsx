@@ -1,3 +1,10 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Contactos",
+  description: "Contacto da Cultura Grátis Lisboa.",
+};
+
 export default function Contactos() {
   return (
     <main className="flex flex-1 flex-col items-center px-16 py-24">

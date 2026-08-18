@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
+
+export const metadata: Metadata = {
+  title: "Categorias",
+  description: "Eventos culturais gratuitos em Lisboa por categoria.",
+};
 
 type Category = { id: string; label: string };
 

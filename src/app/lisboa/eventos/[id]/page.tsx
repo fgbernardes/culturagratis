@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
@@ -39,6 +40,27 @@ function formatDateRange(startsAt: string | null, endsAt: string | null) {
 
   const end = formatter.format(new Date(endsAt));
   return `${start} — ${end}`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  const { data: event } = await supabase
+    .from("events")
+    .select("title, description")
+    .eq("id", id)
+    .maybeSingle<{ title: string; description: string | null }>();
+
+  if (!event) return {};
+
+  return {
+    title: event.title,
+    description: event.description ?? undefined,
+  };
 }
 
 export default async function EventoDetalhe({

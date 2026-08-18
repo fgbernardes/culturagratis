@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
+
+export const metadata: Metadata = {
+  title: "Freguesias",
+  description: "Eventos culturais gratuitos em Lisboa por freguesia.",
+};
 
 type Parish = { id: string; label: string };
 

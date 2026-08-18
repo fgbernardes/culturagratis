@@ -1,5 +1,11 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { supabase } from "@/lib/supabase";
+
+export const metadata: Metadata = {
+  title: "Agenda",
+  description: "Agenda de eventos culturais gratuitos em Lisboa.",
+};
 
 type EventRow = {
   id: string;
