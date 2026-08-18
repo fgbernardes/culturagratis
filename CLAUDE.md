@@ -75,13 +75,11 @@ Não decidas sozinho sobre: âmbito editorial, estrutura da taxonomia, paleta/ti
 
 ## 7. Convenções de código
 
-Ponto de partida proposto — **não é decisão tomada**, confirmar com Filipe:
-
 - TypeScript estrito
 - Componentes funcionais React
-- Estilos: Tailwind ou CSS Modules — a confirmar
-- Mensagens de commit: português ou inglês — a confirmar
-- Testes: framework a confirmar
+- Estilos: **Tailwind** — decidido na prática, usado desde o início do projeto
+- Mensagens de commit: **inglês** — decidido
+- Testes: framework por decidir. Não bloqueia nada — só decidir quando houver código que justifique testes.
 
 ## 8. Quando falta contexto
 
