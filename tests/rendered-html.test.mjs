@@ -141,9 +141,31 @@ test("sends the subscriber first name to Brevo", async () => {
     );
 
     assert.equal(response.status, 201);
-    assert.equal(brevoPayload.attributes.FIRSTNAME, "Filipe");
+    assert.equal(brevoPayload.attributes.NOME, "Filipe");
+    assert.equal("FIRSTNAME" in brevoPayload.attributes, false);
     assert.equal(brevoPayload.attributes.CONSENT_VERSION, "v1.3");
   } finally {
     globalThis.fetch = originalFetch;
   }
+});
+
+test("renders the confirmed subscription message with the Cultura Grátis logo", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-confirmed`);
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("http://localhost/inscricao-confirmada", { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /<img[^>]+src=["']\/cgl-logo\.png["'][^>]+alt=["']Cultura Grátis Lisboa["']/i);
+  assert.match(html, /Ficaste na lista!/i);
+  assert.match(html, /Obrigado por nos acompanhares\./i);
+  assert.match(html, /promessa de não te entupir a caixa de e-mail de spam\./i);
+  assert.match(html, /anúncio do lançamento do site/i);
+  assert.match(html, /Eventos, claro, grátis! ;\)/i);
+  assert.doesNotMatch(html, /&#x20;/i);
 });

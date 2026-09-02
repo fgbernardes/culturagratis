@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const response = await fetch("https://api.brevo.com/v3/contacts/doubleOptinConfirmation", {
       method: "POST",
       headers: { "content-type": "application/json", "api-key": env.BREVO_API_KEY },
-      body: JSON.stringify({ email, includeListIds: [listId], templateId, redirectionUrl: env.BREVO_DOI_REDIRECT_URL, attributes: { FIRSTNAME: firstName, CONSENT_VERSION: CONSENT_VERSION, CONSENT_AT: new Date().toISOString() } }),
+      body: JSON.stringify({ email, includeListIds: [listId], templateId, redirectionUrl: env.BREVO_DOI_REDIRECT_URL, attributes: { NOME: firstName, CONSENT_VERSION: CONSENT_VERSION, CONSENT_AT: new Date().toISOString() } }),
     });
     if (!response.ok) throw new Error(`Brevo respondeu com ${response.status}`);
     return Response.json({ received: true }, { status: 201 });

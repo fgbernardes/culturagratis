@@ -165,10 +165,13 @@ summary:focus-visible {
 .cgl-signup-success p { margin: 0; }
 .cgl-coming-footer { min-height: 32px; border-top: 1px solid #d9d1c5; color: #625d56; font-size: .78rem; }
 .cgl-coming-footer a { color: #005f68; text-decoration: underline; text-underline-offset: 3px; }
-.cgl-confirmed { min-height: 100vh; padding: min(14vw, 160px) max(20px, 7vw); background: #fffdf8; }
-.cgl-confirmed > p:first-child { color: #85510f; font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-.cgl-confirmed h1 { margin: 16px 0; font-size: clamp(3.5rem, 9vw, 7rem); line-height: .85; }
-.cgl-confirmed > p:nth-of-type(2) { max-width: 470px; font-size: 1.2rem; line-height: 1.5; }
+.cgl-confirmed { min-height: 100vh; padding: clamp(32px, 7vw, 96px) max(20px, 7vw); background: #fffdf8; }
+.cgl-confirmed-card { max-width: 760px; }
+.cgl-confirmed-card > img { display: block; width: clamp(112px, 18vw, 176px); height: auto; margin-bottom: 34px; }
+.cgl-confirmed-eyebrow { color: #85510f; font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.cgl-confirmed h1 { margin: 16px 0 28px; font-size: clamp(3.5rem, 9vw, 7rem); line-height: .85; }
+.cgl-confirmed-copy { max-width: 660px; display: grid; gap: 12px; font-size: clamp(1.05rem, 2vw, 1.2rem); line-height: 1.5; }
+.cgl-confirmed-copy p { margin: 0; }
 .cgl-confirmed a { display: inline-flex; align-items: center; margin-top: 22px; }
 
 /* CGL · Direção Visual Lisboa Material · Home oficial */
