@@ -52,6 +52,8 @@ test("renders the public site metadata without a development marker", async () =
     /^text\/html\b/i,
   );
   const html = await response.text();
+  assert.match(html, /<link[^>]+rel=["']canonical["'][^>]+href=["']https:\/\/www\.culturagratis\.com\/["']/i);
+  assert.match(html, /<meta[^>]+property=["']og:url["'][^>]+content=["']https:\/\/www\.culturagratis\.com\/["']/i);
   assert.match(html, /<title>[^<]*Cultura Grátis Lisboa[^<]*<\/title>/i);
   assert.match(html, /<meta[^>]+name=["']viewport["'][^>]+width=device-width/i);
   assert.doesNotMatch(html, /name=["']codex-preview["']/i);
