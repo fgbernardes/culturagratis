@@ -1,15 +1,20 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cgl-site",
-  "main": ".open-next/worker.js",
-  "compatibility_date": "2026-08-19",
+  "name": "cultura-gratis-lisboa",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-09-02",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
   "assets": {
-    "directory": ".open-next/assets",
     "binding": "ASSETS",
-    "html_handling": "none"
+    "directory": "dist/client"
   },
   "observability": {
     "enabled": true
+  },
+  "vars": {
+    "SUPABASE_URL": "https://vcxhhbrwwltzvytcszpx.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_csYqDAbzInLrmC99bUos3w_M_dh568Y",
+    "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com"
   }
 }

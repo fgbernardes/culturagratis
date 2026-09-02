@@ -17,9 +17,6 @@
 /.next/
 /out/
 
-# production
-/build
-
 # misc
 .DS_Store
 *.pem
@@ -36,11 +33,10 @@ yarn-error.log*
 # vercel
 .vercel
 
-# cloudflare / opennext
-.open-next
-.wrangler
-cloudflare-env.d.ts
-
 # typescript
-*.tsbuildinfo
 next-env.d.ts
+/dist/
+/.wrangler/
+/.sites-runtime/
+/outputs/
+/work/

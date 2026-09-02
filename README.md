@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cultura Grátis Lisboa
 
-## Getting Started
+Aplicação Next.js/Vinext independente, executada num Cloudflare Worker e ligada ao projeto Supabase do CGL na região `eu-west-1`.
 
-First, run the development server:
+## Arquitetura
+
+- frontend e API: Next.js App Router compilado por Vinext;
+- alojamento: Cloudflare Workers na conta do CGL;
+- dados: Supabase PostgreSQL (`vcxhhbrwwltzvytcszpx`, UE);
+- autenticação administrativa: Supabase Auth;
+- backoffice: `/admin`;
+- newsletter: Brevo, chamada apenas no servidor;
+- proteção de formulários: Cloudflare Turnstile.
+
+Não existem dependências de execução, autenticação ou publicação em ChatGPT Sites.
+
+## Desenvolvimento
 
 ```bash
+npm ci
+cp .dev.vars.example .dev.vars
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Preencher `.dev.vars` apenas localmente. O ficheiro é ignorado pelo Git.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Base de dados
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+As migrações PostgreSQL estão em `supabase/migrations`. A migração principal:
 
-## Learn More
+- cria `events`, `submissions` e `newsletter_subscribers`;
+- ativa RLS em todas as tabelas;
+- revoga acesso a `anon` e `authenticated`;
+- permite acesso de dados apenas ao cliente de servidor;
+- cria uma função transacional para submissão e consentimento de newsletter.
 
-To learn more about Next.js, take a look at the following resources:
+O segredo Supabase nunca pode usar o prefixo `NEXT_PUBLIC_` nem ser enviado ao navegador.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Segredos do Worker
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Configurar com `wrangler secret put`:
 
-## Deploy on Vercel
+- `SUPABASE_SECRET_KEY`
+- `TURNSTILE_SITE_KEY`
+- `TURNSTILE_SECRET_KEY`
+- `TURNSTILE_EXPECTED_HOSTNAME`
+- `BREVO_API_KEY`
+- `BREVO_DOI_TEMPLATE_ID`
+- `BREVO_CONTACT_LIST_ID`
+- `BREVO_DOI_REDIRECT_URL`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Testes e publicação
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm test
+npm run deploy
+```
+
+O domínio só deve ser associado ao Worker depois de a URL técnica `workers.dev` passar os testes de homepage, agenda, formulários e `/admin`.
