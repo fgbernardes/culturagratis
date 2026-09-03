@@ -13,6 +13,7 @@
     "enabled": true
   },
   "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAEKufj5E_NzxJgOS",
     "SUPABASE_URL": "https://vcxhhbrwwltzvytcszpx.supabase.co",
     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_csYqDAbzInLrmC99bUos3w_M_dh568Y",
     "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com"

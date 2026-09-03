@@ -1,8 +1,9 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useLayoutEffect, useRef, useState } from "react";
+import { disposeTurnstileWidget } from "./turnstile-lifecycle.mjs";
 
-declare global { interface Window { turnstile?: { render: (container: HTMLElement, options: { sitekey: string; callback: (token: string) => void; "expired-callback": () => void; "error-callback": () => void; }) => string; reset: (widgetId?: string) => void; }; } }
+declare global { interface Window { turnstile?: { render: (container: HTMLElement, options: { sitekey: string; callback: (token: string) => void; "expired-callback": () => void; "error-callback": () => void; }) => string; reset: (widgetId?: string) => void; remove: (widgetId: string) => void; }; } }
 type Status = "idle" | "sending" | "success" | "error";
 
 export function ComingSoonForm({ siteKey }: { siteKey: string }) {
@@ -15,18 +16,30 @@ export function ComingSoonForm({ siteKey }: { siteKey: string }) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!siteKey || !challengeRef.current) return;
     const render = () => {
       if (!challengeRef.current || !window.turnstile || widgetIdRef.current) return;
       widgetIdRef.current = window.turnstile.render(challengeRef.current, { sitekey: siteKey, callback: setTurnstileToken, "expired-callback": () => setTurnstileToken(""), "error-callback": () => setError("Não foi possível validar a proteção do formulário. Atualiza a página e tenta novamente.") });
     };
     const existing = document.querySelector<HTMLScriptElement>('script[src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"]');
-    if (existing) { existing.addEventListener("load", render); render(); return () => existing.removeEventListener("load", render); }
+    if (existing) {
+      existing.addEventListener("load", render);
+      render();
+      return () => {
+        existing.removeEventListener("load", render);
+        disposeTurnstileWidget(window.turnstile, widgetIdRef.current);
+        widgetIdRef.current = undefined;
+      };
+    }
     const script = document.createElement("script");
     script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
     script.async = true; script.defer = true; script.addEventListener("load", render); document.head.appendChild(script);
-    return () => script.removeEventListener("load", render);
+    return () => {
+      script.removeEventListener("load", render);
+      disposeTurnstileWidget(window.turnstile, widgetIdRef.current);
+      widgetIdRef.current = undefined;
+    };
   }, [siteKey]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {

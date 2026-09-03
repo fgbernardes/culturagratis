@@ -21,11 +21,19 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function EditorialPageRoute({ params }: PageProps) {
   const page = getEditorialPage((await params).slug);
   if (!page) notFound();
+  const isLaunchPrivacyPage = page.slug === "privacidade";
 
   return (
     <main className="editorial-shell">
       <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
-      <PublicHeader />
+      {isLaunchPrivacyPage ? (
+        <header className="privacy-launch-header">
+          <Link className="public-brand" href="/" aria-label="Cultura Grátis Lisboa, início">
+            <img src="/cgl-emblem.png" alt="" width="58" height="58" />
+            <span><strong>Cultura Grátis</strong><small>Lisboa</small></span>
+          </Link>
+        </header>
+      ) : <PublicHeader />}
       <article id="conteudo">
         <header className="editorial-page-hero">
           <p>{page.eyebrow}</p>
@@ -55,7 +63,7 @@ export default async function EditorialPageRoute({ params }: PageProps) {
           {page.slug === "corrigir-informacao" ? <SubmissionForm kind="correction" /> : null}
         </div>
       </article>
-      <PublicFooter />
+      {isLaunchPrivacyPage ? null : <PublicFooter />}
     </main>
   );
 }

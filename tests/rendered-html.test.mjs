@@ -65,6 +65,10 @@ test("renders the public site metadata without a development marker", async () =
   assert.match(html, /Com menos ruído<span class=["']cgl-orange-ellipsis["']>\.\.\.<\/span>/i);
   assert.match(html, /class=["']cgl-coming-status["']/i);
   assert.match(html, /Brevemente<span>\.\.\.<\/span>/i);
+  assert.match(html, /<h1[^>]*>A cultura de Lisboa vive em toda a cidade<\/h1>/i);
+  assert.match(html, /<h2[^>]*>Recebe a newsletter de lançamento<\/h2>/i);
+  assert.doesNotMatch(html, /<span class=["']cgl-coming-city["']>Lisboa<\/span>/i);
+  assert.match(html, /class=["']cgl-coming-status["'][^>]*><p>Brevemente<span>\.\.\.<\/span><\/p>/i);
   assert.match(html, /class=["'][^"']*cgl-signup-fields/i);
   assert.match(html, /class=["'][^"']*cgl-signup-actions/i);
 });
@@ -83,6 +87,10 @@ test("renders the privacy policy in a human voice without em dashes", async () =
   const html = await response.text();
   assert.match(html, /Aqui explicamos, de forma clara/i);
   assert.doesNotMatch(html, /—/u);
+  assert.doesNotMatch(html, /class=["']public-topbar["']/i);
+  assert.doesNotMatch(html, /class=["']public-footer["']/i);
+  assert.doesNotMatch(html, />Agenda<|>Categorias<|>Freguesias<|>Sugerir evento</i);
+  assert.match(html, /href=["']\/["'][^>]*aria-label=["']Cultura Grátis Lisboa, início["']/i);
 });
 
 test("rejects a newsletter subscription without a first name", async () => {

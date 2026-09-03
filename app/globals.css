@@ -97,7 +97,7 @@ summary:focus-visible {
 .cgl-coming { min-height: 100svh; background: #fffdf8; color: #1a1a1a; }
 .cgl-coming-header, .cgl-coming-footer { max-width: 1440px; margin: 0 auto; padding-inline: clamp(20px, 4.7vw, 68px); display: flex; align-items: center; justify-content: space-between; }
 .cgl-coming-header { min-height: 104px; border-bottom: 1px solid #d9d1c5; }
-.cgl-coming-header a { display: block; width: clamp(104px, 9vw, 132px); height: clamp(104px, 9vw, 132px); }
+.cgl-coming-header a { display: block; width: clamp(156px, 13vw, 190px); height: clamp(156px, 13vw, 190px); }
 .cgl-coming-header img { width: 100%; height: 100%; object-fit: contain; }
 .cgl-coming-city {
   display: inline-flex;
@@ -115,9 +115,9 @@ summary:focus-visible {
   line-height: 1;
   text-transform: uppercase;
 }
-.cgl-coming-status { display: grid; justify-items: end; gap: 7px; }
-.cgl-coming-status p { margin: 0; color: var(--charcoal); font-family: var(--font-display), sans-serif; font-size: 1.05rem; font-weight: 750; letter-spacing: -.02em; line-height: 1; }
-.cgl-coming-status p span { color: var(--sunset); }
+.cgl-coming-status { display: flex; justify-content: flex-end; }
+.cgl-coming-status p { margin: 0; padding: 12px 18px 10px; border: 2px solid var(--charcoal); background: var(--charcoal); box-shadow: 6px 6px 0 var(--sunset); color: var(--sunset); font-family: var(--font-display), sans-serif; font-size: clamp(1.4rem, 2.25vw, 2.15rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; white-space: nowrap; }
+.cgl-coming-status p span { color: inherit; }
 .cgl-coming-eyebrow { color: var(--sunset-ink); font-size: .84rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
 .cgl-coming-stage { max-width: 1440px; margin: 0 auto; padding: 14px clamp(20px, 4.7vw, 68px); display: grid; grid-template-columns: minmax(390px, .8fr) minmax(0, 1.4fr); gap: clamp(34px, 4vw, 58px); align-items: start; }
 .cgl-coming-manifesto { min-width: 0; }
@@ -164,7 +164,8 @@ summary:focus-visible {
 .cgl-signup-success strong { display: block; margin-bottom: 8px; font-family: var(--font-display), sans-serif; font-size: 2rem; letter-spacing: -.04em; }
 .cgl-signup-success p { margin: 0; }
 .cgl-coming-footer { min-height: 32px; border-top: 1px solid #d9d1c5; color: #625d56; font-size: .78rem; }
-.cgl-coming-footer a { color: #005f68; text-decoration: underline; text-underline-offset: 3px; }
+.cgl-coming-footer a, .cgl-coming-footer button { color: #005f68; text-decoration: underline; text-underline-offset: 3px; }
+.cgl-coming-footer button { padding: 0; border: 0; background: transparent; font: inherit; cursor: pointer; }
 .cgl-confirmed { min-height: 100vh; padding: clamp(32px, 7vw, 96px) max(20px, 7vw); background: #fffdf8; }
 .cgl-confirmed-card { max-width: 760px; }
 .cgl-confirmed-card > img { display: block; width: clamp(112px, 18vw, 176px); height: auto; margin-bottom: 34px; }
@@ -584,6 +585,15 @@ summary:focus-visible {
   grid-template-columns: minmax(210px, 1fr) auto minmax(210px, 1fr);
   align-items: center;
   gap: 28px;
+  padding: 12px clamp(20px, 5vw, 72px);
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.privacy-launch-header {
+  min-height: 88px;
+  display: flex;
+  align-items: center;
   padding: 12px clamp(20px, 5vw, 72px);
   border-bottom: 1px solid #e5e7eb;
   background: #fff;
@@ -3000,11 +3010,9 @@ summary:focus-visible {
   .cgl-coming { min-height: 0; display: flex; flex-direction: column; background: #1a1a1a; }
   .cgl-coming-header, .cgl-coming-footer { padding-inline: 20px; }
   .cgl-coming-header, .cgl-coming-stage { flex: 0 0 auto; width: 100%; background: #fffdf8; }
-  .cgl-coming-header { min-height: 96px; }
-  .cgl-coming-header a { width: 116px; height: 96px; }
-  .cgl-coming-city { min-height: 44px; padding: 9px 13px 7px; box-shadow: 4px 4px 0 var(--sunset); font-size: 1.05rem; }
-  .cgl-coming-status { gap: 6px; }
-  .cgl-coming-status p { font-size: .9rem; }
+  .cgl-coming-header { min-height: 124px; }
+  .cgl-coming-header a { width: 138px; height: 120px; }
+  .cgl-coming-status p { padding: 10px 12px 8px; box-shadow: 4px 4px 0 var(--sunset); font-size: clamp(1.12rem, 5vw, 1.35rem); }
   .cgl-coming-stage { grid-template-columns: 1fr; gap: 28px; padding: 26px 20px 30px; }
   .cgl-coming-manifesto h1 { margin: 10px 0 20px; font-size: clamp(2.65rem, 12vw, 3.25rem); line-height: .94; }
   .cgl-coming-prose { gap: 18px; font-size: 1rem; line-height: 1.42; }
@@ -3025,7 +3033,7 @@ summary:focus-visible {
   .cgl-consent { font-size: .86rem; }
   .cgl-signup-actions button { min-height: 50px; }
   .cgl-coming-footer { flex: 1 0 46px; width: 100%; max-width: none; min-height: 46px; margin: 0; padding-top: 15px; padding-bottom: max(15px, env(safe-area-inset-bottom)); align-items: flex-start; border-top-color: #363636; background: #1a1a1a; color: #d7d1c7; }
-  .cgl-coming-footer a { color: #ffc107; }
+  .cgl-coming-footer a, .cgl-coming-footer button { color: #ffc107; }
 }
 
 @media (min-width: 768px) and (max-width: 1120px) and (hover: hover) and (pointer: fine) {
