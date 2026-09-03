@@ -21,6 +21,7 @@ test("bundles the approved fonts and uses the width-only mobile layout", async (
   assert.match(css, /@media\s*\(width\s*<=\s*767px\)/i);
   assert.doesNotMatch(css, /\(hover:\s*none\)\s*and\s*\(pointer:\s*coarse\)/i);
   assert.match(css, /\.cgl-coming-stage\s*\{\s*grid-template-columns:\s*1fr/i);
+  assert.match(css, /\.cgl-coming-header\s*\{[^}]*min-height:\s*clamp\(144px,11\.5vw,172px\)/i);
   assert.match(css, /\.cgl-coming\s*\{[^}]*min-height:\s*0/i);
   assert.match(css, /\.cgl-coming\s*\{[^}]*background:\s*#1a1a1a/i);
   assert.match(css, /\.cgl-coming-footer\s*\{[^}]*flex:\s*1\s+0\s+46px/i);
