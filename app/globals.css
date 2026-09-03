@@ -2992,7 +2992,7 @@ summary:focus-visible {
   .cgl-coming {
     height: 100svh;
     display: grid;
-    grid-template-rows: 104px minmax(0, 1fr) 64px 32px;
+    grid-template-rows: clamp(144px, 11.5vw, 172px) minmax(0, 1fr) 64px 32px;
     overflow: hidden;
   }
 
