@@ -12,10 +12,11 @@ export const metadata: Metadata = {
   category: "Cultura",
   keywords: ["cultura grátis Lisboa", "eventos gratuitos Lisboa", "agenda cultural Lisboa", "entrada livre Lisboa"],
   alternates: { canonical: "/" },
+  // Pré-lançamento: a homepage é a única exceção; abertura editorial explícita.
   robots: {
-    index: true,
+    index: false,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+    googleBot: { index: false, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
   openGraph: {
     title: SITE_NAME,
@@ -81,3 +82,4 @@ export default function RootLayout({
     </html>
   );
 }
+

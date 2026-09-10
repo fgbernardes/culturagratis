@@ -1,8 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { cglLogoColor } from "./brand-assets";
 import { ComingSoonForm } from "./components/coming-soon-form";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+  },
+};
 
 function turnstileSiteKey() {
   const runtime = globalThis as typeof globalThis & { __CGL_ENV?: { TURNSTILE_SITE_KEY?: string } };
@@ -40,3 +49,4 @@ export default function Home() {
     </main>
   );
 }
+

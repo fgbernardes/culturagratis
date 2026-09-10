@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { prelaunchResponse } from "./prelaunch-access.mjs";
 
 interface Env {
   ASSETS: Fetcher;
@@ -40,6 +41,10 @@ const worker = {
     const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
     runtime.__CGL_ENV = env;
     const url = new URL(request.url);
+    const prelaunch = prelaunchResponse(request);
+    if (prelaunch) return prelaunch;
+    // run_worker_first also sends bundled CSS/JS through this entry point.
+    if (url.pathname.startsWith("/assets/")) return env.ASSETS.fetch(request);
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
