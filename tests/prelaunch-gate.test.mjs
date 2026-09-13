@@ -7,5 +7,5 @@ test("permite apenas os recursos necessários ao pré-lançamento", () => {
 });
 
 test("bloqueia rotas não lançadas", () => {
-  for (const request of [["GET", "/agenda"], ["GET", "/admin/login"], ["GET", "/gestao"], ["GET", "/_vinext/image"], ["GET", "/api/contactos"]]) assert.equal(isPrelaunchRequestAllowed(...request), false);
+  for (const request of [["GET", "/agenda"], ["GET", "/admin/login"], ["GET", "/gestao"], ["GET", "/_vinext/image"], ["GET", "/api/contactos"], ["GET", "/agenda.css"]]) assert.equal(isPrelaunchRequestAllowed(...request), false);
 });
