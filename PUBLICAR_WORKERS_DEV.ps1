@@ -140,26 +140,3 @@ Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
 Write-Host "PUBLIC_HTTP=$publicStatus"
 Write-Host "CUSTOM_ROUTE=www.culturagratis.com preserved in generated configuration and Wrangler deployment output"
 Write-Host "DNS_CHANGES=none requested; the existing custom-domain route is preserved"
- })
-$workersDevUrls = @($triggerUrls | Where-Object { $_ -match "^https://$([regex]::Escape($WorkerName))\.[a-z0-9-]+(?:\.[a-z0-9-]+)*\.workers\.dev$" })
-
-if ($unexpectedUrls.Count -gt 0) {
-  throw "Unexpected route or domain appeared in Wrangler output: $($unexpectedUrls -join ', ')"
-}
-if ($workersDevUrls.Count -ne 1) {
-  throw "Wrangler exited successfully but did not return exactly one expected workers.dev URL."
-}
-
-$workersDevUrl = $workersDevUrls[0]
-Invoke-NativeChecked -FilePath $nodeExe -ArgumentList @($wranglerCli, "deployments", "status", "--name", $WorkerName, "--json")
-
-$homeStatus = Get-VerifiedHttpStatus -Uri $workersDevUrl
-$adminLoginUrl = "$workersDevUrl/admin/login"
-$adminLoginStatus = Get-VerifiedHttpStatus -Uri $adminLoginUrl
-
-Write-Host "DEPLOYMENT VERIFIED"
-Write-Host "URL=$workersDevUrl"
-Write-Host "HOME_HTTP=$homeStatus"
-Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
-Write-Host "CUSTOM_ROUTES=none in generated configuration and Wrangler deployment output"
-Write-Host "DNS_CHANGES=none requested by this deployment"
