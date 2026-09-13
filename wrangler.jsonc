@@ -1,21 +1,32 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "cultura-gratis-lisboa",
+  "name": "cgl-independente-teste",
   "main": "dist/server/index.js",
   "compatibility_date": "2026-09-02",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "www.culturagratis.com",
+      "zone_name": "culturagratis.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "dist/client"
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "redact_query_string": false
   },
   "vars": {
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEKufj5E_NzxJgOS",
     "SUPABASE_URL": "https://vcxhhbrwwltzvytcszpx.supabase.co",
     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_csYqDAbzInLrmC99bUos3w_M_dh568Y",
-    "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com"
+    "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com",
+    "BREVO_CONTACT_LIST_ID": "7",
+    "BREVO_DOI_TEMPLATE_ID": "3",
+    "BREVO_DOI_REDIRECT_URL": "https://www.culturagratis.com/inscricao-confirmada"
   }
 }
