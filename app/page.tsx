@@ -56,6 +56,10 @@ export default function Home() {
               </a>
             ))}
           </nav>
+          <a className="cgl-coming-email" href="mailto:ola@culturagratis.com" aria-label="Enviar email para ola@culturagratis.com">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v14H3V5Zm1.8 2 7.2 5.4L19.2 7H4.8Zm14.4 10V9.3L12 14.6 4.8 9.3V17h14.4Z" /></svg>
+            <span>ola@culturagratis.com</span>
+          </a>
         </section>
       </div>
       <section className="cgl-coming-principles" aria-label="Princípios editoriais"><ul>
