@@ -84,15 +84,18 @@ test("renders verified social links on the newsletter landing page", async () =>
 
   const html = await response.text();
   assert.match(html, /class=["'][^"']*cgl-coming-socials/i);
-  for (const href of [
-    "https://www.facebook.com/CulturaGratisLisboa",
-    "https://www.instagram.com/culturagratislisboa",
-    "https://www.threads.com/@culturagratislisboa",
-    "https://www.tiktok.com/@cglisboa",
-    "https://www.youtube.com/@culturagratisemlisboa",
-    "https://whatsapp.com/channel/0029VbDrpMDL7UVSxvfzMm2C",
-  ]) {
-    assert.match(html, new RegExp(`href=["']${href.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\test("renders the privacy policy in a human voice without em dashes", async () => {")}["']`));
+  assert.match(html, /href=["']https:\/\/www\.facebook\.com\/CulturaGratisLisboa["']/i);
+  assert.match(html, /href=["']https:\/\/www\.instagram\.com\/culturagratislisboa["']/i);
+  assert.match(html, /href=["']https:\/\/www\.threads\.com\/@culturagratislisboa["']/i);
+  assert.match(html, /href=["']https:\/\/www\.tiktok\.com\/@cglisboa["']/i);
+  assert.match(html, /href=["']https:\/\/www\.youtube\.com\/@culturagratisemlisboa["']/i);
+  assert.match(html, /href=["']https:\/\/whatsapp\.com\/channel\/0029VbDrpMDL7UVSxvfzMm2C["']/i);
+  assert.match(html, /aria-label=["']Segue o Cultura Grátis Lisboa no Instagram["']/i);
+  assert.match(html, /href=["']mailto:ola@culturagratis\.com["']/i);
+  assert.match(html, />ola@culturagratis\.com</i);
+});
+
+test("renders the privacy policy in a human voice without em dashes", async () => {")}["']`));
   }
   assert.match(html, /aria-label=["']Segue o Cultura Grátis Lisboa no Instagram["']/i);
   assert.match(html, /href=["']mailto:ola@culturagratis\.com["']/i);
