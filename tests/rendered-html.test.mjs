@@ -75,6 +75,30 @@ test("renders the public site metadata without a development marker", async () =
   assert.match(html, /class=["'][^"']*cgl-signup-actions/i);
 });
 
+test("renders verified social links on the newsletter landing page", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-social`);
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  const html = await response.text();
+  assert.match(html, /class=["'][^"']*cgl-coming-socials/i);
+  for (const href of [
+    "https://www.facebook.com/CulturaGratisLisboa",
+    "https://www.instagram.com/culturagratislisboa",
+    "https://www.tiktok.com/@cglisboa",
+    "https://www.youtube.com/@culturagratisemlisboa",
+    "https://whatsapp.com/channel/0029VbDrpMDL7UVSxvfzMm2C",
+  ]) {
+    assert.match(html, new RegExp(`href=["']${href.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\test("renders the privacy policy in a human voice without em dashes", async () => {")}["']`));
+  }
+  assert.match(html, /aria-label=["']Segue o Cultura Grátis Lisboa no Instagram["']/i);
+});
+
 test("renders the privacy policy in a human voice without em dashes", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-privacy`);
