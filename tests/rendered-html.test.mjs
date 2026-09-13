@@ -208,3 +208,18 @@ test("renders the confirmed subscription message with the Cultura Grátis logo",
   assert.match(html, /Eventos, claro, grátis! ;\)/i);
   assert.doesNotMatch(html, /&#x20;/i);
 });
+
+
+test("bloqueia as rotas da versão integral durante o pré-lançamento", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-prelaunch`);
+  const { default: worker } = await import(workerUrl.href);
+  const response = await worker.fetch(
+    new Request("http://localhost/agenda", { headers: { accept: "text/html" } }),
+    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
+    { waitUntil() {}, passThroughOnException() {} },
+  );
+
+  assert.equal(response.status, 404);
+  assert.equal(await response.text(), "Not found");
+});
