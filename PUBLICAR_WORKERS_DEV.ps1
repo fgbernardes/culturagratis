@@ -37,18 +37,28 @@ function Assert-WorkersDevOnlySourceConfig {
 }
 
 function Get-VerifiedHttpStatus {
-  param([Parameter(Mandatory = $true)][string]$Uri)
+  param(
+    [Parameter(Mandatory = $true)][string]$Uri,
+    [int]$ExpectedStatus = 200
+  )
 
   $lastFailure = $null
   for ($attempt = 1; $attempt -le 6; $attempt++) {
     try {
       $response = Invoke-WebRequest -Uri $Uri -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 30
-      if ($response.StatusCode -eq 200) {
+      if ($response.StatusCode -eq $ExpectedStatus) {
         return [int]$response.StatusCode
       }
       $lastFailure = "HTTP $($response.StatusCode)"
     }
     catch {
+      $statusCode = $null
+      if ($null -ne $_.Exception.Response) {
+        $statusCode = [int]$_.Exception.Response.StatusCode
+      }
+      if ($statusCode -eq $ExpectedStatus) {
+        return $statusCode
+      }
       $lastFailure = $_.Exception.Message
     }
 
@@ -128,7 +138,7 @@ Invoke-NativeChecked -FilePath $nodeExe -ArgumentList @($wranglerCli, "deploymen
 
 $homeStatus = Get-VerifiedHttpStatus -Uri $workersDevUrl
 $adminLoginUrl = "$workersDevUrl/admin/login"
-$adminLoginStatus = Get-VerifiedHttpStatus -Uri $adminLoginUrl
+$adminLoginStatus = Get-VerifiedHttpStatus -Uri $adminLoginUrl -ExpectedStatus 404
 
 Write-Host "DEPLOYMENT VERIFIED"
 Write-Host "URL=$workersDevUrl"
