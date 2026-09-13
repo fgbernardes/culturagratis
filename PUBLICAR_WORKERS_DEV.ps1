@@ -27,16 +27,28 @@ function Assert-WorkersDevOnlySourceConfig {
     throw "Missing Wrangler configuration: $Path"
   }
 
-  $configText = Get-Content -LiteralPath $Path -Raw
-  $approvedRoute = '"pattern"\s*:\s*"www\\.culturagratis\\.com"\s*,\s*"zone_name"\s*:\s*"culturagratis\\.com"\s*,\s*"custom_domain"\s*:\s*true'
-  if ($configText -match '"route"\s*:' -or ($configText -match '"routes"\s*:' -and $configText -notmatch $approvedRoute)) {
-    throw "Publication interrupted: only the approved www.culturagratis.com custom-domain route may be configured in $Path."
+  try {
+    $config = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
   }
-  if ($configText -notmatch '"workers_dev"\s*:\s*true') {
+  catch {
+    throw "Publication interrupted: invalid JSON in $Path."
+  }
+
+  if ($config.name -ne "cgl-independente-teste") {
+    throw "Publication interrupted: Worker name must be cgl-independente-teste."
+  }
+  if ($config.workers_dev -ne $true) {
     throw "Publication interrupted: workers_dev must be explicitly true in $Path."
   }
-}
+  if ($null -eq $config.routes -or @($config.routes).Count -ne 1) {
+    throw "Publication interrupted: exactly one approved custom-domain route is required."
+  }
 
+  $route = @($config.routes)[0]
+  if ($route.pattern -ne "www.culturagratis.com" -or $route.zone_name -ne "culturagratis.com" -or $route.custom_domain -ne $true) {
+    throw "Publication interrupted: the custom-domain route must be www.culturagratis.com."
+  }
+}
 function Get-VerifiedHttpStatus {
   param([Parameter(Mandatory = $true)][string]$Uri)
 
