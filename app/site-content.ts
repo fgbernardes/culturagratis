@@ -1,5 +1,5 @@
 import { categories } from "./editorial-taxonomy";
-xport const categories = [
+export const categories = [
   { slug: "musica", name: "Música", description: "Concertos, recitais, festivais e música no espaço público." },
   { slug: "teatro-e-performance", name: "Teatro e performance", description: "Teatro, circo contemporâneo, monólogos e artes performativas." },
   { slug: "danca", name: "Dança", description: "Dança contemporânea, clássica, tradicional e urbana." },
