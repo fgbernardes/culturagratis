@@ -51,7 +51,7 @@ export default function Home() {
           <nav className="cgl-coming-socials" aria-label="Redes sociais do Cultura Grátis Lisboa">
             <span className="sr-only">Segue o Cultura Grátis Lisboa nas redes sociais</span>
             {socialLinks.map(({ label, href, icon }) => (
-              <a key={icon} href={href} target="_blank" rel="noreferrer" aria-label={`Segue o Cultura Grátis Lisboa no ${label}`} title={label}>
+              <a key={icon} className={`cgl-social-${icon}`} href={href} target="_blank" rel="noreferrer" aria-label={`Segue o Cultura Grátis Lisboa no ${label}`} title={label}>
                 <SocialIcon name={icon} />
               </a>
             ))}
@@ -63,9 +63,9 @@ export default function Home() {
         </section>
       </div>
       <section className="cgl-coming-principles" aria-label="Princípios editoriais"><ul>
-        <li><strong>Mais bairro.</strong><span>A cidade não acaba na Baixa.</span></li>
-        <li><strong>Mais acesso.</strong><span>Sem letras pequenas nem barreiras escondidas.</span></li>
-        <li><strong>Mais critério.</strong><span>Menos cartazes, mais curadoria.</span></li>
+        <li><strong>Mais bairro...</strong><span>A cidade não acaba na Baixa.</span></li>
+        <li><strong>Mais acesso...</strong><span>Sem letras pequenas nem barreiras escondidas.</span></li>
+        <li><strong>Mais critério...</strong><span>Menos cartazes, mais curadoria.</span></li>
       </ul></section>
       <footer className="cgl-coming-footer"><span>Cultura Grátis Lisboa · 2026</span><form action="/privacidade" method="get"><button type="submit">Política de Privacidade</button></form></footer>
     </main>
