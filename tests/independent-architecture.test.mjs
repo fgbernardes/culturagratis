@@ -25,8 +25,16 @@ test("targets the approved independent architecture", () => {
   assert.match(wrangler, /dist\/server\/index\.js/);
   assert.match(wrangler, /"workers_dev"\s*:\s*true/);
   assert.equal(generatedWrangler.workers_dev, true);
-  assert.equal("route" in generatedWrangler, false);
-  assert.equal("routes" in generatedWrangler, false);
+  assert.equal(generatedWrangler.name, "cgl-independente-teste");
+  assert.deepEqual(generatedWrangler.routes, [{
+    pattern: "www.culturagratis.com",
+    zone_name: "culturagratis.com",
+    custom_domain: true,
+  }]);
+  assert.match(wrangler, /BREVO_CONTACT_LIST_ID/);
+  assert.match(wrangler, /BREVO_DOI_TEMPLATE_ID/);
+  assert.match(wrangler, /BREVO_DOI_REDIRECT_URL/);
+  assert.match(publishScript, /www\.culturagratis\.com/);
   assert.match(buildScript, /node_modules["'],\s*["']vinext["'],\s*["']dist["'],\s*["']cli\.js/);
   assert.match(buildScript, /run\(process\.execPath/);
   assert.doesNotMatch(buildScript, /shell:\s*process\.platform/);
