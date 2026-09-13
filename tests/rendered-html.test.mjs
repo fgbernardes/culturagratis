@@ -1,16 +1,13 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
-import { join } from "node:path";
 import test from "node:test";
-import { fileURLToPath } from "node:url";
 
 test("bundles the approved fonts and uses the width-only mobile layout", async () => {
   const assetsDirectory = new URL("../dist/client/assets/", import.meta.url);
-  const assetsDirectoryPath = fileURLToPath(assetsDirectory);
   const assetNames = await readdir(assetsDirectory);
   const cssNames = assetNames.filter((name) => name.endsWith(".css"));
   const css = (
-    await Promise.all(cssNames.map((name) => readFile(join(assetsDirectoryPath, name), "utf8")))
+    await Promise.all(cssNames.map((name) => readFile(new URL(name, assetsDirectory), "utf8")))
   ).join("\n");
 
   assert.match(css, /Inter Variable/);
