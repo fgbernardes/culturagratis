@@ -116,9 +116,9 @@ summary:focus-visible {
   text-transform: uppercase;
 }
 .cgl-coming-status { display: flex; justify-content: flex-end; }
-.cgl-coming-status p { margin: 0; padding: 12px 18px 10px; border: 2px solid var(--charcoal); background: var(--charcoal); box-shadow: 6px 6px 0 var(--sunset); color: var(--sunset); font-family: var(--font-display), sans-serif; font-size: clamp(1.4rem, 2.25vw, 2.15rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; white-space: nowrap; }
+.cgl-coming-status p { margin: 0; padding: 12px 18px 10px; border: 2px solid var(--charcoal); background: linear-gradient(to top, var(--sun) 0%, var(--sunset) 100%); box-shadow: 6px 6px 0 var(--charcoal); color: var(--charcoal); font-family: var(--font-display), sans-serif; font-size: clamp(1.4rem, 2.25vw, 2.15rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; white-space: nowrap; }
 .cgl-coming-status p span { color: inherit; }
-.cgl-coming-eyebrow { color: var(--sunset-ink); font-size: .84rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
+.cgl-coming-eyebrow { color: var(--sunset-ink); font-size: .93rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
 .cgl-coming-stage { max-width: 1440px; margin: 0 auto; padding: 14px clamp(20px, 4.7vw, 68px); display: grid; grid-template-columns: minmax(390px, .8fr) minmax(0, 1.4fr); gap: clamp(34px, 4vw, 58px); align-items: start; }
 .cgl-coming-manifesto { min-width: 0; }
 .cgl-coming-manifesto h1, .cgl-coming h2, .cgl-confirmed h1 { font-family: var(--font-display), sans-serif; letter-spacing: -.055em; }
@@ -128,13 +128,19 @@ summary:focus-visible {
 .cgl-coming-prose strong { font-weight: 800; }
 .cgl-orange-ellipsis { color: var(--sunset); }
 .cgl-coming-socials { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 18px; border-top: 1px solid #d9d1c5; }
-.cgl-coming-socials a { width: 42px; height: 42px; display: grid; place-items: center; border: 1.5px solid #1a1a1a; border-radius: 50%; color: #1a1a1a; transition: background-color 160ms ease, color 160ms ease, transform 160ms ease; }
-.cgl-coming-socials a:hover { background: #fe7d02; color: #1a1a1a; transform: translateY(-2px); }
+.cgl-coming-socials a { width: 48px; height: 48px; display: grid; place-items: center; border: 1.5px solid #1a1a1a; border-radius: 50%; color: #fff; transition: filter 160ms ease, transform 160ms ease; }
+.cgl-coming-socials a:hover { filter: brightness(1.08); transform: translateY(-2px); }
+.cgl-coming-socials .cgl-social-facebook { background: #1877f2; }
+.cgl-coming-socials .cgl-social-instagram { background: linear-gradient(135deg, #833ab4 0%, #e1306c 52%, #fcb045 100%); }
+.cgl-coming-socials .cgl-social-threads { background: #000; }
+.cgl-coming-socials .cgl-social-tiktok { background: linear-gradient(135deg, #25f4ee 0 10%, #010101 10% 88%, #fe2c55 88%); }
+.cgl-coming-socials .cgl-social-youtube { background: #ff0000; }
+.cgl-coming-socials .cgl-social-whatsapp { background: #25d366; }
 .cgl-coming-email { width: fit-content; min-height: 36px; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; color: #005f68; font-size: .88rem; font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .cgl-coming-email:hover { color: #c74d00; }
 .cgl-coming-email svg { width: 18px; height: 18px; fill: currentColor; flex: 0 0 auto; }
 
-.cgl-coming-socials svg { width: 21px; height: 21px; fill: currentColor; }
+.cgl-coming-socials svg { width: 25px; height: 25px; fill: currentColor; }
 .cgl-coming-socials svg rect, .cgl-coming-socials svg circle { fill: none; stroke: currentColor; stroke-width: 2; }
 .cgl-coming-socials svg .social-icon-dot { fill: currentColor; stroke: none; }
 
@@ -3023,7 +3029,7 @@ summary:focus-visible {
   .cgl-coming-header, .cgl-coming-stage { flex: 0 0 auto; width: 100%; background: #fffdf8; }
   .cgl-coming-header { min-height: 124px; }
   .cgl-coming-header a { width: 138px; height: 120px; }
-  .cgl-coming-status p { padding: 10px 12px 8px; box-shadow: 4px 4px 0 var(--sunset); font-size: clamp(1.12rem, 5vw, 1.35rem); }
+  .cgl-coming-status p { padding: 10px 12px 8px; box-shadow: 4px 4px 0 var(--charcoal); font-size: clamp(1.12rem, 5vw, 1.35rem); }
   .cgl-coming-stage { grid-template-columns: 1fr; gap: 28px; padding: 26px 20px 30px; }
   .cgl-coming-manifesto h1 { margin: 10px 0 20px; font-size: clamp(2.65rem, 12vw, 3.25rem); line-height: .94; }
   .cgl-coming-prose { gap: 18px; font-size: 1rem; line-height: 1.42; }
