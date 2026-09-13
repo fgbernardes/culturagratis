@@ -3,6 +3,7 @@
   "name": "cgl-independente-teste",
   "main": "dist/server/index.js",
   "compatibility_date": "2026-09-02",
+  "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
   "routes": [
     {
