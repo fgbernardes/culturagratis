@@ -130,6 +130,10 @@ summary:focus-visible {
 .cgl-coming-socials { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 18px; border-top: 1px solid #d9d1c5; }
 .cgl-coming-socials a { width: 42px; height: 42px; display: grid; place-items: center; border: 1.5px solid #1a1a1a; border-radius: 50%; color: #1a1a1a; transition: background-color 160ms ease, color 160ms ease, transform 160ms ease; }
 .cgl-coming-socials a:hover { background: #fe7d02; color: #1a1a1a; transform: translateY(-2px); }
+.cgl-coming-email { width: fit-content; min-height: 36px; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; color: #005f68; font-size: .88rem; font-weight: 800; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.cgl-coming-email:hover { color: #c74d00; }
+.cgl-coming-email svg { width: 18px; height: 18px; fill: currentColor; flex: 0 0 auto; }
+
 .cgl-coming-socials svg { width: 21px; height: 21px; fill: currentColor; }
 .cgl-coming-socials svg rect, .cgl-coming-socials svg circle { fill: none; stroke: currentColor; stroke-width: 2; }
 .cgl-coming-socials svg .social-icon-dot { fill: currentColor; stroke: none; }
