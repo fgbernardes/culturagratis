@@ -90,6 +90,7 @@ test("renders verified social links on the newsletter landing page", async () =>
   for (const href of [
     "https://www.facebook.com/CulturaGratisLisboa",
     "https://www.instagram.com/culturagratislisboa",
+    "https://www.threads.com/@culturagratislisboa",
     "https://www.tiktok.com/@cglisboa",
     "https://www.youtube.com/@culturagratisemlisboa",
     "https://whatsapp.com/channel/0029VbDrpMDL7UVSxvfzMm2C",
