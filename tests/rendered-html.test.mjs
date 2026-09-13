@@ -98,6 +98,8 @@ test("renders verified social links on the newsletter landing page", async () =>
     assert.match(html, new RegExp(`href=["']${href.replace(/[.*+?^$()|[\\]\\\\]/g, "\\\\test("renders the privacy policy in a human voice without em dashes", async () => {")}["']`));
   }
   assert.match(html, /aria-label=["']Segue o Cultura Grátis Lisboa no Instagram["']/i);
+  assert.match(html, /href=["']mailto:ola@culturagratis\.com["']/i);
+  assert.match(html, />ola@culturagratis\.com</i);
 });
 
 test("renders the privacy policy in a human voice without em dashes", async () => {
