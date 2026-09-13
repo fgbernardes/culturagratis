@@ -127,6 +127,13 @@ summary:focus-visible {
 .cgl-coming-prose p { margin: 0; }
 .cgl-coming-prose strong { font-weight: 800; }
 .cgl-orange-ellipsis { color: var(--sunset); }
+.cgl-coming-socials { display: flex; align-items: center; gap: 14px; margin-top: 8px; padding-top: 18px; border-top: 1px solid #d9d1c5; }
+.cgl-coming-socials a { width: 42px; height: 42px; display: grid; place-items: center; border: 1.5px solid #1a1a1a; border-radius: 50%; color: #1a1a1a; transition: background-color 160ms ease, color 160ms ease, transform 160ms ease; }
+.cgl-coming-socials a:hover { background: #fe7d02; color: #1a1a1a; transform: translateY(-2px); }
+.cgl-coming-socials svg { width: 21px; height: 21px; fill: currentColor; }
+.cgl-coming-socials svg rect, .cgl-coming-socials svg circle { fill: none; stroke: currentColor; stroke-width: 2; }
+.cgl-coming-socials svg .social-icon-dot { fill: currentColor; stroke: none; }
+
 .cgl-coming-principles { background: #1a1a1a; color: #fff; }
 .cgl-coming-principles ul { max-width: 1440px; margin: 0 auto; padding: 0 clamp(20px, 4.7vw, 68px); display: grid; grid-template-columns: repeat(3, 1fr); list-style: none; }
 .cgl-coming-principles li { min-height: 64px; padding: 6px 24px 6px 0; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; border-right: 1px solid #4a4a4a; }
