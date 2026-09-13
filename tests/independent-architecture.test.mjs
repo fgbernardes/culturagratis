@@ -26,7 +26,7 @@ test("targets the approved independent architecture", () => {
   assert.match(wrangler, /"workers_dev"\s*:\s*true/);
   assert.equal(generatedWrangler.workers_dev, true);
   assert.equal(generatedWrangler.name, "cgl-independente-teste");
-  assert.equal(generatedWrangler.compatibility_flags?.includes("nodejs_compat") ?? false, false);
+  assert.equal(generatedWrangler.compatibility_flags?.includes("nodejs_compat") ?? false, true);
   assert.deepEqual(generatedWrangler.routes, [{
     pattern: "www.culturagratis.com",
     zone_name: "culturagratis.com",
