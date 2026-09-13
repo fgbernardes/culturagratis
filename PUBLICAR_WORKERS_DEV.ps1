@@ -27,28 +27,15 @@ function Assert-WorkersDevOnlySourceConfig {
     throw "Missing Wrangler configuration: $Path"
   }
 
-  try {
-    $config = Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json
+  $configText = Get-Content -LiteralPath $Path -Raw
+  if ($configText -match '"(?:routes?|custom_domain)"\s*:') {
+    throw "Publication interrupted: custom route or domain configuration was found in $Path."
   }
-  catch {
-    throw "Publication interrupted: invalid JSON in $Path."
-  }
-
-  if ($config.name -ne "cgl-independente-teste") {
-    throw "Publication interrupted: Worker name must be cgl-independente-teste."
-  }
-  if ($config.workers_dev -ne $true) {
+  if ($configText -notmatch '"workers_dev"\s*:\s*true') {
     throw "Publication interrupted: workers_dev must be explicitly true in $Path."
   }
-  if ($null -eq $config.routes -or @($config.routes).Count -ne 1) {
-    throw "Publication interrupted: exactly one approved custom-domain route is required."
-  }
-
-  $route = @($config.routes)[0]
-  if ($route.pattern -ne "www.culturagratis.com" -or $route.zone_name -ne "culturagratis.com" -or $route.custom_domain -ne $true) {
-    throw "Publication interrupted: the custom-domain route must be www.culturagratis.com."
-  }
 }
+
 function Get-VerifiedHttpStatus {
   param([Parameter(Mandatory = $true)][string]$Uri)
 
@@ -126,12 +113,11 @@ $ansiPattern = "$([char]27)\[[0-?]*[ -/]*[@-~]"
 $plainDeployText = [regex]::Replace($deployText, $ansiPattern, "")
 $triggerMatches = [regex]::Matches($plainDeployText, '(?m)^\s*(https://[^\s]+)\s*$')
 $triggerUrls = @($triggerMatches | ForEach-Object { $_.Groups[1].Value.TrimEnd('/') })
-$approvedPublicUrl = "https://www.culturagratis.com"
-$unexpectedUrls = @($triggerUrls | Where-Object { $_ -ne $approvedPublicUrl -and $_ -notmatch '^https://[a-z0-9-]+(?:\.[a-z0-9-]+)*\.workers\.dev$' })
+$unexpectedUrls = @($triggerUrls | Where-Object { $_ -notmatch '^https://[a-z0-9-]+(?:\.[a-z0-9-]+)*\.workers\.dev$' })
 $workersDevUrls = @($triggerUrls | Where-Object { $_ -match "^https://$([regex]::Escape($WorkerName))\.[a-z0-9-]+(?:\.[a-z0-9-]+)*\.workers\.dev$" })
 
 if ($unexpectedUrls.Count -gt 0) {
-  throw "Unexpected route or domain appeared in Wrangler output: $($unexpectedUrls -join ', ')"
+  throw "Unexpected custom route or domain appeared in Wrangler output: $($unexpectedUrls -join ', ')"
 }
 if ($workersDevUrls.Count -ne 1) {
   throw "Wrangler exited successfully but did not return exactly one expected workers.dev URL."
@@ -143,12 +129,10 @@ Invoke-NativeChecked -FilePath $nodeExe -ArgumentList @($wranglerCli, "deploymen
 $homeStatus = Get-VerifiedHttpStatus -Uri $workersDevUrl
 $adminLoginUrl = "$workersDevUrl/admin/login"
 $adminLoginStatus = Get-VerifiedHttpStatus -Uri $adminLoginUrl
-$publicStatus = Get-VerifiedHttpStatus -Uri $approvedPublicUrl
 
 Write-Host "DEPLOYMENT VERIFIED"
 Write-Host "URL=$workersDevUrl"
 Write-Host "HOME_HTTP=$homeStatus"
 Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
-Write-Host "PUBLIC_HTTP=$publicStatus"
-Write-Host "CUSTOM_ROUTE=www.culturagratis.com preserved in generated configuration and Wrangler deployment output"
-Write-Host "DNS_CHANGES=none requested; the existing custom-domain route is preserved"
+Write-Host "CUSTOM_ROUTES=none in generated configuration and Wrangler deployment output"
+Write-Host "DNS_CHANGES=none requested by this deployment"
