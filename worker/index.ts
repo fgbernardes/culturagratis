@@ -1,6 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
+import { isPrelaunchRequestAllowed } from "./prelaunch";
 
 interface Env {
   ASSETS: Fetcher;
@@ -40,6 +41,13 @@ const worker = {
     const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
     runtime.__CGL_ENV = env;
     const url = new URL(request.url);
+
+    if (!isPrelaunchRequestAllowed(request.method, url.pathname)) {
+      return new Response("Not found", {
+        status: 404,
+        headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
+      });
+    }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
