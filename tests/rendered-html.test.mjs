@@ -91,8 +91,17 @@ test("renders verified social links on the newsletter landing page", async () =>
   assert.match(html, /href=["']https:\/\/www\.youtube\.com\/@culturagratisemlisboa["']/i);
   assert.match(html, /href=["']https:\/\/whatsapp\.com\/channel\/0029VbDrpMDL7UVSxvfzMm2C["']/i);
   assert.match(html, /aria-label=["']Segue o Cultura Grátis Lisboa no Instagram["']/i);
+  assert.match(html, /class=["'][^"']*cgl-social-facebook/i);
+  assert.match(html, /class=["'][^"']*cgl-social-instagram/i);
+  assert.match(html, /class=["'][^"']*cgl-social-threads/i);
+  assert.match(html, /class=["'][^"']*cgl-social-tiktok/i);
+  assert.match(html, /class=["'][^"']*cgl-social-youtube/i);
+  assert.match(html, /class=["'][^"']*cgl-social-whatsapp/i);
   assert.match(html, /href=["']mailto:ola@culturagratis\.com["']/i);
   assert.match(html, />ola@culturagratis\.com</i);
+  assert.match(html, /Mais bairro\.\.\./i);
+  assert.match(html, /Mais acesso\.\.\./i);
+  assert.match(html, /Mais critério\.\.\./i);
 });
 
 test("renders the privacy policy in a human voice without em dashes", async () => {
