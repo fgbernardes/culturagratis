@@ -24,7 +24,8 @@ export default function AdminClient({ events, submissions }: { events: EventReco
     event.preventDefault();
     setBusy(true); setMessage("");
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const formData = new FormData(form);
+    const data = { ...Object.fromEntries(formData.entries()), tags: formData.getAll("tags") };
     const response = await fetch("/api/gestao/eventos", {
       method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data),
     });
@@ -103,9 +104,10 @@ export default function AdminClient({ events, submissions }: { events: EventReco
           <label>Data final<input name="endDate" type="date" /></label>
           <label>Horário<input name="timeLabel" placeholder="Ex.: 19h30" /></label>
           <label>Categoria<select name="category" defaultValue="Exposições e artes visuais">{categories.map((category) => <option key={category.slug}>{category.name}</option>)}</select></label>
-          <label>Condição de acesso<input name="condition" placeholder="Entrada livre / Reserva gratuita" /></label>
+          <label>Condição de acesso<select name="accessType" defaultValue="Por confirmar"><option>Entrada livre</option><option>Reserva gratuita</option><option>Levantamento gratuito</option><option>Entrada gratuita em horário específico</option><option>Por confirmar</option></select></label>
           <label>Nome da fonte<input name="sourceName" required placeholder="Entidade organizadora" /></label>
           <label className="admin-span-2">Ligação oficial<input name="sourceUrl" type="url" required placeholder="https://…" /></label>
+          <fieldset className="admin-span-2"><legend>Etiquetas</legend><div className="admin-tag-options">{["Ao ar livre", "Para famílias", "Cultura de bairro", "Lotação limitada", "Língua Gestual Portuguesa", "Acessível por cadeira de rodas"].map((tag) => <label key={tag} className="admin-checkbox"><input name="tags" type="checkbox" value={tag} /> <span>{tag}</span></label>)}</div></fieldset>
           <label className="admin-span-2">Descrição<textarea name="description" rows={3} /></label>
           <label className="admin-span-2">Como entrar<textarea name="access" rows={2} /></label>
           <label className="admin-span-2">Acessibilidade<textarea name="accessibility" rows={2} /></label>
