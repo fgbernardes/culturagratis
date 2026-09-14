@@ -18,7 +18,7 @@ function Get-VerifiedHttpContent {
   try {
     return (Invoke-WebRequest -Uri $Uri -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 30).Content
   } catch {
-    throw "HTTP content verification failed for $Uri: $($_.Exception.Message)"
+    throw "HTTP content verification failed for ${Uri}: $($_.Exception.Message)"
   }
 }
 
