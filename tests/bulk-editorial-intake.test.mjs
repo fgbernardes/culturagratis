@@ -6,7 +6,7 @@ test("a importação em lote aceita até 100 candidatos e força-os para verific
   const route = readFileSync("app/api/gestao/eventos/route.ts", "utf8");
   assert.match(route, /const batch = Array\.isArray\(payload\.events\)/);
   assert.match(route, /if \(batch\.length > 100\)/);
-  assert.match(route, /status: isBatch \? "review"/);
+  assert.match(route, /parseEvent\(item, isBatch \? "review" : undefined\)/););
 });
 
 test("o backoffice permite colar um lote JSON antes de o guardar", () => {
