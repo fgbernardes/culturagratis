@@ -1,11 +1,12 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { isPrelaunchRequestAllowed } from "./prelaunch";
+import { isPrelaunchMode, isPrelaunchRequestAllowed } from "./prelaunch";
 
 interface Env {
   ASSETS: Fetcher;
   CGL_ADMIN_EMAILS?: string;
+  CGL_PRELAUNCH_MODE?: string;
   SUPABASE_URL?: string;
   SUPABASE_PUBLISHABLE_KEY?: string;
   SUPABASE_SECRET_KEY?: string;
@@ -42,7 +43,7 @@ const worker = {
     runtime.__CGL_ENV = env;
     const url = new URL(request.url);
 
-    if (!isPrelaunchRequestAllowed(request.method, url.pathname)) {
+    if (isPrelaunchMode(env) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
       return new Response("Not found", {
         status: 404,
         headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
