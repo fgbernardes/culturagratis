@@ -7,13 +7,14 @@ export type EventRecord = {
   streetAddress: string; postalCode: string; startDate: string; endDate: string | null;
   timeLabel: string; category: string; condition: string; sourceName: string;
   sourceUrl: string; description: string; access: string; accessibility: string;
-  art: string; access52: boolean; status: EventStatus; verifiedAt: string | null;
+  art: string; access52: boolean; accessType: string; tags: string[]; status: EventStatus; verifiedAt: string | null;
   verifiedBy: string | null; createdAt: string; updatedAt: string;
 };
 
 type EventRow = Record<string, unknown> & {
   category?: { label?: string } | null;
   venue?: { name?: string; address?: string; parish?: { label?: string } | null } | null;
+  free_entry_type?: unknown; editorial_tags?: unknown;
 };
 
 const EVENT_SELECT = "*,category:categories(label),venue:venues(name,address,parish:parishes(label))";
@@ -60,8 +61,9 @@ export async function createEvent(input: Omit<EventRecord, "id" | "createdAt" | 
 
   const result = await client.from("events").insert({
     edition: "lisboa", slug: input.slug, title: input.title, description: input.description,
-    category_id: categoryId, venue_id: venue.id, free_entry_type: "entrada-livre",
-    requires_booking: /reserva|inscri/i.test(input.condition), free_hours_note: input.condition,
+    category_id: categoryId, venue_id: venue.id, free_entry_type: input.accessType,
+    requires_booking: input.accessType === "Reserva gratuita", free_hours_note: input.condition,
+    editorial_tags: input.tags,
     source_url: input.sourceUrl, starts_at: isoDate(input.startDate), ends_at: input.endDate ? isoDate(input.endDate) : null,
     time_label: input.timeLabel, status: input.status, source_name: input.sourceName,
     access: input.access, accessibility: input.accessibility, art: input.art,
@@ -99,7 +101,8 @@ function mapEvent(row: EventRow): EventRecord {
     condition, sourceName: String(row.source_name ?? "Fonte oficial"), sourceUrl: String(row.source_url),
     description: String(row.description ?? ""), access: String(row.access ?? condition),
     accessibility: String(row.accessibility ?? "Informação não confirmada."), art: String(row.art ?? "stage"),
-    access52: Boolean(row.access_52), status: String(row.status ?? "draft") as EventStatus,
+    access52: Boolean(row.access_52), accessType: String(row.free_entry_type ?? condition),
+    tags: Array.isArray(row.editorial_tags) ? row.editorial_tags.filter((value): value is string => typeof value === "string") : [], status: String(row.status ?? "draft") as EventStatus,
     verifiedAt: nullable(row.verified_at), verifiedBy: nullable(row.verified_by),
     createdAt: String(row.created_at), updatedAt: String(row.updated_at),
   };
