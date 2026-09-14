@@ -36,7 +36,8 @@ export function generateMetadata(): Metadata {
     icon: [{ url: "/favicon.png", type: "image/png", sizes: "128x128" }],
     shortcut: "/favicon.png",
   },
-};
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",
