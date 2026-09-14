@@ -8,5 +8,5 @@ test("a prévia local protege os segredos e só escuta no computador local", () 
   assert.match(gitignore, /^\.dev\.vars$/m);
   assert.match(script, /SUPABASE_SECRET_KEY/);
   assert.match(script, /--local/);
-  assert.match(script, /--ip", "127\.0\.0\.1"/);
+  assert.match(script, /"--ip" "127\.0\.0\.1"/);
 });
