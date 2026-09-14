@@ -19,6 +19,7 @@ export default function AdminClient({ events, submissions }: { events: EventReco
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [batchText, setBatchText] = useState("");
 
   async function submitEvent(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -33,6 +34,32 @@ export default function AdminClient({ events, submissions }: { events: EventReco
     setBusy(false);
     if (!response.ok) { setMessage(result.error ?? "Não foi possível guardar."); return; }
     form.reset(); setMessage("Evento guardado como rascunho."); router.refresh();
+  }
+
+  async function importBatch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setMessage("");
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(batchText);
+    } catch {
+      setMessage("O lote tem de ser JSON válido.");
+      return;
+    }
+    if (!Array.isArray(parsed) || !parsed.length) {
+      setMessage("Cola uma lista JSON com pelo menos um evento.");
+      return;
+    }
+    setBusy(true);
+    const response = await fetch("/api/gestao/eventos", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ events: parsed }),
+    });
+    const result = await response.json() as { events?: EventRecord[]; error?: string };
+    setBusy(false);
+    if (!response.ok) { setMessage(result.error ?? "Não foi possível importar o lote."); return; }
+    setBatchText("");
+    setMessage(`${result.events?.length ?? 0} eventos criados em Em verificação.`);
+    router.refresh();
   }
 
   async function changeStatus(id: string, status: EventStatus) {
@@ -90,6 +117,19 @@ export default function AdminClient({ events, submissions }: { events: EventReco
         <div className="admin-submission-list">
           {submissions.length ? submissions.map((submission) => <SubmissionRow key={submission.id} submission={submission} busy={busy} onChange={changeSubmissionStatus} />) : <div className="admin-list-empty">Ainda não há sugestões ou correções recebidas.</div>}
         </div>
+      </section>
+
+      <section className="admin-panel">
+        <div className="admin-panel-heading"><div><p>IMPORTAÇÃO EDITORIAL</p><h2>Importar lote</h2></div><span>Até 100 candidatos</span></div>
+        <form className="admin-form" onSubmit={importBatch}>
+          <label className="admin-span-2">Lista JSON de eventos
+            <textarea value={batchText} onChange={(event) => setBatchText(event.target.value)} rows={10} required placeholder={'[\n  {\n    "title": "…",\n    "venue": "…",\n    "area": "…",\n    "streetAddress": "…",\n    "postalCode": "0000-000",\n    "startDate": "2026-09-30",\n    "category": "Música",\n    "accessType": "Entrada livre",\n    "sourceName": "Entidade oficial",\n    "sourceUrl": "https://…"\n  }\n]'} />
+          </label>
+          <div className="admin-form-actions admin-span-2">
+            <button type="submit" disabled={busy}>{busy ? "A importar…" : "Validar e importar lote"}</button>
+            <span>Todos os registos entram em <strong>Em verificação</strong>.</span>
+          </div>
+        </form>
       </section>
 
       <section className="admin-panel">
