@@ -24,7 +24,6 @@ export async function POST(request: Request) {
 
     const inputs: Array<Omit<EventRecord, "id" | "createdAt" | "updatedAt">> = [];
     const slugs = new Set<string>();
-
     for (const [index, item] of batch.entries()) {
       const parsed = parseEvent(item, isBatch ? "review" : undefined);
       if ("error" in parsed) return Response.json({ error: `Evento ${index + 1}: ${parsed.error}` }, { status: 400 });
@@ -73,45 +72,29 @@ function parseEvent(raw: unknown, forcedStatus?: EventStatus) {
       title, venue, area, streetAddress, postalCode, startDate,
       endDate: isIsoDate(clean(payload.endDate)) ? clean(payload.endDate) : null,
       timeLabel: clean(payload.timeLabel) || "Horário a confirmar",
-      category,
-      condition: accessType,
-      accessType,
-      tags,
-      sourceName,
-      sourceUrl,
+      category, condition: accessType, accessType, tags, sourceName, sourceUrl,
       description: clean(payload.description),
       access: clean(payload.access) || "Condições de acesso a confirmar.",
       accessibility: clean(payload.accessibility) || "Informação de acessibilidade não confirmada.",
       art: artForCategory(category),
       access52: payload.access52 === "on" || payload.access52 === true,
-      status: isBatch ? "review" : status,
+      status,
       verifiedAt: null,
       verifiedBy: null,
     },
   } as const;
 }
 
-function clean(value: unknown) {
-  return typeof value === "string" ? value.trim() : "";
-}
-
-function isIsoDate(value: string) {
-  return /^\d{4}-\d{2}-\d{2}$/.test(value);
-}
-
-function isPortuguesePostalCode(value: string) {
-  return /^\d{4}-\d{3}$/.test(value);
-}
-
+function clean(value: unknown) { return typeof value === "string" ? value.trim() : ""; }
+function isIsoDate(value: string) { return /^\d{4}-\d{2}-\d{2}$/.test(value); }
+function isPortuguesePostalCode(value: string) { return /^\d{4}-\d{3}$/.test(value); }
 function isHttpUrl(value: string) {
   try { return ["http:", "https:"].includes(new URL(value).protocol); } catch { return false; }
 }
-
 function slugify(value: string) {
   return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("pt-PT")
     .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 72);
 }
-
 function artForCategory(category: string) {
   const normalized = category.toLocaleLowerCase("pt-PT");
   if (normalized.includes("expos")) return "photo";
