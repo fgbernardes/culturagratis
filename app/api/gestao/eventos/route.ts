@@ -1,5 +1,6 @@
 import { getAdminApiUser } from "../../../admin-auth";
 import { createEvent, listAllEvents, type EventStatus } from "../../../../db/events";
+import { isAllowedAccessType, isAllowedCategory, sanitizeEventTags } from "../../../editorial-taxonomy";
 
 export const dynamic = "force-dynamic";
 
@@ -23,20 +24,27 @@ export async function POST(request: Request) {
     const startDate = clean(payload.startDate);
     const sourceUrl = clean(payload.sourceUrl);
     const sourceName = clean(payload.sourceName);
+    const category = clean(payload.category);
+    const accessType = clean(payload.accessType);
+    const tags = sanitizeEventTags(Array.isArray(payload.tags) ? payload.tags : []);
     if (!title || !venue || !area || !streetAddress || !isPortuguesePostalCode(postalCode) || !isIsoDate(startDate) || !sourceName || !isHttpUrl(sourceUrl)) {
       return Response.json({ error: "Preenche título, local, morada, código postal, freguesia/zona, data e fonte oficial válida." }, { status: 400 });
     }
 
+    if (!isAllowedCategory(category)) return Response.json({ error: "Seleciona uma categoria editorial válida." }, { status: 400 });
+    if (!isAllowedAccessType(accessType)) return Response.json({ error: "Seleciona uma condição de acesso válida." }, { status: 400 });
+
     const status = (["draft", "review"] as EventStatus[]).includes(clean(payload.status) as EventStatus)
       ? clean(payload.status) as EventStatus : "draft";
-    const category = clean(payload.category) || "Outros";
     const event = await createEvent({
       slug: `${slugify(title)}-${startDate}`,
       title, venue, area, streetAddress, postalCode, startDate,
       endDate: isIsoDate(clean(payload.endDate)) ? clean(payload.endDate) : null,
       timeLabel: clean(payload.timeLabel) || "Horário a confirmar",
       category,
-      condition: clean(payload.condition) || "Gratuitidade a confirmar",
+      condition: accessType,
+      accessType,
+      tags,
       sourceName,
       sourceUrl,
       description: clean(payload.description),
