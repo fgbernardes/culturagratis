@@ -13,6 +13,15 @@ function Invoke-NativeChecked {
   if ($LASTEXITCODE -ne 0) { throw "Command failed with exit code $LASTEXITCODE: $FilePath $($ArgumentList -join ' ')" }
 }
 
+function Get-VerifiedHttpContent {
+  param([Parameter(Mandatory = $true)][string]$Uri)
+  try {
+    return (Invoke-WebRequest -Uri $Uri -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 30).Content
+  } catch {
+    throw "HTTP content verification failed for $Uri: $($_.Exception.Message)"
+  }
+}
+
 function Get-VerifiedHttpStatus {
   param([Parameter(Mandatory = $true)][string]$Uri, [int]$ExpectedStatus = 200)
   $lastFailure = $null
@@ -63,6 +72,23 @@ $workersDevUrl = $workersDevUrls[0]
 $homeStatus = Get-VerifiedHttpStatus -Uri $workersDevUrl
 $agendaStatus = Get-VerifiedHttpStatus -Uri "$workersDevUrl/agenda"
 $adminLoginStatus = Get-VerifiedHttpStatus -Uri "$workersDevUrl/admin/login"
+$homeHtml = Get-VerifiedHttpContent -Uri $workersDevUrl
+if ($homeHtml -match '(?i)noindex') { throw "Launch verification failed: Home still declares noindex." }
+$robotsText = Get-VerifiedHttpContent -Uri "$workersDevUrl/robots.txt"
+if ($robotsText -match '(?im)^\s*Disallow:\s*/\s*
+Write-Host "URL=$workersDevUrl"
+Write-Host "HOME_HTTP=$homeStatus"
+Write-Host "AGENDA_HTTP=$agendaStatus"
+Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
+Write-Host "PRELAUNCH_MODE=false for this Worker deployment"
+Write-Host "HOME_ROBOTS=noindex not present"
+Write-Host "ROBOTS_DISALLOW_ROOT=false"
+Write-Host "SITEMAP_HAS_AGENDA=true"
+Write-Host "CUSTOM_ROUTES=none in generated configuration and Wrangler deployment output"
+Write-Host "DNS_CHANGES=none requested by this deployment"
+) { throw "Launch verification failed: robots.txt still blocks the site." }
+$sitemapText = Get-VerifiedHttpContent -Uri "$workersDevUrl/sitemap.xml"
+if ($sitemapText -notmatch '(?i)/agenda') { throw "Launch verification failed: sitemap.xml does not include Agenda." }
 
 Write-Host "LAUNCH DEPLOYMENT VERIFIED"
 Write-Host "URL=$workersDevUrl"
