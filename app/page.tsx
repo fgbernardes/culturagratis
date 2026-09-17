@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { cglLogoColor } from "./brand-assets";
+import { CglHome } from "./components/cgl-home";
 import { ComingSoonForm } from "./components/coming-soon-form";
+import { isPrelaunchMode } from "./launch-state";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/CulturaGratisLisboa", icon: "facebook" },
@@ -29,6 +31,8 @@ function turnstileSiteKey() {
 }
 
 export default function Home() {
+  if (!isPrelaunchMode()) return <CglHome />;
+
   return (
     <main className="cgl-coming" id="inicio">
       <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
