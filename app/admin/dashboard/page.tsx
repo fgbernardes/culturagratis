@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cglLogoColor } from "../../brand-assets";
 import { requireAdminPageUser } from "../../admin-auth";
 import { listAllEvents } from "../../../db/events";
+import AdminWorkspaceNav from "../../components/admin-workspace-nav";
 
 export const dynamic = "force-dynamic";
 
@@ -85,6 +86,7 @@ export default async function AdminLaunchDashboardPage() {
         <Link className="subpage-brand" href="/"><img src={cglLogoColor} alt="" width="58" height="58" /><span>Cultura Grátis Lisboa</span></Link>
         <div><span>{user.displayName}</span><Link href="/admin">Gestão editorial</Link><Link href="/admin/logout">Terminar sessão</Link></div>
       </header>
+      <AdminWorkspaceNav active="dashboard" />
 
       <section className="launch-hero">
         <div>

@@ -1,0 +1,4 @@
+.cgl-studio-root { height: calc(100vh - 154px); min-height: 720px; background: #1a1a1a; color: #fff; overflow: hidden; }
+.cgl-studio-root ::-webkit-scrollbar { width: 8px; }
+.cgl-studio-root ::-webkit-scrollbar-track { background: #1a1a1a; }
+.cgl-studio-root ::-webkit-scrollbar-thumb { background: #fe7d02; border-radius: 4px; }
