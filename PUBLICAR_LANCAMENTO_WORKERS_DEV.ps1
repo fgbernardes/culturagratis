@@ -10,7 +10,7 @@ Set-Location -LiteralPath $PSScriptRoot
 function Invoke-NativeChecked {
   param([Parameter(Mandatory = $true)][string]$FilePath, [string[]]$ArgumentList = @())
   & $FilePath @ArgumentList
-  if ($LASTEXITCODE -ne 0) { throw "Command failed with exit code $LASTEXITCODE: $FilePath $($ArgumentList -join ' ')" }
+  if ($LASTEXITCODE -ne 0) { throw "Command failed with exit code ${LASTEXITCODE}: $FilePath $($ArgumentList -join ' ')" }
 }
 
 function Get-VerifiedHttpContent {
@@ -37,7 +37,7 @@ function Get-VerifiedHttpStatus {
     }
     if ($attempt -lt 6) { Start-Sleep -Seconds 3 }
   }
-  throw "HTTP verification failed for $Uri: $lastFailure"
+  throw "HTTP verification failed for ${Uri}: $lastFailure"
 }
 
 $configText = Get-Content -LiteralPath "wrangler.jsonc" -Raw
@@ -60,7 +60,7 @@ $deployLines = New-Object System.Collections.Generic.List[string]
 & $nodeExe $wranglerCli "deploy" "--name" $WorkerName "--var" "CGL_PRELAUNCH_MODE:false" 2>&1 | ForEach-Object {
   $line = $_.ToString(); Write-Host $line; [void]$deployLines.Add($line)
 }
-if ($LASTEXITCODE -ne 0) { throw "Wrangler launch deploy failed with exit code $LASTEXITCODE." }
+if ($LASTEXITCODE -ne 0) { throw "Wrangler launch deploy failed with exit code ${LASTEXITCODE}." }
 
 $plainDeployText = [regex]::Replace(($deployLines -join "`n"), "$([char]27)\[[0-?]*[ -/]*[@-~]", "")
 $triggerUrls = @([regex]::Matches($plainDeployText, '(?m)^\s*(https://[^\s]+)\s*$') | ForEach-Object { $_.Groups[1].Value.TrimEnd('/') })
@@ -75,18 +75,7 @@ $adminLoginStatus = Get-VerifiedHttpStatus -Uri "$workersDevUrl/admin/login"
 $homeHtml = Get-VerifiedHttpContent -Uri $workersDevUrl
 if ($homeHtml -match '(?i)noindex') { throw "Launch verification failed: Home still declares noindex." }
 $robotsText = Get-VerifiedHttpContent -Uri "$workersDevUrl/robots.txt"
-if ($robotsText -match '(?im)^\s*Disallow:\s*/\s*
-Write-Host "URL=$workersDevUrl"
-Write-Host "HOME_HTTP=$homeStatus"
-Write-Host "AGENDA_HTTP=$agendaStatus"
-Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
-Write-Host "PRELAUNCH_MODE=false for this Worker deployment"
-Write-Host "HOME_ROBOTS=noindex not present"
-Write-Host "ROBOTS_DISALLOW_ROOT=false"
-Write-Host "SITEMAP_HAS_AGENDA=true"
-Write-Host "CUSTOM_ROUTES=none in generated configuration and Wrangler deployment output"
-Write-Host "DNS_CHANGES=none requested by this deployment"
-) { throw "Launch verification failed: robots.txt still blocks the site." }
+if ($robotsText -match '(?im)^\s*Disallow:\s*/\s*$') { throw "Launch verification failed: robots.txt still blocks the site." }
 $sitemapText = Get-VerifiedHttpContent -Uri "$workersDevUrl/sitemap.xml"
 if ($sitemapText -notmatch '(?i)/agenda') { throw "Launch verification failed: sitemap.xml does not include Agenda." }
 
@@ -96,5 +85,8 @@ Write-Host "HOME_HTTP=$homeStatus"
 Write-Host "AGENDA_HTTP=$agendaStatus"
 Write-Host "ADMIN_LOGIN_HTTP=$adminLoginStatus"
 Write-Host "PRELAUNCH_MODE=false for this Worker deployment"
+Write-Host "HOME_ROBOTS=noindex not present"
+Write-Host "ROBOTS_DISALLOW_ROOT=false"
+Write-Host "SITEMAP_HAS_AGENDA=true"
 Write-Host "CUSTOM_ROUTES=none in generated configuration and Wrangler deployment output"
 Write-Host "DNS_CHANGES=none requested by this deployment"
