@@ -4,6 +4,12 @@
   "main": "dist/server/index.js",
   "compatibility_date": "2026-09-02",
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "www.culturagratis.com",
+      "custom_domain": true
+    }
+  ],
   "assets": {
     "binding": "ASSETS",
     "directory": "dist/client"
@@ -15,7 +21,8 @@
     "TURNSTILE_SITE_KEY": "0x4AAAAAAEKufj5E_NzxJgOS",
     "SUPABASE_URL": "https://vcxhhbrwwltzvytcszpx.supabase.co",
     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_csYqDAbzInLrmC99bUos3w_M_dh568Y",
-    "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com"
+    "CGL_ADMIN_EMAILS": "culturagratislisboa@gmail.com",
+    "CGL_PRELAUNCH_MODE": "false"
   },
   "preview_urls": false
 }
