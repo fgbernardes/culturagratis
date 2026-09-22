@@ -3033,6 +3033,34 @@ summary:focus-visible {
   .cgl-signup-actions button { transform: translateX(-18px); }
 }
 
+/* Short desktop viewports must scroll naturally instead of clipping the landing. */
+@media (min-width: 1121px) and (max-height: 900px) {
+  .cgl-coming {
+    min-height: 100svh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .cgl-coming-header,
+  .cgl-coming-stage,
+  .cgl-coming-principles,
+  .cgl-coming-footer {
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  .cgl-coming-stage {
+    height: auto;
+    overflow: visible;
+  }
+
+  .cgl-coming-principles ul {
+    height: auto;
+  }
+}
+
 @media (max-width: 767px) {
   .cgl-coming { min-height: 0; display: flex; flex-direction: column; background: #1a1a1a; }
   .cgl-coming-header, .cgl-coming-footer { padding-inline: 20px; }
