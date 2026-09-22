@@ -1,7 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { isPrelaunchMode, isPrelaunchRequestAllowed } from "./prelaunch";
+import { isCanonicalPrelaunchHost, isPrelaunchMode, isPrelaunchRequestAllowed } from "./prelaunch";
 
 interface Env {
   ASSETS: Fetcher;
@@ -39,11 +39,14 @@ interface ExecutionContext {
 
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
-    runtime.__CGL_ENV = env;
     const url = new URL(request.url);
+    const effectiveEnv: Env = isCanonicalPrelaunchHost(url.hostname)
+      ? { ...env, CGL_PRELAUNCH_MODE: "true" }
+      : env;
+    const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
+    runtime.__CGL_ENV = effectiveEnv;
 
-    if (isPrelaunchMode(env) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
+    if (isPrelaunchMode(effectiveEnv) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
       return new Response("Not found", {
         status: 404,
         headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
@@ -53,15 +56,15 @@ const worker = {
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
+        fetchAsset: (path) => effectiveEnv.ASSETS.fetch(new Request(new URL(path, request.url))),
         transformImage: async (body, { width, format, quality }) => {
-          const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
+          const result = await effectiveEnv.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
           return result.response();
         },
       }, allowedWidths);
     }
 
-    return handler.fetch(request, env, ctx);
+    return handler.fetch(request, effectiveEnv, ctx);
   },
 };
 
