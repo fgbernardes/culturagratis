@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-test("o bloqueio de pré-lançamento é ativado por variável explícita", () => {
+test("o bloqueio de pré-lançamento é ativado por variável ou hostname canónico", () => {
   const worker = readFileSync("worker/index.ts", "utf8");
   const gate = readFileSync("worker/prelaunch.ts", "utf8");
-  assert.match(worker, /isPrelaunchMode\(env\)/);
+  assert.match(worker, /isPrelaunchMode\(effectiveEnv\)/);
+  assert.match(worker, /isCanonicalPrelaunchHost/);
   assert.match(gate, /CGL_PRELAUNCH_MODE/);
+  assert.match(gate, /www\.culturagratis\.com/);
 });
 
 test("a publicação de lançamento exige uma ação distinta e continua limitada a workers.dev", () => {
