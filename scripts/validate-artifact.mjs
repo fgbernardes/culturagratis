@@ -7,6 +7,7 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
 const workerPath = path.join(projectRoot, "dist", "server", "index.js");
 const generatedConfigPath = path.join(projectRoot, "dist", "server", "wrangler.json");
+const CANONICAL_CUSTOM_DOMAIN = "www.culturagratis.com";
 
 await access(workerPath, constants.R_OK).catch(() => {
   throw new Error("Missing Cloudflare Worker entry: dist/server/index.js");
@@ -21,10 +22,20 @@ if (!worker.default || typeof worker.default.fetch !== "function") {
 }
 
 const generatedConfig = JSON.parse(await readFile(generatedConfigPath, "utf8"));
-const forbiddenKeys = findKeys(generatedConfig, new Set(["route", "routes", "custom_domain"]));
+const routes = generatedConfig.routes ?? [];
 
-if (forbiddenKeys.length > 0) {
-  throw new Error(`Generated Wrangler config contains forbidden domain configuration: ${forbiddenKeys.join(", ")}`);
+if ("route" in generatedConfig) {
+  throw new Error("Generated Wrangler config must not contain the legacy route key.");
+}
+
+if (
+  !Array.isArray(routes)
+  || routes.length !== 1
+  || routes[0]?.pattern !== CANONICAL_CUSTOM_DOMAIN
+  || routes[0]?.custom_domain !== true
+  || Object.keys(routes[0]).some((key) => !["pattern", "custom_domain"].includes(key))
+) {
+  throw new Error(`Generated Wrangler config must contain only the canonical custom domain: ${CANONICAL_CUSTOM_DOMAIN}`);
 }
 
 if (generatedConfig.workers_dev !== true) {
@@ -39,15 +50,4 @@ if (Object.keys(generatedConfig.triggers ?? {}).length > 0) {
   throw new Error("Generated Wrangler config must not contain triggers");
 }
 
-console.log("Validated independent Cloudflare Worker artifact and workers.dev-only generated config.");
-
-function findKeys(value, forbidden, location = "$") {
-  if (!value || typeof value !== "object") return [];
-  const matches = [];
-  for (const [key, nestedValue] of Object.entries(value)) {
-    const nestedLocation = `${location}.${key}`;
-    if (forbidden.has(key)) matches.push(nestedLocation);
-    matches.push(...findKeys(nestedValue, forbidden, nestedLocation));
-  }
-  return matches;
-}
+console.log("Validated CGL Worker artifact, canonical custom domain and workers.dev preview configuration.");

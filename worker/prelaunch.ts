@@ -10,9 +10,14 @@ const STATIC_ASSET_PREFIXES = ["/assets/", "/_next/"];
 const STATIC_ASSETS = new Set(["/cgl-logo.png", "/favicon.png"]);
 const ADMIN_PAGE_PREFIXES = ["/admin", "/gestao"];
 const ADMIN_API_PREFIXES = ["/api/gestao"];
+const CANONICAL_PRELAUNCH_HOSTS = new Set(["www.culturagratis.com", "culturagratis.com"]);
 
 export function isPrelaunchMode(env: { CGL_PRELAUNCH_MODE?: string }) {
   return env.CGL_PRELAUNCH_MODE !== "false";
+}
+
+export function isCanonicalPrelaunchHost(hostname: string) {
+  return CANONICAL_PRELAUNCH_HOSTS.has(hostname.toLocaleLowerCase("pt-PT"));
 }
 
 export function isPrelaunchRequestAllowed(method: string, pathname: string) {
