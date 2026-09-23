@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { cglLogoColor } from "./brand-assets";
 import { ComingSoonForm } from "./components/coming-soon-form";
+import { PublicFooter, PublicHeader } from "./components/public-chrome";
+import { isPrelaunchMode } from "./launch-state";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/CulturaGratisLisboa", icon: "facebook" },
@@ -28,7 +30,7 @@ function turnstileSiteKey() {
   return runtime.__CGL_ENV?.TURNSTILE_SITE_KEY ?? "";
 }
 
-export default function Home() {
+function PrelaunchHome() {
   return (
     <main className="cgl-coming" id="inicio">
       <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
@@ -70,4 +72,47 @@ export default function Home() {
       <footer className="cgl-coming-footer"><span>Cultura Grátis Lisboa · 2026</span><form action="/privacidade" method="get"><button type="submit">Política de Privacidade</button></form></footer>
     </main>
   );
+}
+
+function LaunchHome() {
+  return (
+    <main className="editorial-shell directory-shell launch-home-shell">
+      <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
+      <PublicHeader />
+      <header className="directory-hero launch-home-hero" id="conteudo">
+        <p>CULTURA GRATUITA EM LISBOA</p>
+        <h1>A cultura de Lisboa vive em toda a cidade.</h1>
+        <span>Descobre propostas gratuitas, confirma os detalhes na fonte oficial e escolhe o próximo lugar onde a cidade acontece.</span>
+        <div className="editorial-actions">
+          <Link className="primary" href="/agenda">Explorar a agenda</Link>
+          <Link className="secondary" href="/categorias">Ver categorias</Link>
+        </div>
+      </header>
+      <section className="directory-grid launch-home-grid" aria-label="Explorar o Cultura Grátis Lisboa">
+        <Link href="/agenda">
+          <small>01</small>
+          <h2>Agenda cultural</h2>
+          <p>Pesquisa eventos gratuitos por data, categoria ou freguesia.</p>
+          <span>Ver a agenda →</span>
+        </Link>
+        <Link href="/freguesias">
+          <small>02</small>
+          <h2>Lisboa, freguesia a freguesia</h2>
+          <p>Encontra cultura perto de ti nas 24 freguesias do município.</p>
+          <span>Explorar freguesias →</span>
+        </Link>
+        <Link href="/sobre">
+          <small>03</small>
+          <h2>Como trabalhamos</h2>
+          <p>Conhece os critérios de verificação, gratuitidade e curadoria do CGL.</p>
+          <span>Conhecer o projeto →</span>
+        </Link>
+      </section>
+      <PublicFooter />
+    </main>
+  );
+}
+
+export default function Home() {
+  return isPrelaunchMode() ? <PrelaunchHome /> : <LaunchHome />;
 }
