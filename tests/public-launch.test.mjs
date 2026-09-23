@@ -35,3 +35,14 @@ test("a landing não corta conteúdo em ecrãs desktop com pouca altura", () => 
   assert.match(compactDesktop, /height:\s*auto/);
   assert.match(compactDesktop, /overflow:\s*visible/);
 });
+
+
+test("a home integral só aparece fora do hostname de pré-lançamento", () => {
+  const page = read("app/page.tsx");
+  assert.match(page, /isPrelaunchMode/);
+  assert.match(page, /ComingSoonForm/);
+  assert.match(page, /PublicHeader/);
+  assert.match(page, /PublicFooter/);
+  assert.match(page, /isPrelaunchMode\(\)\s*\?/);
+  assert.match(page, /href=\"\/agenda\"/);
+});
