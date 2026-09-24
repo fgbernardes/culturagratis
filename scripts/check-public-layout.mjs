@@ -32,7 +32,9 @@ try {
   await mkdir("visual-review", { recursive: true });
   for (const width of [390, 768, 1181, 1280, 1366, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
-    await page.goto(origin, { waitUntil: "domcontentloaded", timeout: 30000 });
+    const response = await page.goto(origin, { waitUntil: "domcontentloaded", timeout: 30000 });
+    console.log(`Preview ${width}px: status=${response?.status()} title=${await page.title()} coming=${await page.locator(".cgl-coming").count()} header=${await page.locator(".public-topbar").count()}`);
+    if (!await page.locator(".public-topbar").count()) throw new Error(`Expected launch home: ${(await page.content()).slice(0, 700)}; server=${serverOutput}`);
     await page.locator(".public-topbar").waitFor({ state: "visible", timeout: 15000 });
     const layout = await page.evaluate(() => {
       const header = document.querySelector(".public-topbar");
