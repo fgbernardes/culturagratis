@@ -88,7 +88,7 @@ function LaunchHome() {
           <Link className="secondary" href="/categorias">Ver categorias</Link>
         </div>
       </header>
-      <section className="directory-grid launch-home-grid" aria-label="Explorar o Cultura Grátis Lisboa">
+      <section className="directory-grid launch-home-grid" aria-label="Quatro caminhos para descobrir Lisboa">
         <Link href="/agenda">
           <small>01</small>
           <h2>Agenda cultural</h2>
@@ -101,11 +101,17 @@ function LaunchHome() {
           <p>Encontra cultura perto de ti nas 24 freguesias do município.</p>
           <span>Explorar freguesias →</span>
         </Link>
-        <Link href="/sobre">
+        <Link href="/noticias">
           <small>03</small>
-          <h2>Como trabalhamos</h2>
-          <p>Conhece os critérios de verificação, gratuitidade e curadoria do CGL.</p>
-          <span>Conhecer o projeto →</span>
+          <h2>Notícias</h2>
+          <p>Atualizações do projeto e da vida cultural da cidade, com informação confirmada.</p>
+          <span>Ver notícias →</span>
+        </Link>
+        <Link href="/coletividades">
+          <small>04</small>
+          <h2>Coletividades</h2>
+          <p>Associações e espaços comunitários fazem cultura em toda a Lisboa.</p>
+          <span>Conhecer a secção →</span>
         </Link>
       </section>
       <PublicFooter />
