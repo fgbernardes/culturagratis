@@ -57,7 +57,7 @@ export function CglHome() {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
-  const days = useMemo(weekDays, []);
+  const days = useMemo(() => weekDays(), []);
 
   useEffect(() => {
     let active = true;
