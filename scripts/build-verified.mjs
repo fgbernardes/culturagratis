@@ -1,6 +1,7 @@
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { copyFile, mkdir } from "node:fs/promises";
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(scriptDirectory, "..");
@@ -10,6 +11,9 @@ const timeoutMs = Number(process.env.CGL_BUILD_TIMEOUT_MS ?? 180000);
 console.log("Running bounded vinext build...");
 
 await run(process.execPath, [vinextCli, "build"], timeoutMs);
+const negativeLogo = path.join(projectRoot, "dist", "client", "cgl-logos", "com-lettering-negativo.png");
+await mkdir(path.dirname(negativeLogo), { recursive: true });
+await copyFile(path.join(projectRoot, "public", "cgl-logos", "com-lettering-negativo.png"), negativeLogo);
 await run(process.execPath, [path.join(scriptDirectory, "validate-artifact.mjs")], 30000);
 
 function run(command, args, limitMs) {
