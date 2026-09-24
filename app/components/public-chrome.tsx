@@ -53,8 +53,10 @@ export function PublicSearchLink({ compact = false }: { compact?: boolean }) {
 export function PublicFooter() {
   return (
     <footer className="public-footer">
-      <div>
-        <strong>Cultura gratuita em Lisboa, todos os dias.</strong>
+      <div className="public-footer-brand">
+        <Link href="/" aria-label="Cultura Grátis Lisboa, início">
+          <img src="/cgl-logos/com-lettering-negativo.png" alt="Cultura Grátis Lisboa" width="168" height="76" />
+        </Link>
         <span>Informação independente, verificada e sem barreira económica.</span>
       </div>
       <nav aria-label="Informação do projeto">
@@ -71,6 +73,17 @@ export function PublicFooter() {
         <Link href="/cookies">Cookies</Link>
         <Link href="/termos">Termos</Link>
       </nav>
+      <div className="public-footer-contact">
+        <a href="mailto:ola@culturagratis.com">ola@culturagratis.com</a>
+        <nav aria-label="Redes sociais">
+          <a href="https://www.facebook.com/CulturaGratisLisboa" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://www.instagram.com/culturagratislisboa" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://www.threads.com/@culturagratislisboa" target="_blank" rel="noreferrer">Threads</a>
+          <a href="https://www.tiktok.com/@cglisboa" target="_blank" rel="noreferrer">TikTok</a>
+          <a href="https://www.youtube.com/@culturagratisemlisboa" target="_blank" rel="noreferrer">YouTube</a>
+          <a href="https://whatsapp.com/channel/0029VbDrpMDL7UVSxvfzMm2C" target="_blank" rel="noreferrer">WhatsApp</a>
+        </nav>
+      </div>
     </footer>
   );
 }
