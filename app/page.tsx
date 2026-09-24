@@ -88,6 +88,21 @@ function LaunchHome() {
           <Link className="secondary" href="/categorias">Ver categorias</Link>
         </div>
       </header>
+      <section className="launch-featured" aria-labelledby="launch-featured-title">
+        <div className="launch-featured-heading">
+          <p>ESCOLHA EDITORIAL</p>
+          <h2 id="launch-featured-title">Em destaque</h2>
+          <span>Quatro escolhas feitas pela equipa editorial. A seleção será publicada quando os dados estiverem confirmados.</span>
+        </div>
+        <div className="launch-featured-grid" aria-hidden="true">
+          {[1, 2, 3, 4].map((slot) => (
+            <div className="launch-featured-slot" key={slot}>
+              <small>{String(slot).padStart(2, "0")}</small>
+              <strong>Em preparação</strong>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="directory-grid launch-home-grid" aria-label="Quatro caminhos para descobrir Lisboa">
         <Link href="/agenda">
           <small>01</small>
