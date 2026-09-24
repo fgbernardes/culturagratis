@@ -21,11 +21,15 @@ async function asset(request) {
 }
 const server = createServer(async (req, res) => {
   try {
-    const response = await worker.fetch(
-      new Request(new URL(req.url ?? "/", origin), { headers: req.headers }),
-      { CGL_PRELAUNCH_MODE: "false", ASSETS: { fetch: asset } },
-      { waitUntil() {}, passThroughOnException() {} },
-    );
+    const url = new URL(req.url ?? "/", origin);
+    const request = new Request(url, { headers: req.headers });
+    const response = url.pathname.startsWith("/assets/") || url.pathname.startsWith("/cgl-")
+      ? await asset(request)
+      : await worker.fetch(
+          request,
+          { CGL_PRELAUNCH_MODE: "false", ASSETS: { fetch: asset } },
+          { waitUntil() {}, passThroughOnException() {} },
+        );
     res.writeHead(response.status, Object.fromEntries(response.headers));
     res.end(Buffer.from(await response.arrayBuffer()));
   } catch (error) {
@@ -61,6 +65,7 @@ try {
         navVisible: nav ? getComputedStyle(nav).display !== "none" : false,
       };
     });
+    await page.screenshot({ path: `visual-review/home-${width}.png`, fullPage: true });
     assert.ok(layout.scrollWidth <= layout.viewport, `horizontal overflow at ${width}: ${JSON.stringify(layout)}`);
     assert.ok(layout.headerHeight <= 100, `header wraps at ${width}: ${JSON.stringify(layout)}`);
     if (width > 720) {
@@ -68,7 +73,6 @@ try {
       assert.ok(layout.supportRight <= width - 12, `support CTA touches edge at ${width}`);
     }
     assert.equal(layout.navVisible, width > 1380, `desktop nav breakpoint at ${width}`);
-    await page.screenshot({ path: `visual-review/home-${width}.png`, fullPage: true });
     console.log(`${width}px: ${JSON.stringify(layout)}`);
     await page.close();
   }
