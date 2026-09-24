@@ -50,6 +50,7 @@ try {
     console.log(`Preview ${width}px: status=${response?.status()} title=${await page.title()} coming=${await page.locator(".cgl-coming").count()} header=${await page.locator(".public-topbar").count()}`);
     if (!await page.locator(".public-topbar").count()) throw new Error(`Expected launch home: ${(await page.content()).slice(0, 700)}`);
     await page.locator(".public-topbar").waitFor({ state: "visible", timeout: 15000 });
+    await page.locator(".public-footer-brand img").evaluate((img) => img.decode());
     const layout = await page.evaluate(() => {
       const header = document.querySelector(".public-topbar");
       const action = document.querySelector(".public-support-action");
