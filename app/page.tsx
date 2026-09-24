@@ -35,7 +35,7 @@ function PrelaunchHome() {
     <main className="cgl-coming" id="inicio">
       <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
       <header className="cgl-coming-header" aria-label="Cultura Grátis Lisboa">
-        <Link href="/" aria-label="Cultura Grátis Lisboa — início"><img src={cglLogoColor} alt="Cultura Grátis Lisboa" /></Link>
+        <Link href="/" aria-label="Cultura Grátis Lisboa: início"><img src={cglLogoColor} alt="Cultura Grátis Lisboa" /></Link>
         <div className="cgl-coming-status"><p>Brevemente<span>...</span></p></div>
       </header>
       <div className="cgl-coming-stage">
