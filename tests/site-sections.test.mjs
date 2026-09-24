@@ -42,3 +42,16 @@ test("canonical prelaunch host keeps new public sections behind the gate", async
   assert.equal(home.status, 200);
   assert.match(await home.text(), /Brevemente/);
 });
+
+
+test("home exposes every editorial category in quick filters and avoids em dashes", async () => {
+  const { categories } = await import("../app/editorial-taxonomy.ts");
+  const home = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", "/");
+  const html = await home.text();
+  const filters = html.match(/<div class="cgl-home-quick-filters"[\\s\\S]*?<\\/div>/)?.[0] ?? "";
+  for (const category of categories) {
+    assert.ok(filters.includes(encodeURIComponent(category.name)), category.name);
+  }
+  assert.doesNotMatch(html, /—/);
+  assert.match(html, /A cultura de Lisboa vive em toda a cidade/);
+});
