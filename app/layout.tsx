@@ -5,6 +5,7 @@ import "@fontsource-variable/inter";
 import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
 import "./site-architecture.css";
+import "./restored-home.css";
 
 export function generateMetadata(): Metadata {
   return {
