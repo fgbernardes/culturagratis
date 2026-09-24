@@ -22,7 +22,9 @@
 /* Compact public footer with the official negative logo. */
 .public-footer { min-height: 0; display: grid; grid-template-columns: minmax(170px, .8fr) minmax(320px, 1.6fr) minmax(210px, .9fr); align-items: start; gap: clamp(20px, 3vw, 48px); padding-block: 36px; }
 .public-footer-brand { max-width: 240px; }
-.public-footer-brand img { display: block; width: 168px; height: auto; object-fit: contain; }
+.public-footer-brand > a { display: inline-flex; align-items: center; gap: 12px; }
+.public-footer-brand img { display: block; width: 58px; height: 58px; object-fit: contain; }
+.public-footer-brand strong { font-family: var(--font-display); font-size: 1.25rem; line-height: 1; }
 .public-footer-brand > span { font-size: .82rem; }
 .public-footer-contact { align-items: flex-end; text-align: right; }
 .public-footer-contact > a { font-weight: 750; overflow-wrap: anywhere; }
