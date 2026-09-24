@@ -32,7 +32,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "apoia",
     eyebrow: "APOIAR O PROJETO",
-    title: "Dá-nos uma mãozinha.",
+    title: "Dá-nos uma mãozinha",
     intro: "O teu apoio ajuda a manter uma agenda cultural independente e gratuita para quem a consulta.",
     sections: [
       { title: "Apoio voluntário", body: ["Apoiar o Cultura Grátis Lisboa é uma escolha tua. Não é uma compra nem uma condição para consultar o site, sugerir uma iniciativa ou receber a newsletter."] },
@@ -43,7 +43,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "noticias",
     eyebrow: "NOTÍCIAS",
-    title: "Notícias.",
+    title: "Notícias",
     intro: "Atualizações sobre o projeto e a cultura de Lisboa, com fontes e datas identificadas.",
     sections: [
       { title: "Primeiras notícias", body: ["Ainda não há notícias publicadas nesta secção. Quando houver, cada texto indicará a data e as fontes utilizadas."] },
@@ -53,7 +53,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "coletividades",
     eyebrow: "COLETIVIDADES",
-    title: "A cultura também nasce no bairro.",
+    title: "A cultura também nasce no bairro",
     intro: "Uma secção para dar visibilidade a coletividades, associações e espaços comunitários do município de Lisboa.",
     sections: [
       { title: "Diretório em preparação", body: ["Ainda não há entidades listadas. As futuras fichas terão identificação, freguesia, contactos públicos e ligações oficiais confirmadas antes da publicação."] },
@@ -65,7 +65,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "sobre",
     eyebrow: "O PROJETO",
-    title: "Cultura sem barreira económica, com Lisboa por inteiro.",
+    title: "Cultura sem barreira económica, com Lisboa por inteiro",
     intro: "O Cultura Grátis Lisboa é uma plataforma editorial independente para descobrir propostas culturais de acesso gratuito no município de Lisboa.",
     sections: [
       {
@@ -100,7 +100,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "politica-0-euros",
     eyebrow: "CRITÉRIO EDITORIAL",
-    title: "Grátis quer dizer 0 €.",
+    title: "Grátis quer dizer 0 €",
     intro: "Publicamos apenas propostas culturais cujo acesso pode ser feito sem pagamento, custos ocultos ou consumo obrigatório.",
     sections: [
       {
@@ -134,7 +134,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "contactos",
     eyebrow: "CONTACTOS",
-    title: "Fala connosco.",
+    title: "Fala connosco",
     intro: "Escolhe o canal certo para conseguirmos responder e verificar a informação mais depressa.",
     sections: [
       {
@@ -158,7 +158,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "submeter-evento",
     eyebrow: "PARTICIPAR",
-    title: "Sugere um evento gratuito.",
+    title: "Sugere um evento gratuito",
     intro: "Partilha uma proposta que cumpra a política dos 0 €. Cada sugestão é verificada e nenhuma é publicada automaticamente.",
     sections: [
       {
@@ -200,7 +200,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "verificacao",
     eyebrow: "CGL VERIFICA",
-    title: "Verificamos antes de publicar.",
+    title: "Verificamos antes de publicar",
     intro: "O selo CGL Verifica identifica informação prática que foi confirmada editorialmente numa fonte oficial ou primária identificável.",
     updated: "Metodologia v1.0 · agosto de 2026",
     sections: [
@@ -253,7 +253,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "acessibilidade",
     eyebrow: "ACESSIBILIDADE",
-    title: "Uma agenda para poder ser usada por todos.",
+    title: "Uma agenda para poder ser usada por todos",
     intro: "O nosso objetivo de produto é cumprir as WCAG 2.2 no nível AA. A construção e os testes de acessibilidade continuam antes do lançamento.",
     updated: "Estado: versão em construção · agosto de 2026",
     sections: [
@@ -330,7 +330,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "cookies",
     eyebrow: "TRANSPARÊNCIA",
-    title: "Cookies e tecnologias semelhantes.",
+    title: "Cookies e tecnologias semelhantes",
     intro: "A versão pública atual não ativa cookies opcionais de análise, marketing ou personalização.",
     updated: "Versão de pré-lançamento · agosto de 2026",
     sections: [
@@ -347,7 +347,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "termos",
     eyebrow: "TRANSPARÊNCIA",
-    title: "Termos de utilização.",
+    title: "Termos de utilização",
     intro: "O Cultura Grátis Lisboa organiza informação cultural para ajudar a descobrir propostas gratuitas na cidade. Esta versão acompanha a fase de construção do serviço.",
     updated: "Versão de pré-lançamento · agosto de 2026",
     sections: [
