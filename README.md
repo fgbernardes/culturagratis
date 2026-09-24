@@ -56,4 +56,8 @@ npm test
 npm run deploy
 ```
 
+`npm test` compila antes de correr os testes. Com `dist/` já atualizado, `npm run test:only` corre só os testes.
+
+As regras para agentes (Codex, Claude Code) e as notas entre eles estão em `AGENTS.md`.
+
 O domínio só deve ser associado ao Worker depois de a URL técnica `workers.dev` passar os testes de homepage, agenda, formulários e `/admin`.
