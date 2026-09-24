@@ -5,7 +5,10 @@
 .public-support-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 8px; background: var(--sunset); color: var(--charcoal); font-weight: 800; white-space: nowrap; }
 .public-support-action:hover, .public-support-action:focus-visible { background: var(--sun); }
 .public-topbar a:focus-visible, .public-mobile-menu summary:focus-visible, .directory-grid a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
-@media (max-width: 1180px) {
+/* Keep the full navigation for widths where its links and actions fit. */
+.launch-home-hero .editorial-actions .secondary { color: var(--charcoal); }
+.launch-home-hero > p { color: var(--sun); }
+@media (max-width: 1380px) {
   .public-topbar { grid-template-columns: 1fr auto; }
   .public-topbar > nav { display: none; }
   .public-mobile-menu { display: block; }
