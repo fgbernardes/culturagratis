@@ -103,6 +103,24 @@ function LaunchHome() {
           ))}
         </div>
       </section>
+      <section className="launch-discovery" aria-labelledby="launch-discovery-title">
+        <div>
+          <p className="launch-section-kicker">ESCOLHE O TEU PLANO</p>
+          <h2 id="launch-discovery-title">Explora por categoria</h2>
+          <p>Música, exposições, teatro, cultura comunitária e outras formas de viver Lisboa.</p>
+          <Link href="/categorias">Ver todas as categorias →</Link>
+        </div>
+        <div>
+          <p className="launch-section-kicker">GRÁTIS, MAS EXPLICADO</p>
+          <h2>Sem asteriscos escondidos</h2>
+          <p>Entrada livre, reserva gratuita ou levantamento: sabe o que cada condição significa antes de sair de casa.</p>
+          <Link href="/politica-0-euros">Ler a política dos 0 € →</Link>
+        </div>
+      </section>
+      <div className="launch-section-intro">
+        <p className="launch-section-kicker">LISBOA É O PALCO</p>
+        <h2>Quatro caminhos para começar</h2>
+      </div>
       <section className="directory-grid launch-home-grid" aria-label="Quatro caminhos para descobrir Lisboa">
         <Link href="/agenda">
           <small>01</small>
