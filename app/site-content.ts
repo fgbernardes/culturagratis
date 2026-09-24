@@ -1,15 +1,4 @@
-export const categories = [
-  { slug: "musica", name: "Música", description: "Concertos, recitais, festivais e música no espaço público." },
-  { slug: "teatro-e-performance", name: "Teatro e performance", description: "Teatro, circo contemporâneo, monólogos e artes performativas." },
-  { slug: "danca", name: "Dança", description: "Dança contemporânea, clássica, tradicional e urbana." },
-  { slug: "cinema", name: "Cinema", description: "Sessões ao ar livre, cineclubes, ciclos e mostras." },
-  { slug: "exposicoes-e-artes-visuais", name: "Exposições e artes visuais", description: "Galerias, fotografia, instalações, pintura, escultura e arte urbana." },
-  { slug: "literatura-e-conversas", name: "Literatura e conversas", description: "Livros, debates, poesia, mesas-redondas e tertúlias." },
-  { slug: "museus-e-patrimonio", name: "Museus e património", description: "Museus, monumentos, palácios e dias de entrada livre." },
-  { slug: "visitas-guiadas", name: "Visitas guiadas", description: "Percursos comentados, visitas orientadas e descoberta acompanhada de espaços, exposições e património." },
-  { slug: "ateliers-e-workshops", name: "Ateliers / Workshops", description: "Oficinas práticas, laboratórios criativos e experiências de aprendizagem participada." },
-  { slug: "cultura-comunitaria-e-festivais", name: "Cultura comunitária e festivais", description: "Festas de bairro, celebrações de comunidades, festivais interculturais, feiras culturais e iniciativas locais." },
-] as const;
+export { categories } from "./editorial-taxonomy";
 
 export const parishes = [
   ["ajuda", "Ajuda"], ["alcantara", "Alcântara"], ["alvalade", "Alvalade"],
@@ -54,7 +43,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "noticias",
     eyebrow: "NOTÍCIAS",
-    title: "Notícias do Cultura Grátis Lisboa.",
+    title: "Notícias.",
     intro: "Atualizações sobre o projeto e a cultura de Lisboa, com fontes e datas identificadas.",
     sections: [
       { title: "Primeiras notícias", body: ["Ainda não há notícias publicadas nesta secção. Quando houver, cada texto indicará a data e as fontes utilizadas."] },
