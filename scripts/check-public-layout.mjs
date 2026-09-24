@@ -32,7 +32,8 @@ try {
   await mkdir("visual-review", { recursive: true });
   for (const width of [390, 768, 1181, 1280, 1366, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
-    await page.goto(origin, { waitUntil: "networkidle" });
+    await page.goto(origin, { waitUntil: "domcontentloaded", timeout: 30000 });
+    await page.locator(".public-topbar").waitFor({ state: "visible", timeout: 15000 });
     const layout = await page.evaluate(() => {
       const header = document.querySelector(".public-topbar");
       const action = document.querySelector(".public-support-action");
