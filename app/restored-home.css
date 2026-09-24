@@ -707,7 +707,7 @@
 }
 @media (max-width: 780px) {
   .cgl-home-header { height: auto; min-height: 88px; background: var(--paper); }
-  .cgl-home-nav { background: var(--paper); color: var(--charcoal); }
+  .cgl-home-nav { background: var(--paper); color: var(--charcoal); flex-wrap: wrap; justify-content: flex-start; gap: 2px 12px; overflow: visible; }
   .cgl-home-actions { width: auto; margin-left: auto; flex-direction: column; align-items: stretch; }
   .cgl-home-actions > a { margin: 0; text-align: center; }
 }
