@@ -48,7 +48,7 @@ test("home exposes every editorial category in quick filters and avoids em dashe
   const { categories } = await import("../app/editorial-taxonomy.ts");
   const home = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", "/");
   const html = await home.text();
-  const filters = html.match(/<div class="cgl-home-quick-filters"[\\s\\S]*?<\\/div>/)?.[0] ?? "";
+  const filters = html.slice(html.indexOf('class="cgl-home-quick-filters"'), html.indexOf("</div>", html.indexOf('class="cgl-home-quick-filters"')));
   for (const category of categories) {
     assert.ok(filters.includes(encodeURIComponent(category.name)), category.name);
   }
