@@ -698,5 +698,21 @@
   .cgl-support-page-pending { min-height: 190px; }
 }
 /* Wider navigation keeps the two approved new sections readable. */
-@media (min-width: 1121px) and (max-width: 1570px) { .cgl-home-header { grid-template-columns: 1fr auto; } .cgl-home-nav { grid-column: 1 / -1; grid-row: 2; justify-content: center; } }
+/* Keep all desktop navigation inside the same pale header row as the brand and CTAs. */
+@media (min-width: 781px) {
+  .cgl-home-header { grid-template-columns: minmax(205px, 250px) minmax(0, 1fr) minmax(166px, 188px); gap: clamp(12px, 1.5vw, 24px); }
+  .cgl-home-nav { grid-column: 2; grid-row: 1; flex-wrap: wrap; gap: 4px clamp(9px, 1vw, 16px); overflow: visible; justify-content: center; white-space: normal; }
+  .cgl-home-actions { grid-column: 3; grid-row: 1; flex-direction: column; align-items: stretch; gap: 9px; }
+  .cgl-home-actions > a { margin: 0; text-align: center; font-size: .72rem; }
+}
+@media (max-width: 780px) {
+  .cgl-home-header { background: var(--paper); }
+  .cgl-home-nav { background: var(--paper); color: var(--charcoal); }
+  .cgl-home-actions { width: auto; margin-left: auto; flex-direction: column; align-items: stretch; }
+  .cgl-home-actions > a { margin: 0; text-align: center; }
+}
+/* Anchor both decorative orbits to the centre of the emblem. */
+.cgl-home-mark > span { top: 50%; left: 50%; width: min(90%, 580px); transform: translate(-50%, -50%); }
+.cgl-home-mark > span:first-child { transform: translate(-50%, -50%) scale(.72); }
+
 .cgl-home-nav a:focus-visible, .cgl-home-actions a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
