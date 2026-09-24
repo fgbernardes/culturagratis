@@ -1,40 +1,50 @@
 import assert from "node:assert/strict";
-import { spawn } from "node:child_process";
+import { createServer } from "node:http";
+import { readFile } from "node:fs/promises";
+import { resolve, sep } from "node:path";
 import { mkdir } from "node:fs/promises";
 import { chromium } from "playwright";
 
 const origin = "http://127.0.0.1:8787";
-const server = spawn("node", [
-  "node_modules/wrangler/bin/wrangler.js", "dev", "--local",
-  "--ip", "127.0.0.1", "--port", "8787",
-  "--var", "CGL_PRELAUNCH_MODE:false",
-], { stdio: ["ignore", "pipe", "pipe"] });
-let serverOutput = "";
-for (const stream of [server.stdout, server.stderr]) {
-  stream.on("data", (chunk) => { serverOutput = (serverOutput + chunk).slice(-6000); });
+const root = resolve("dist/client");
+const { default: worker } = await import(new URL("../dist/server/index.js", import.meta.url));
+const mime = { ".css": "text/css", ".js": "text/javascript", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2", ".svg": "image/svg+xml" };
+async function asset(request) {
+  const pathname = new URL(request.url).pathname;
+  const file = resolve(root, "." + pathname);
+  if (!file.startsWith(root + sep)) return new Response("Not found", { status: 404 });
+  try {
+    const data = await readFile(file);
+    const ext = file.slice(file.lastIndexOf("."));
+    return new Response(data, { headers: { "content-type": mime[ext] ?? "application/octet-stream" } });
+  } catch { return new Response("Not found", { status: 404 }); }
 }
-async function ready() {
-  for (let attempt = 0; attempt < 60; attempt++) {
-    if (server.exitCode !== null) throw new Error(`Preview exited: ${serverOutput}`);
-    try {
-      const response = await fetch(origin, { signal: AbortSignal.timeout(2000) });
-      if (response.status === 200) return;
-    } catch {}
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+const server = createServer(async (req, res) => {
+  try {
+    const response = await worker.fetch(
+      new Request(new URL(req.url ?? "/", origin), { headers: req.headers }),
+      { CGL_PRELAUNCH_MODE: "false", ASSETS: { fetch: asset } },
+      { waitUntil() {}, passThroughOnException() {} },
+    );
+    res.writeHead(response.status, Object.fromEntries(response.headers));
+    res.end(Buffer.from(await response.arrayBuffer()));
+  } catch (error) {
+    console.error(error);
+    res.writeHead(500);
+    res.end("Preview error");
   }
-  throw new Error(`Preview did not start: ${serverOutput}`);
-}
+});
+await new Promise((resolveReady) => server.listen(8787, "127.0.0.1", resolveReady));
 
 let browser;
 try {
-  await ready();
   browser = await chromium.launch({ headless: true });
   await mkdir("visual-review", { recursive: true });
   for (const width of [390, 768, 1181, 1280, 1366, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
     const response = await page.goto(origin, { waitUntil: "domcontentloaded", timeout: 30000 });
     console.log(`Preview ${width}px: status=${response?.status()} title=${await page.title()} coming=${await page.locator(".cgl-coming").count()} header=${await page.locator(".public-topbar").count()}`);
-    if (!await page.locator(".public-topbar").count()) throw new Error(`Expected launch home: ${(await page.content()).slice(0, 700)}; server=${serverOutput}`);
+    if (!await page.locator(".public-topbar").count()) throw new Error(`Expected launch home: ${(await page.content()).slice(0, 700)}`);
     await page.locator(".public-topbar").waitFor({ state: "visible", timeout: 15000 });
     const layout = await page.evaluate(() => {
       const header = document.querySelector(".public-topbar");
@@ -64,5 +74,5 @@ try {
   }
 } finally {
   if (browser) await browser.close();
-  server.kill("SIGTERM");
+  await new Promise((resolveClose) => server.close(resolveClose));
 }
