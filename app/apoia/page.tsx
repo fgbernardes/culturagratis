@@ -5,7 +5,7 @@ export default function ApoiaPage() {
   return (
     <main className="cgl-support-page">
       <header className="cgl-support-page-header">
-        <Link className="cgl-support-page-brand" href="/" aria-label="Cultura Grátis Lisboa — início">
+        <Link className="cgl-support-page-brand" href="/" aria-label="Cultura Grátis Lisboa. início">
           <img src={cglLogoColor} alt="" width="82" height="82" />
           <span><strong>Cultura Grátis Lisboa</strong><small>Cultura para todos. Lisboa para todos.</small></span>
         </Link>
