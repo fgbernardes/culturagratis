@@ -12,18 +12,24 @@ export function PublicHeader() {
         <Link href="/agenda">Agenda</Link>
         <Link href="/categorias">Categorias</Link>
         <Link href="/freguesias">Freguesias</Link>
+        <Link href="/noticias">Notícias</Link>
+        <Link href="/coletividades">Coletividades</Link>
         <Link href="/sobre">Sobre</Link>
       </nav>
       <div className="public-topbar-actions">
         <PublicSearchLink />
         <Link className="public-topbar-action" href="/submeter-evento">Sugerir evento</Link>
+        <Link className="public-support-action" href="/apoia">Dá-nos uma mãozinha</Link>
         <details className="public-mobile-menu">
           <summary aria-label="Abrir menu"><span /><span /><span /></summary>
           <nav aria-label="Navegação móvel">
             <Link href="/agenda">Agenda</Link>
             <Link href="/categorias">Categorias</Link>
             <Link href="/freguesias">Freguesias</Link>
+            <Link href="/noticias">Notícias</Link>
+            <Link href="/coletividades">Coletividades</Link>
             <Link href="/sobre">Sobre</Link>
+            <Link href="/apoia">Dá-nos uma mãozinha</Link>
             <Link href="/submeter-evento">Sugerir evento</Link>
           </nav>
         </details>
@@ -53,6 +59,9 @@ export function PublicFooter() {
       </div>
       <nav aria-label="Informação do projeto">
         <Link href="/sobre">Sobre</Link>
+        <Link href="/noticias">Notícias</Link>
+        <Link href="/coletividades">Coletividades</Link>
+        <Link href="/apoia">Dá-nos uma mãozinha</Link>
         <Link href="/politica-0-euros">Política dos 0 €</Link>
         <Link href="/contactos">Contactos</Link>
         <Link href="/acesso-52">Acesso 52</Link>
