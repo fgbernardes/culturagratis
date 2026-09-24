@@ -42,6 +42,39 @@ export type EditorialPage = {
 
 export const editorialPages: EditorialPage[] = [
   {
+    slug: "apoia",
+    eyebrow: "APOIAR O PROJETO",
+    title: "Dá-nos uma mãozinha.",
+    intro: "O teu apoio ajuda a manter uma agenda cultural independente e gratuita para quem a consulta.",
+    sections: [
+      { title: "Apoio voluntário", body: ["Apoiar o Cultura Grátis Lisboa é uma escolha tua. Não é uma compra nem uma condição para consultar o site, sugerir uma iniciativa ou receber a newsletter."] },
+      { title: "Como apoiar", body: ["Os meios de apoio serão apresentados aqui assim que as respetivas ligações e condições estiverem confirmadas. Para esclarecer alguma questão, escreve para ola@culturagratis.com."] },
+    ],
+    actions: [{ label: "Escrever ao CGL", href: "mailto:ola@culturagratis.com?subject=Apoiar%20o%20CGL", primary: true }],
+  },
+  {
+    slug: "noticias",
+    eyebrow: "NOTÍCIAS",
+    title: "Notícias do Cultura Grátis Lisboa.",
+    intro: "Atualizações sobre o projeto e a cultura de Lisboa, com fontes e datas identificadas.",
+    sections: [
+      { title: "Primeiras notícias", body: ["Ainda não há notícias publicadas nesta secção. Quando houver, cada texto indicará a data e as fontes utilizadas."] },
+    ],
+    actions: [{ label: "Conhecer o projeto", href: "/sobre", primary: true }],
+  },
+  {
+    slug: "coletividades",
+    eyebrow: "COLETIVIDADES",
+    title: "A cultura também nasce no bairro.",
+    intro: "Uma secção para dar visibilidade a coletividades, associações e espaços comunitários do município de Lisboa.",
+    sections: [
+      { title: "Diretório em preparação", body: ["Ainda não há entidades listadas. As futuras fichas terão identificação, freguesia, contactos públicos e ligações oficiais confirmadas antes da publicação."] },
+      { title: "Tens uma correção?", body: ["Se representas uma coletividade ou encontraste informação desatualizada, escreve para ola@culturagratis.com."] },
+    ],
+    actions: [{ label: "Contactar o CGL", href: "mailto:ola@culturagratis.com?subject=Coletividades", primary: true }],
+  },
+
+  {
     slug: "sobre",
     eyebrow: "O PROJETO",
     title: "Cultura sem barreira económica, com Lisboa por inteiro.",
