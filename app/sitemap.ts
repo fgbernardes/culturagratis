@@ -11,6 +11,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/agenda"), priority: 0.9, changeFrequency: "daily" },
     { url: absoluteUrl("/categorias"), priority: 0.7, changeFrequency: "weekly" },
     { url: absoluteUrl("/freguesias"), priority: 0.7, changeFrequency: "weekly" },
+    { url: absoluteUrl("/sobre"), priority: 0.6, changeFrequency: "monthly" },
+    { url: absoluteUrl("/noticias"), priority: 0.5, changeFrequency: "weekly" },
+    { url: absoluteUrl("/coletividades"), priority: 0.5, changeFrequency: "monthly" },
+    { url: absoluteUrl("/apoia"), priority: 0.4, changeFrequency: "monthly" },
     { url: absoluteUrl("/acesso-52"), priority: 0.6, changeFrequency: "monthly" },
     { url: absoluteUrl("/privacidade"), priority: 0.3, changeFrequency: "yearly" },
   ];
