@@ -24,6 +24,7 @@ test("public editorial sections have working routes and matching navigation", as
     ["/apoia", "Dá-nos uma mãozinha"],
     ["/noticias", "Notícias"],
     ["/coletividades", "A cultura também nasce no bairro"],
+    ["/merchandising", "Brevemente"],
   ]) {
     assert.match(html, new RegExp(`href=["']${path}["']`));
     const response = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", path);
@@ -33,7 +34,7 @@ test("public editorial sections have working routes and matching navigation", as
 });
 
 test("canonical prelaunch host keeps new public sections behind the gate", async () => {
-  for (const path of ["/apoia", "/noticias", "/coletividades"]) {
+  for (const path of ["/apoia", "/noticias", "/coletividades", "/merchandising"]) {
     const response = await render("www.culturagratis.com", path);
     assert.equal(response.status, 404, path);
   }
