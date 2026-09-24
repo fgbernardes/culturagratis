@@ -14,6 +14,7 @@ export function PublicHeader() {
         <Link href="/freguesias">Freguesias</Link>
         <Link href="/noticias">Notícias</Link>
         <Link href="/coletividades">Coletividades</Link>
+        <Link href="/merchandising">Merchandising</Link>
         <Link href="/sobre">Sobre</Link>
       </nav>
       <div className="public-topbar-actions">
@@ -28,6 +29,7 @@ export function PublicHeader() {
             <Link href="/freguesias">Freguesias</Link>
             <Link href="/noticias">Notícias</Link>
             <Link href="/coletividades">Coletividades</Link>
+        <Link href="/merchandising">Merchandising</Link>
             <Link href="/sobre">Sobre</Link>
             <Link href="/apoia">Dá-nos uma mãozinha</Link>
             <Link href="/submeter-evento">Sugerir evento</Link>
@@ -64,6 +66,7 @@ export function PublicFooter() {
         <Link href="/sobre">Sobre</Link>
         <Link href="/noticias">Notícias</Link>
         <Link href="/coletividades">Coletividades</Link>
+        <Link href="/merchandising">Merchandising</Link>
         <Link href="/apoia">Dá-nos uma mãozinha</Link>
         <Link href="/politica-0-euros">Política dos 0 €</Link>
         <Link href="/contactos">Contactos</Link>
