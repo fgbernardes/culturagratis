@@ -19,3 +19,16 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
+      - name: Install browser for layout verification
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Check responsive layout
+        run: node scripts/check-public-layout.mjs
+      - name: Save layout screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-layout-screenshots
+          path: visual-review/
+          if-no-files-found: ignore
