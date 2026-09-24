@@ -133,7 +133,7 @@ export const editorialPages: EditorialPage[] = [
           "Consumo mínimo ou compra obrigatória.",
           "Preço escondido numa fase posterior da reserva.",
           "Pagamento à saída, contribuição obrigatória ou custo indireto necessário.",
-          "Eventos pagos — incluindo os que custam até 5 €.",
+          "Eventos pagos. incluindo os que custam até 5 €.",
         ],
       },
       {
