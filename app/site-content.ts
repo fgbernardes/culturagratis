@@ -36,9 +36,14 @@ export const editorialPages: EditorialPage[] = [
     intro: "O teu apoio ajuda a manter uma agenda cultural independente e gratuita para quem a consulta.",
     sections: [
       { title: "Apoio voluntário", body: ["Apoiar o Cultura Grátis Lisboa é uma escolha tua. Não é uma compra nem uma condição para consultar o site, sugerir uma iniciativa ou receber a newsletter."] },
-      { title: "Como apoiar", body: ["Os meios de apoio serão apresentados aqui assim que as respetivas ligações e condições estiverem confirmadas. Para esclarecer alguma questão, escreve para ola@culturagratis.com."] },
+      { title: "Buy Me a Coffee", body: ["Podes apoiar o projeto através do Buy Me a Coffee. O pagamento é feito na plataforma externa, sem ser processado neste site."] },
+      { title: "Outras formas de apoiar", body: ["Stripe: ligação de pagamento em configuração. MB WAY: QR em preparação. Não é necessário apoiar para consultar o site."] },
+      { title: "Colaborar", body: ["Para propostas de colaboração ou dúvidas, escreve para ola@culturagratis.com."] },
     ],
-    actions: [{ label: "Escrever ao CGL", href: "mailto:ola@culturagratis.com?subject=Apoiar%20o%20CGL", primary: true }],
+    actions: [
+      { label: "Apoiar no Buy Me a Coffee", href: "https://buymeacoffee.com/culturagratislisboa", primary: true },
+      { label: "Escrever ao CGL", href: "mailto:ola@culturagratis.com?subject=Apoiar%20o%20CGL" },
+    ],
   },
   {
     slug: "noticias",
