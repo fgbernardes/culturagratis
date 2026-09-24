@@ -76,6 +76,11 @@ try {
         actionsTop: actions?.getBoundingClientRect().top,
         navBottom: nav?.getBoundingClientRect().bottom,
         headerBottom: header?.getBoundingClientRect().bottom,
+        orbitCenters: [...document.querySelectorAll(".cgl-home-mark > span")].map((ring) => {
+          const box = ring.getBoundingClientRect();
+          const mark = ring.parentElement.getBoundingClientRect();
+          return Math.hypot(box.left + box.width / 2 - (mark.left + mark.width / 2), box.top + box.height / 2 - (mark.top + mark.height / 2));
+        }),
       };
     });
     await page.screenshot({ path: `visual-review/home-${width}.png`, fullPage: true });
@@ -88,6 +93,7 @@ try {
       assert.ok(layout.supportRight <= width - 12, `support CTA touches edge at ${width}`);
     }
     assert.ok(layout.navVisible, `navigation missing at ${width}`);
+    assert.ok(layout.orbitCenters.length === 2 && layout.orbitCenters.every((offset) => offset < 2), `emblem orbits are off-centre at ${width}: ${JSON.stringify(layout)}`);
     assert.ok(layout.navBottom <= layout.headerBottom + 1, `navigation escapes header at ${width}: ${JSON.stringify(layout)}`);
     console.log(`${width}px: ${JSON.stringify(layout)}`);
     await page.close();
