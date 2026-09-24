@@ -11,7 +11,8 @@
     "build": "node scripts/build-verified.mjs",
     "deploy": "npm run build && wrangler deploy --config wrangler.jsonc",
     "start": "vinext start",
-    "test": "npm run build && node --test tests/*.test.mjs",
+    "test": "npm run build && npm run test:only",
+    "test:only": "node --test tests/*.test.mjs",
     "validate:artifact": "node scripts/validate-artifact.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:types": "supabase gen types typescript --project-id vcxhhbrwwltzvytcszpx > db/database.types.ts"
