@@ -1,0 +1,17 @@
+/* Public architecture: keep the prelaunch landing isolated. */
+.public-topbar { position: sticky; top: 0; z-index: 50; grid-template-columns: minmax(170px, 1fr) auto auto; gap: clamp(10px, 1.5vw, 24px); }
+.public-topbar > nav { gap: clamp(10px, 1.3vw, 22px); }
+.public-topbar-actions { flex-wrap: nowrap; }
+.public-support-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 8px; background: var(--sunset); color: var(--charcoal); font-weight: 800; white-space: nowrap; }
+.public-support-action:hover, .public-support-action:focus-visible { background: var(--sun); }
+.public-topbar a:focus-visible, .public-mobile-menu summary:focus-visible, .directory-grid a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
+@media (max-width: 1180px) {
+  .public-topbar { grid-template-columns: 1fr auto; }
+  .public-topbar > nav { display: none; }
+  .public-mobile-menu { display: block; }
+}
+@media (max-width: 720px) {
+  .public-support-action, .public-topbar-action { display: none; }
+  .public-topbar { padding-inline: 16px; }
+  .public-mobile-menu nav { max-height: min(70vh, 560px); overflow-y: auto; }
+}
