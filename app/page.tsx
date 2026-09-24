@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cglLogoColor } from "./brand-assets";
 import { ComingSoonForm } from "./components/coming-soon-form";
-import { PublicFooter, PublicHeader } from "./components/public-chrome";
+import { CglHome } from "./components/cgl-home";
 import { isPrelaunchMode } from "./launch-state";
 
 const socialLinks = [
@@ -74,84 +74,6 @@ function PrelaunchHome() {
   );
 }
 
-function LaunchHome() {
-  return (
-    <main className="editorial-shell directory-shell launch-home-shell">
-      <a className="skip-link" href="#conteudo">Saltar para o conteúdo</a>
-      <PublicHeader />
-      <header className="directory-hero launch-home-hero" id="conteudo">
-        <p>CULTURA GRATUITA EM LISBOA</p>
-        <h1>A cultura de Lisboa vive em toda a cidade</h1>
-        <span>Descobre propostas gratuitas, confirma os detalhes na fonte oficial e escolhe o próximo lugar onde a cidade acontece.</span>
-        <div className="editorial-actions">
-          <Link className="primary" href="/agenda">Explorar a agenda</Link>
-          <Link className="secondary" href="/categorias">Ver categorias</Link>
-        </div>
-      </header>
-      <section className="launch-featured" aria-labelledby="launch-featured-title">
-        <div className="launch-featured-heading">
-          <p>ESCOLHA EDITORIAL</p>
-          <h2 id="launch-featured-title">Em destaque</h2>
-          <span>Quatro escolhas feitas pela equipa editorial. A seleção será publicada quando os dados estiverem confirmados.</span>
-        </div>
-        <div className="launch-featured-grid" aria-hidden="true">
-          {[1, 2, 3, 4].map((slot) => (
-            <div className="launch-featured-slot" key={slot}>
-              <small>{String(slot).padStart(2, "0")}</small>
-              <strong>Em preparação</strong>
-            </div>
-          ))}
-        </div>
-      </section>
-      <section className="launch-discovery" aria-labelledby="launch-discovery-title">
-        <div>
-          <p className="launch-section-kicker">ESCOLHE O TEU PLANO</p>
-          <h2 id="launch-discovery-title">Explora por categoria</h2>
-          <p>Música, exposições, teatro, cultura comunitária e outras formas de viver Lisboa.</p>
-          <Link href="/categorias">Ver todas as categorias →</Link>
-        </div>
-        <div>
-          <p className="launch-section-kicker">GRÁTIS, MAS EXPLICADO</p>
-          <h2>Sem asteriscos escondidos</h2>
-          <p>Entrada livre, reserva gratuita ou levantamento: sabe o que cada condição significa antes de sair de casa.</p>
-          <Link href="/politica-0-euros">Ler a política dos 0 € →</Link>
-        </div>
-      </section>
-      <div className="launch-section-intro">
-        <p className="launch-section-kicker">LISBOA É O PALCO</p>
-        <h2>Quatro caminhos para começar</h2>
-      </div>
-      <section className="directory-grid launch-home-grid" aria-label="Quatro caminhos para descobrir Lisboa">
-        <Link href="/agenda">
-          <small>01</small>
-          <h2>Agenda cultural</h2>
-          <p>Pesquisa eventos gratuitos por data, categoria ou freguesia.</p>
-          <span>Ver a agenda →</span>
-        </Link>
-        <Link href="/freguesias">
-          <small>02</small>
-          <h2>Lisboa, freguesia a freguesia</h2>
-          <p>Encontra cultura perto de ti nas 24 freguesias do município.</p>
-          <span>Explorar freguesias →</span>
-        </Link>
-        <Link href="/noticias">
-          <small>03</small>
-          <h2>Notícias</h2>
-          <p>Atualizações do projeto e da vida cultural da cidade, com informação confirmada.</p>
-          <span>Ver notícias →</span>
-        </Link>
-        <Link href="/coletividades">
-          <small>04</small>
-          <h2>Coletividades</h2>
-          <p>Associações e espaços comunitários fazem cultura em toda a Lisboa.</p>
-          <span>Conhecer a secção →</span>
-        </Link>
-      </section>
-      <PublicFooter />
-    </main>
-  );
-}
-
 export default function Home() {
-  return isPrelaunchMode() ? <PrelaunchHome /> : <LaunchHome />;
+  return isPrelaunchMode() ? <PrelaunchHome /> : <CglHome />;
 }
