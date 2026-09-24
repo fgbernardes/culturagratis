@@ -68,6 +68,15 @@ export const editorialPages: EditorialPage[] = [
   },
 
   {
+    slug: "merchandising",
+    eyebrow: "MERCHANDISING",
+    title: "Merchandising",
+    intro: "Brevemente",
+    sections: [
+      { title: "Estamos a preparar esta secção", body: ["As novidades do Cultura Grátis Lisboa serão apresentadas aqui quando estiverem prontas."] },
+    ],
+  },
+  {
     slug: "sobre",
     eyebrow: "O PROJETO",
     title: "Cultura sem barreira económica, com Lisboa por inteiro",
