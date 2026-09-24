@@ -5,7 +5,7 @@ import { cglLogoColor } from "../brand-assets";
 import { pageMetadata } from "../site-config";
 
 export const metadata: Metadata = pageMetadata(
-  "Acesso 52 — 52 dias gratuitos em museus e monumentos de Lisboa",
+  "Acesso 52: 52 dias gratuitos em museus e monumentos de Lisboa",
   "Guia CGL para residentes em Portugal usarem os 52 dias anuais de entrada gratuita em museus, monumentos e palácios abrangidos.",
   "/acesso-52",
 );
@@ -16,7 +16,7 @@ const lisbonPlaces = [
   "Museu de Arte Popular",
   "Museu Nacional de Arqueologia",
   "Museu Nacional de Arte Antiga",
-  "Museu Nacional de Arte Contemporânea — Museu do Chiado",
+  "Museu Nacional de Arte Contemporânea (Museu do Chiado)",
   "Museu Nacional de Etnologia",
   "Museu Nacional do Azulejo",
   "Museu Nacional do Teatro e da Dança",
@@ -32,7 +32,7 @@ export default function Access52Page() {
     <main className="subpage-shell access52-lab" id="conteudo">
       <a className="skip-link" href="#como-funciona">Saltar para as condições</a>
       <header className="subpage-header">
-        <Link className="subpage-brand" href="/" aria-label="Cultura Grátis Lisboa — início">
+        <Link className="subpage-brand" href="/" aria-label="Cultura Grátis Lisboa: início">
           <img src={cglLogoColor} alt="" width="58" height="58" />
           <span>Cultura Grátis Lisboa</span>
         </Link>
@@ -43,7 +43,7 @@ export default function Access52Page() {
         <div>
           <p className="section-index">GUIA CGL · RESIDENTES EM PORTUGAL</p>
           <h1>Acesso 52</h1>
-          <p>Escolhe 52 dias por ano para entrar gratuitamente nos museus, monumentos e palácios nacionais abrangidos — em qualquer dia da semana.</p>
+          <p>Escolhe 52 dias por ano para entrar gratuitamente nos museus, monumentos e palácios nacionais abrangidos, em qualquer dia da semana.</p>
         </div>
         <div className="access52-hero-badge">
           <Access52Badge variant="full" size={220} />
