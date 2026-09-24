@@ -5,7 +5,7 @@ import { parishes } from "../site-content";
 import { pageMetadata } from "../site-config";
 
 export const metadata: Metadata = pageMetadata(
-  "Freguesias — Cultura Grátis Lisboa",
+  "Freguesias: Cultura Grátis Lisboa",
   "Explora cultura gratuita nas 24 freguesias oficiais do município de Lisboa.",
   "/freguesias",
 );
