@@ -55,7 +55,8 @@ export function PublicFooter() {
     <footer className="public-footer">
       <div className="public-footer-brand">
         <Link href="/" aria-label="Cultura Grátis Lisboa, início">
-          <img src="/cgl-logos/com-lettering-negativo.png" alt="Cultura Grátis Lisboa" width="168" height="76" />
+          <img src={cglEmblemColor} alt="" width="58" height="58" />
+          <strong>Cultura Grátis<br />Lisboa</strong>
         </Link>
         <span>Informação independente, verificada e sem barreira económica.</span>
       </div>
