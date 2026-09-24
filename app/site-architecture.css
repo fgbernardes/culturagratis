@@ -38,3 +38,16 @@
   .public-footer-contact { grid-column: auto; }
   .public-footer nav { justify-content: flex-start; }
 }
+
+/* Four editorial positions; their contents await Filipe's manual selection. */
+.launch-featured { padding: clamp(48px, 6vw, 90px) clamp(24px, 7vw, 108px); background: #fffdf8; }
+.launch-featured-heading { max-width: 710px; }
+.launch-featured-heading p { margin: 0 0 12px; color: #8a4b00; font-size: .8rem; font-weight: 800; letter-spacing: .14em; }
+.launch-featured-heading h2 { margin: 0 0 16px; font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5.8rem); letter-spacing: -.055em; line-height: .94; }
+.launch-featured-heading span { color: var(--muted); line-height: 1.55; }
+.launch-featured-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 34px; }
+.launch-featured-slot { min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; border: 1px solid #d9d1c5; background: linear-gradient(135deg, #fff1db, #fffaf1 60%, #dde9e6); }
+.launch-featured-slot small { color: #8a4b00; font-weight: 850; }
+.launch-featured-slot strong { font-family: var(--font-display); font-size: clamp(1.4rem, 2.2vw, 2.2rem); line-height: 1; }
+@media (max-width: 980px) { .launch-featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .launch-featured-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .launch-featured-slot { min-height: 150px; padding: 14px; } }
