@@ -41,8 +41,13 @@ test("a home integral só aparece fora do hostname de pré-lançamento", () => {
   const page = read("app/page.tsx");
   assert.match(page, /isPrelaunchMode/);
   assert.match(page, /ComingSoonForm/);
-  assert.match(page, /PublicHeader/);
-  assert.match(page, /PublicFooter/);
+  assert.match(page, /CglHome/);
+  const home = read("app/components/cgl-home.tsx");
+  assert.match(home, /cgl-home-header/);
+  assert.match(home, /cgl-home-footer/);
+  assert.match(home, /href="\/apoia"/);
+  assert.match(home, /href="\/noticias"/);
+  assert.match(home, /href="\/coletividades"/);
   assert.match(page, /isPrelaunchMode\(\)\s*\?/);
   assert.match(page, /href=\"\/agenda\"/);
 });
