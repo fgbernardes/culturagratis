@@ -4,6 +4,7 @@ import { isPrelaunchMode } from "./launch-state";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
+import "./site-architecture.css";
 
 export function generateMetadata(): Metadata {
   return {
