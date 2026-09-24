@@ -18,3 +18,23 @@
   .public-topbar { padding-inline: 16px; }
   .public-mobile-menu nav { max-height: min(70vh, 560px); overflow-y: auto; }
 }
+
+/* Compact public footer with the official negative logo. */
+.public-footer { min-height: 0; display: grid; grid-template-columns: minmax(170px, .8fr) minmax(320px, 1.6fr) minmax(210px, .9fr); align-items: start; gap: clamp(20px, 3vw, 48px); padding-block: 36px; }
+.public-footer-brand { max-width: 240px; }
+.public-footer-brand img { display: block; width: 168px; height: auto; object-fit: contain; }
+.public-footer-brand > span { font-size: .82rem; }
+.public-footer-contact { align-items: flex-end; text-align: right; }
+.public-footer-contact > a { font-weight: 750; overflow-wrap: anywhere; }
+.public-footer-contact nav { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 4px 12px; font-size: .76rem; }
+.public-footer-contact nav a { min-height: 36px; display: inline-flex; align-items: center; }
+@media (max-width: 1000px) {
+  .public-footer { grid-template-columns: 1fr 1fr; }
+  .public-footer-contact { grid-column: 1 / -1; align-items: flex-start; text-align: left; }
+  .public-footer-contact nav { justify-content: flex-start; }
+}
+@media (max-width: 640px) {
+  .public-footer { grid-template-columns: 1fr; gap: 24px; }
+  .public-footer-contact { grid-column: auto; }
+  .public-footer nav { justify-content: flex-start; }
+}
