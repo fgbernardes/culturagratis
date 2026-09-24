@@ -706,7 +706,7 @@
   .cgl-home-actions > a { margin: 0; text-align: center; font-size: .72rem; }
 }
 @media (max-width: 780px) {
-  .cgl-home-header { background: var(--paper); }
+  .cgl-home-header { height: auto; min-height: 88px; background: var(--paper); }
   .cgl-home-nav { background: var(--paper); color: var(--charcoal); }
   .cgl-home-actions { width: auto; margin-left: auto; flex-direction: column; align-items: stretch; }
   .cgl-home-actions > a { margin: 0; text-align: center; }
@@ -716,3 +716,5 @@
 .cgl-home-mark > span:first-child { transform: translate(-50%, -50%) scale(.72); }
 
 .cgl-home-nav a:focus-visible, .cgl-home-actions a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
+
+@media (max-width: 520px) { .cgl-home-brand span { display: none; } }
