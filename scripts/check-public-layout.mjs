@@ -61,6 +61,8 @@ try {
       const action = document.querySelector(".cgl-home-support-link");
       const brand = document.querySelector(".cgl-home-brand strong");
       const nav = header?.querySelector(":scope > nav");
+      const brandLink = header?.querySelector(".cgl-home-brand");
+      const actions = header?.querySelector(".cgl-home-actions");
       return {
         scrollWidth: document.documentElement.scrollWidth,
         viewport: innerWidth,
@@ -69,6 +71,11 @@ try {
         supportVisible: action ? getComputedStyle(action).display !== "none" : false,
         brandHeight: brand?.getBoundingClientRect().height,
         navVisible: nav ? getComputedStyle(nav).display !== "none" : false,
+        navTop: nav?.getBoundingClientRect().top,
+        brandTop: brandLink?.getBoundingClientRect().top,
+        actionsTop: actions?.getBoundingClientRect().top,
+        navBottom: nav?.getBoundingClientRect().bottom,
+        headerBottom: header?.getBoundingClientRect().bottom,
       };
     });
     await page.screenshot({ path: `visual-review/home-${width}.png`, fullPage: true });
@@ -76,9 +83,12 @@ try {
     assert.ok(layout.headerHeight <= 200, `header overflows at ${width}: ${JSON.stringify(layout)}`);
     if (width > 780) {
       assert.ok(layout.supportVisible, `support CTA missing at ${width}`);
+      assert.ok(Math.abs(layout.navTop - layout.brandTop) < 80, `navigation is below the brand at ${width}: ${JSON.stringify(layout)}`);
+      assert.ok(Math.abs(layout.actionsTop - layout.brandTop) < 80, `actions are below the brand at ${width}: ${JSON.stringify(layout)}`);
       assert.ok(layout.supportRight <= width - 12, `support CTA touches edge at ${width}`);
     }
     assert.ok(layout.navVisible, `navigation missing at ${width}`);
+    assert.ok(layout.navBottom <= layout.headerBottom + 1, `navigation escapes header at ${width}: ${JSON.stringify(layout)}`);
     console.log(`${width}px: ${JSON.stringify(layout)}`);
     await page.close();
   }
