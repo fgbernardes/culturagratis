@@ -81,7 +81,7 @@ function LaunchHome() {
       <PublicHeader />
       <header className="directory-hero launch-home-hero" id="conteudo">
         <p>CULTURA GRATUITA EM LISBOA</p>
-        <h1>A cultura de Lisboa vive em toda a cidade.</h1>
+        <h1>A cultura de Lisboa vive em toda a cidade</h1>
         <span>Descobre propostas gratuitas, confirma os detalhes na fonte oficial e escolhe o próximo lugar onde a cidade acontece.</span>
         <div className="editorial-actions">
           <Link className="primary" href="/agenda">Explorar a agenda</Link>
