@@ -5,7 +5,7 @@ import { categories } from "../site-content";
 import { pageMetadata } from "../site-config";
 
 export const metadata: Metadata = pageMetadata(
-  "Categorias — Cultura Grátis Lisboa",
+  "Categorias: Cultura Grátis Lisboa",
   "Explora a agenda cultural gratuita de Lisboa por dez categorias editoriais.",
   "/categorias",
 );
