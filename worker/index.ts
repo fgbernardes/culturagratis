@@ -2,9 +2,11 @@
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
 import { isCanonicalPrelaunchHost, isPrelaunchMode, isPrelaunchRequestAllowed } from "./prelaunch";
+import { applySecurityHeaders } from "./security-headers";
+import { runWithRuntimeEnv } from "../app/runtime-env";
 
 interface Env {
-  ASSETS: Fetcher;
+  ASSETS: { fetch(request: Request): Promise<Response> };
   CGL_ADMIN_EMAILS?: string;
   CGL_PRELAUNCH_MODE?: string;
   SUPABASE_URL?: string;
@@ -43,29 +45,36 @@ const worker = {
     const effectiveEnv: Env = isCanonicalPrelaunchHost(url.hostname)
       ? { ...env, CGL_PRELAUNCH_MODE: "true" }
       : env;
+    // Recurso só para código que corra fora do contexto do pedido. Sem o
+    // interruptor de lançamento, falha para o lado seguro (pré-lançamento).
     const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
-    runtime.__CGL_ENV = effectiveEnv;
+    runtime.__CGL_ENV = { ...env, CGL_PRELAUNCH_MODE: undefined };
 
-    if (isPrelaunchMode(effectiveEnv) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
-      return new Response("Not found", {
-        status: 404,
-        headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
-      });
-    }
-
-    if (url.pathname === "/_vinext/image") {
-      const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
-      return handleImageOptimization(request, {
-        fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
-        transformImage: async (body, { width, format, quality }) => {
-          const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
-          return result.response();
-        },
-      }, allowedWidths);
-    }
-
-    return handler.fetch(request, env, ctx);
+    const response = await runWithRuntimeEnv(effectiveEnv, () => handle(request, url, env, effectiveEnv, ctx));
+    return applySecurityHeaders(response, url);
   },
 };
+
+async function handle(request: Request, url: URL, env: Env, effectiveEnv: Env, ctx: ExecutionContext): Promise<Response> {
+  if (isPrelaunchMode(effectiveEnv) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
+    return new Response("Not found", {
+      status: 404,
+      headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
+    });
+  }
+
+  if (url.pathname === "/_vinext/image") {
+    const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
+    return handleImageOptimization(request, {
+      fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
+      transformImage: async (body, { width, format, quality }) => {
+        const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
+        return result.response();
+      },
+    }, allowedWidths);
+  }
+
+  return handler.fetch(request, effectiveEnv, ctx);
+}
 
 export default worker;

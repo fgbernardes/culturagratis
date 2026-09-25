@@ -72,11 +72,30 @@ export async function createEvent(input: Omit<EventRecord, "id" | "createdAt" | 
   return mapEvent(unwrapSupabase(result) as EventRow);
 }
 
+export class EventTransitionError extends Error {}
+
+const PUBLISHABLE_FROM: EventStatus[] = ["verified", "published"];
+
 export async function updateEventStatus(id: string, status: EventStatus, verifiedBy: string) {
-  const verifiedAt = ["verified", "published", "rejected"].includes(status) ? new Date().toISOString() : null;
-  const result = await createSupabaseAdminClient().from("events").update({
-    status, verified_at: verifiedAt, verified_by: verifiedAt ? verifiedBy : null,
-    updated_at: new Date().toISOString(),
+  const client = createSupabaseAdminClient();
+  const current = unwrapSupabase(await client.from("events").select("status").eq("id", id).single()) as { status: EventStatus };
+
+  // Só se publica o que já foi verificado. Publicar de novo um evento publicado
+  // é a ação "Renovar verificação" do backoffice.
+  if (status === "published" && !PUBLISHABLE_FROM.includes(current.status)) {
+    throw new EventTransitionError("Marca o evento como verificado antes de o publicar.");
+  }
+
+  const now = new Date().toISOString();
+  const verification = ["verified", "published", "rejected"].includes(status)
+    ? { verified_at: now, verified_by: verifiedBy }
+    // Arquivar preserva o registo da última verificação.
+    : status === "archived" ? {}
+    // Voltar a candidato ou verificação obriga a verificar de novo.
+    : { verified_at: null, verified_by: null };
+
+  const result = await client.from("events").update({
+    status, ...verification, updated_at: now,
   }).eq("id", id).select(EVENT_SELECT).single();
   return mapEvent(unwrapSupabase(result) as EventRow);
 }

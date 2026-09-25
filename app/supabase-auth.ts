@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { requireRuntimeValue } from "./runtime-env";
+import { safeReturnPath } from "./safe-return-path";
 
 export type SupabaseUser = {
   displayName: string;
@@ -52,8 +53,4 @@ export async function requireSupabaseUser(returnTo: string): Promise<SupabaseUse
 export async function signOutSupabaseUser() {
   const client = await createRequestClient();
   await client.auth.signOut();
-}
-
-function safeReturnPath(value: string) {
-  return value.startsWith("/") && !value.startsWith("//") ? value : "/admin";
 }

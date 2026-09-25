@@ -1,12 +1,9 @@
+import { getRuntimeEnv } from "../../runtime-env";
+import { verifyTurnstile } from "../../turnstile";
+
 export const dynamic = "force-dynamic";
 
 const CONSENT_VERSION = "v1.3";
-type RuntimeEnv = { BREVO_API_KEY?: string; BREVO_DOI_TEMPLATE_ID?: string; BREVO_CONTACT_LIST_ID?: string; BREVO_DOI_REDIRECT_URL?: string; TURNSTILE_SECRET_KEY?: string; TURNSTILE_EXPECTED_HOSTNAME?: string; };
-
-function runtimeEnv(): RuntimeEnv {
-  const runtime = globalThis as typeof globalThis & { __CGL_ENV?: RuntimeEnv };
-  return runtime.__CGL_ENV ?? {};
-}
 
 export async function POST(request: Request) {
   try {
@@ -22,7 +19,7 @@ export async function POST(request: Request) {
     if (payload.consent !== true || payload.consentVersion !== CONSENT_VERSION) return Response.json({ error: "Precisamos da tua autorização para te podermos escrever." }, { status: 400 });
     if (!token) return Response.json({ error: "Confirma a proteção do formulário antes de continuares." }, { status: 400 });
 
-    const env = runtimeEnv();
+    const env = getRuntimeEnv();
     const listId = Number(env.BREVO_CONTACT_LIST_ID);
     const templateId = Number(env.BREVO_DOI_TEMPLATE_ID);
     if (!env.TURNSTILE_SECRET_KEY || !env.BREVO_API_KEY || !Number.isInteger(listId) || !Number.isInteger(templateId) || !env.BREVO_DOI_REDIRECT_URL) throw new Error("A subscrição ainda não está configurada.");
@@ -39,16 +36,6 @@ export async function POST(request: Request) {
     console.error("newsletter_signup_failed", error);
     return Response.json({ error: "Não conseguimos registar o teu email agora. Tenta daqui a pouco." }, { status: 500 });
   }
-}
-
-async function verifyTurnstile(token: string, request: Request, env: RuntimeEnv) {
-  const form = new FormData();
-  form.set("secret", env.TURNSTILE_SECRET_KEY!); form.set("response", token);
-  const forwarded = request.headers.get("cf-connecting-ip");
-  if (forwarded) form.set("remoteip", forwarded);
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
-  const result = await response.json() as { success?: boolean; hostname?: string };
-  return result.success === true && (!env.TURNSTILE_EXPECTED_HOSTNAME || result.hostname === env.TURNSTILE_EXPECTED_HOSTNAME);
 }
 
 function isEmail(value: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value); }

@@ -3,10 +3,11 @@
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { categories, parishes } from "../site-content";
+import { useTurnstile } from "./use-turnstile";
 
-type SubmissionFormProps = { kind: "event" | "correction" };
+type SubmissionFormProps = { kind: "event" | "correction"; siteKey: string };
 
-export default function SubmissionForm({ kind }: SubmissionFormProps) {
+export default function SubmissionForm({ kind, siteKey }: SubmissionFormProps) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
@@ -14,26 +15,36 @@ export default function SubmissionForm({ kind }: SubmissionFormProps) {
   const [dateMode, setDateMode] = useState<"single" | "range">("single");
   const [timeMode, setTimeMode] = useState<"single" | "range">("single");
   const isEvent = kind === "event";
+  const { attachContainer: attachTurnstile, token: turnstileToken, failed: turnstileFailed, reset: resetTurnstile } = useTurnstile(siteKey);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
-    setBusy(true); setError(""); setReference("");
+    setError(""); setReference("");
+    if (!turnstileToken) { setError("Confirma a proteção do formulário antes de enviares."); return; }
+    setBusy(true);
     const entries = Object.fromEntries(new FormData(form).entries());
-    const response = await fetch("/api/submissoes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...entries,
-        kind,
-        privacyAccepted: entries.privacyAccepted === "yes",
-      }),
-    });
-    const result = await response.json() as { error?: string; reference?: string };
-    setBusy(false);
-    if (!response.ok) { setError(result.error ?? "Não foi possível enviar."); return; }
-    form.reset();
-    setReference(result.reference ?? "CGL");
+    try {
+      const response = await fetch("/api/submissoes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...entries,
+          kind,
+          privacyAccepted: entries.privacyAccepted === "yes",
+          turnstileToken: turnstileToken,
+        }),
+      });
+      const result = await response.json().catch(() => ({})) as { error?: string; reference?: string };
+      if (!response.ok) { setError(result.error ?? "Não foi possível enviar."); return; }
+      form.reset();
+      setReference(result.reference ?? "CGL");
+    } catch {
+      setError("Não foi possível enviar agora. Tenta novamente dentro de alguns minutos.");
+    } finally {
+      setBusy(false);
+      resetTurnstile();
+    }
   }
 
   if (reference) {
@@ -122,8 +133,11 @@ export default function SubmissionForm({ kind }: SubmissionFormProps) {
 
           <label className="form-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
           <label className="form-consent form-span-2"><input name="privacyAccepted" type="checkbox" value="yes" required /><span>Li a <Link href="/privacidade" target="_blank">Política de Privacidade</Link> e compreendo que estes dados serão usados apenas para analisar e responder a esta submissão. *</span></label>
+          <div ref={attachTurnstile} className="form-turnstile form-span-2" aria-label="Proteção contra envios automáticos" />
+          {!siteKey ? <p className="form-error form-span-2" role="alert">O formulário está temporariamente indisponível.</p> : null}
+          {turnstileFailed ? <p className="form-error form-span-2" role="alert">Não foi possível carregar a proteção do formulário. Atualiza a página e tenta novamente.</p> : null}
           <div className="form-submit form-span-2">
-            <button type="submit" disabled={busy}>{busy ? "A enviar…" : isEvent ? "Enviar sugestão" : "Enviar correção"}</button>
+            <button type="submit" disabled={busy || !siteKey}>{busy ? "A enviar…" : isEvent ? "Enviar sugestão" : "Enviar correção"}</button>
             <p className="form-error" role="alert">{error}</p>
           </div>
         </> : <p className="form-path-prompt form-span-2">Escolhe uma das opções para continuar.</p>}

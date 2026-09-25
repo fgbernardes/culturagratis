@@ -5,8 +5,12 @@ import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import SubmissionForm from "../components/submission-form";
 import { editorialPages, getEditorialPage } from "../site-content";
 import { pageMetadata } from "../site-config";
+import { getRuntimeEnv } from "../runtime-env";
 
 type PageProps = { params: Promise<{ slug: string }> };
+
+// Os formulários precisam da chave Turnstile do ambiente de execução.
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return editorialPages.map(({ slug }) => ({ slug }));
@@ -59,8 +63,8 @@ export default async function EditorialPageRoute({ params }: PageProps) {
               ))}
             </div>
           ) : null}
-          {page.slug === "submeter-evento" ? <SubmissionForm kind="event" /> : null}
-          {page.slug === "corrigir-informacao" ? <SubmissionForm kind="correction" /> : null}
+          {page.slug === "submeter-evento" ? <SubmissionForm kind="event" siteKey={getRuntimeEnv().TURNSTILE_SITE_KEY ?? ""} /> : null}
+          {page.slug === "corrigir-informacao" ? <SubmissionForm kind="correction" siteKey={getRuntimeEnv().TURNSTILE_SITE_KEY ?? ""} /> : null}
         </div>
       </article>
       {isLaunchPrivacyPage ? null : <PublicFooter />}

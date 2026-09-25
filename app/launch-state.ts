@@ -1,6 +1,5 @@
-type RuntimeEnv = { CGL_PRELAUNCH_MODE?: string };
+import { getRuntimeEnv } from "./runtime-env";
 
 export function isPrelaunchMode() {
-  const runtime = globalThis as typeof globalThis & { __CGL_ENV?: RuntimeEnv };
-  return runtime.__CGL_ENV?.CGL_PRELAUNCH_MODE !== "false";
+  return getRuntimeEnv().CGL_PRELAUNCH_MODE !== "false";
 }

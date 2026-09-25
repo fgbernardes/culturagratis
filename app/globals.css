@@ -755,6 +755,7 @@ summary:focus-visible {
 .form-submit { display: flex; align-items: center; gap: 18px; }
 .form-submit button { min-height: 50px; padding: 12px 22px; border: 1px solid var(--charcoal); border-radius: 8px; background: var(--charcoal); color: #fff; font-weight: 800; cursor: pointer; }
 .form-submit button:disabled { opacity: .55; cursor: wait; }
+.form-turnstile { min-height: 65px; }
 .form-error { margin: 0 !important; color: #9f1239 !important; font-weight: 700; }
 .form-honeypot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .public-form-success { display: grid; grid-template-columns: 68px 1fr; gap: 24px; margin-top: 52px; padding: clamp(28px, 5vw, 48px); border: 1px solid var(--charcoal); border-radius: 12px; background: #e5f4e9; }

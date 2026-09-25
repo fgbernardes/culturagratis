@@ -1,4 +1,6 @@
 import { createSubmission, type SubmissionKind } from "../../../db/submissions";
+import { getRuntimeEnv } from "../../runtime-env";
+import { verifyTurnstile } from "../../turnstile";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,12 @@ export async function POST(request: Request) {
 
     const payload = await request.json() as Record<string, unknown>;
     if (clean(payload.website, 120)) return Response.json({ received: true }, { status: 201 });
+
+    const token = typeof payload.turnstileToken === "string" ? payload.turnstileToken : "";
+    if (!token) return Response.json({ error: "Confirma a proteção do formulário antes de enviares." }, { status: 400 });
+    if (!await verifyTurnstile(token, request, getRuntimeEnv())) {
+      return Response.json({ error: "Não foi possível validar a proteção do formulário. Atualiza a página e tenta novamente." }, { status: 400 });
+    }
 
     const kind = clean(payload.kind, 20) as SubmissionKind;
     const name = clean(payload.name, 120);

@@ -3,6 +3,7 @@ import { cglLogoColor } from "./brand-assets";
 import { ComingSoonForm } from "./components/coming-soon-form";
 import { PublicFooter, PublicHeader } from "./components/public-chrome";
 import { isPrelaunchMode } from "./launch-state";
+import { getRuntimeEnv } from "./runtime-env";
 
 const socialLinks = [
   { label: "Facebook", href: "https://www.facebook.com/CulturaGratisLisboa", icon: "facebook" },
@@ -26,8 +27,7 @@ function SocialIcon({ name }: { name: (typeof socialLinks)[number]["icon"] }) {
 export const dynamic = "force-dynamic";
 
 function turnstileSiteKey() {
-  const runtime = globalThis as typeof globalThis & { __CGL_ENV?: { TURNSTILE_SITE_KEY?: string } };
-  return runtime.__CGL_ENV?.TURNSTILE_SITE_KEY ?? "";
+  return getRuntimeEnv().TURNSTILE_SITE_KEY ?? "";
 }
 
 function PrelaunchHome() {

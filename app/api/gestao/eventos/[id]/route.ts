@@ -1,5 +1,5 @@
 import { getAdminApiUser } from "../../../../admin-auth";
-import { updateEventAccess52, updateEventStatus, type EventStatus } from "../../../../../db/events";
+import { EventTransitionError, updateEventAccess52, updateEventStatus, type EventStatus } from "../../../../../db/events";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +21,8 @@ export async function PATCH(request: Request, { params }: RouteProps) {
       ? await updateEventAccess52(id, payload.access52)
       : await updateEventStatus(id, payload.status as EventStatus, user.email);
     return Response.json({ event });
-  } catch {
+  } catch (error) {
+    if (error instanceof EventTransitionError) return Response.json({ error: error.message }, { status: 409 });
     return Response.json({ error: "Não foi possível atualizar o estado." }, { status: 500 });
   }
 }
