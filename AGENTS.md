@@ -20,8 +20,10 @@ Todos os agentes leem este ficheiro antes de começar e atualizam-no quando muda
   da aplicação.
 - `npm run test:only` corre os testes sem compilar. Só é fiável se `dist/` estiver atualizado.
 - Os testes usam `node:test` e ficam em `tests/*.test.mjs`.
-- Só `rendered-html.test.mjs` e `independent-architecture.test.mjs` leem `dist/`; os restantes
-  leem o código-fonte.
+- Leem `dist/` (precisam de compilação atualizada): `rendered-html`, `independent-architecture`,
+  `prelaunch-concurrency`, `preview-indexing` e `site-sections`. Os restantes leem o código-fonte.
+- Testes que usam o Worker compilado importam-no uma vez por ficheiro (no topo ou num `before()`),
+  nunca dentro de cada teste.
 
 ### `tests/rendered-html.test.mjs`
 
@@ -37,4 +39,4 @@ Todos os agentes leem este ficheiro antes de começar e atualizam-no quando muda
 
 - **2026-09-24 · Claude Code · PR fgbernardes/culturagratis#9 (`claude/slowest-test-analysis-3vtuq4`):** `rendered-html`
   passou a importar o Worker uma vez (ficheiro de ~780 ms para ~490 ms); novo `npm run test:only`.
-  Pendente: integração do PR pelo Filipe.
+  `main` juntada a 2026-09-26 (38/38 testes passam). Pendente: integração do PR pelo Filipe.
