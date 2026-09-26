@@ -265,8 +265,8 @@ export default function AgendaPage() {
           ) : null}
           {!loading && !loadError && visibleEvents.length === 0 ? (
             <div className="empty-state" role="status">
-              <strong>Nada por aqui — ainda.</strong>
-              <p>Experimenta outra palavra, outra data ou limpa os filtros.</p>
+              <strong>{hasFilters ? "Não encontrámos propostas com estes filtros." : "A agenda está a ser preparada."}</strong>
+              <p>{hasFilters ? "Experimenta outra palavra, data ou freguesia." : "Estamos a reunir as primeiras propostas para publicação."}</p>
               {hasFilters ? <button className="empty-state-action" type="button" onClick={clearFilters}>Mostrar toda a agenda</button> : null}
             </div>
           ) : null}

@@ -5,7 +5,7 @@ import { parishes } from "../site-content";
 import { pageMetadata } from "../site-config";
 
 export const metadata: Metadata = pageMetadata(
-  "Freguesias — Cultura Grátis Lisboa",
+  "Freguesias: Cultura Grátis Lisboa",
   "Explora cultura gratuita nas 24 freguesias oficiais do município de Lisboa.",
   "/freguesias",
 );
@@ -17,7 +17,7 @@ export default function ParishesPage() {
       <PublicHeader />
       <header className="directory-hero parish-directory-hero" id="conteudo">
         <p>LISBOA · 24 FREGUESIAS</p><h1>A cidade, freguesia a freguesia.</h1>
-        <span>No MVP, a freguesia oficial é o único filtro geográfico público.</span>
+        <span>Escolhe uma das 24 freguesias de Lisboa para descobrir as propostas culturais publicadas nessa zona.</span>
       </header>
       <section className="parish-directory" aria-label="Freguesias de Lisboa">
         {parishes.map(([slug, name], index) => (

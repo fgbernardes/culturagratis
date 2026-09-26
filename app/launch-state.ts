@@ -1,6 +1,12 @@
-type RuntimeEnv = { CGL_PRELAUNCH_MODE?: string };
+import { headers } from "next/headers";
 
-export function isPrelaunchMode() {
-  const runtime = globalThis as typeof globalThis & { __CGL_ENV?: RuntimeEnv };
-  return runtime.__CGL_ENV?.CGL_PRELAUNCH_MODE !== "false";
+// The Worker overwrites this header for each request before passing it to vinext.
+// A missing header keeps local development in prelaunch mode.
+export async function isPrelaunchMode() {
+  return (await headers()).get("x-cgl-prelaunch-mode") !== "false";
+}
+
+// The Worker overwrites this request header, so visitors cannot select the preview mode.
+export async function isPreviewHost() {
+  return (await headers()).get("x-cgl-preview-host") === "true";
 }

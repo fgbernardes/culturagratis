@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./site-config";
-import { isPrelaunchMode } from "./launch-state";
+import { isPrelaunchMode, isPreviewHost } from "./launch-state";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
+import "./site-architecture.css";
+import "./restored-home.css";
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
   return {
   title: SITE_NAME,
   description: SITE_DESCRIPTION,
@@ -14,7 +16,7 @@ export function generateMetadata(): Metadata {
   category: "Cultura",
   keywords: ["cultura grátis Lisboa", "eventos gratuitos Lisboa", "agenda cultural Lisboa", "entrada livre Lisboa"],
   alternates: { canonical: "/" },
-  robots: isPrelaunchMode()
+  robots: ((await isPrelaunchMode()) || (await isPreviewHost()))
     ? { index: false, follow: false, googleBot: { index: false, follow: false } }
     : { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
@@ -24,7 +26,7 @@ export function generateMetadata(): Metadata {
     siteName: SITE_NAME,
     locale: "pt_PT",
     type: "website",
-    images: [{ url: "/api/partilha-cgl-20260902.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Cultura Grátis Lisboa — A cultura vive em toda a cidade." }, { url: "/cgl-logo.png", width: 768, height: 768, alt: "Logótipo do Cultura Grátis Lisboa" }],
+    images: [{ url: "/api/partilha-cgl-20260902.jpg", width: 1200, height: 630, type: "image/jpeg", alt: "Cultura Grátis Lisboa: A cultura vive em toda a cidade." }, { url: "/cgl-logo.png", width: 768, height: 768, alt: "Logótipo do Cultura Grátis Lisboa" }],
   },
   twitter: {
     card: "summary_large_image",

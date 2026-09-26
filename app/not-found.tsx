@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Página não encontrada — Cultura Grátis Lisboa",
+  title: "Página não encontrada: Cultura Grátis Lisboa",
   robots: { index: false, follow: false },
 };
 

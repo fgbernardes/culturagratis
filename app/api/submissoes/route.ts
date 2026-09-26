@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       endDate: normalizedEndDate, dateMode: kind === "event" ? dateMode : null, timeLabel,
       startTime: kind === "event" ? startTime : null, endTime: normalizedEndTime,
       timeMode: kind === "event" ? timeMode : null, venue, area, category, condition, sourceUrl,
-      accessibility, details, privacyNoticeVersion: "2026-08-25-v4",
+      accessibility, details, privacyNoticeVersion: "2026-09-26-v1.4",
     });
     return Response.json({ received: true, reference: `CGL-${String(submission.id).padStart(5, "0")}` }, { status: 201 });
   } catch {
