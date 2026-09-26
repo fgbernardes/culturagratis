@@ -1,7 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { isCanonicalPrelaunchHost, isPrelaunchMode, isPrelaunchRequestAllowed } from "./prelaunch";
+import { isCanonicalPrelaunchHost, isPrelaunchMode, isPrelaunchRequestAllowed, isPublicPreviewHost } from "./prelaunch";
 
 interface Env {
   ASSETS: Fetcher;
@@ -40,6 +40,7 @@ interface ExecutionContext {
 const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
+    const previewHost = isPublicPreviewHost(url.hostname);
     const effectiveEnv: Env = isCanonicalPrelaunchHost(url.hostname)
       ? { ...env, CGL_PRELAUNCH_MODE: "true" }
       : env;
@@ -48,6 +49,7 @@ const worker = {
     // The mode passed to rendering must be request scoped. Never read it back from this global.
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-cgl-prelaunch-mode", effectiveEnv.CGL_PRELAUNCH_MODE === "false" ? "false" : "true");
+    requestHeaders.set("x-cgl-preview-host", previewHost ? "true" : "false");
     const routedRequest = new Request(request, { headers: requestHeaders });
 
     if (isPrelaunchMode(effectiveEnv) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
@@ -55,6 +57,13 @@ const worker = {
         status: 404,
         headers: { "cache-control": "no-store", "content-type": "text/plain; charset=utf-8" },
       });
+    }
+
+    if (previewHost && url.pathname === "/sitemap.xml") {
+      return new Response("Not found", { status: 404, headers: { "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
+    }
+    if (previewHost && url.pathname === "/robots.txt") {
+      return new Response("User-agent: *\\nDisallow: /\\n", { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
     }
 
     if (url.pathname === "/_vinext/image") {
@@ -68,7 +77,11 @@ const worker = {
       }, allowedWidths);
     }
 
-    return handler.fetch(routedRequest, env, ctx);
+    const response = await handler.fetch(routedRequest, env, ctx);
+    if (!previewHost) return response;
+    const responseHeaders = new Headers(response.headers);
+    responseHeaders.set("x-robots-tag", "noindex, nofollow");
+    return new Response(response.body, { status: response.status, statusText: response.statusText, headers: responseHeaders });
   },
 };
 
