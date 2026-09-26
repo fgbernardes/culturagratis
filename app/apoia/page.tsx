@@ -1,11 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { cglLogoColor } from "../brand-assets";
+import { pageMetadata } from "../site-config";
+
+export const metadata: Metadata = pageMetadata(
+  "Dá-nos uma mãozinha | Cultura Grátis Lisboa",
+  "Ajuda a manter uma agenda cultural independente e gratuita em Lisboa.",
+  "/apoia",
+);
 
 export default function ApoiaPage() {
   return (
     <main className="cgl-support-page">
       <header className="cgl-support-page-header">
-        <Link className="cgl-support-page-brand" href="/" aria-label="Cultura Grátis Lisboa. início">
+        <Link className="cgl-support-page-brand" href="/" aria-label="Cultura Grátis Lisboa, início">
           <img src={cglLogoColor} alt="" width="82" height="82" />
           <span><strong>Cultura Grátis Lisboa</strong><small>Cultura para todos. Lisboa para todos.</small></span>
         </Link>
