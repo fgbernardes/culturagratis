@@ -11,7 +11,7 @@ const official = "https://www.culturagratis.com";
 const preview = "https://cultura-gratis-lisboa.fgbernardes.workers.dev";
 
 test("concurrent hosts never exchange Home or robots mode", async () => {
-  const requests = Array.from({ length: 40 }, (_, index) => {
+  const requests = Array.from({ length: 200 }, (_, index) => {
     const canonical = index % 2 === 0;
     const origin = canonical ? official : preview;
     const path = index % 4 < 2 ? "/" : "/robots.txt";
