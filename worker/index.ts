@@ -63,7 +63,7 @@ const worker = {
       return new Response("Not found", { status: 404, headers: { "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
     }
     if (previewHost && url.pathname === "/robots.txt") {
-      return new Response("User-agent: *\\nDisallow: /\\n", { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
+      return new Response("User-agent: *\nDisallow: /\n", { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
     }
 
     if (url.pathname === "/_vinext/image") {
