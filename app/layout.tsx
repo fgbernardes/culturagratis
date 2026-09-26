@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { absoluteUrl, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "./site-config";
-import { isPrelaunchMode } from "./launch-state";
+import { isPrelaunchMode, isPreviewHost } from "./launch-state";
 import "@fontsource-variable/inter";
 import "@fontsource-variable/bricolage-grotesque";
 import "./globals.css";
@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   category: "Cultura",
   keywords: ["cultura grátis Lisboa", "eventos gratuitos Lisboa", "agenda cultural Lisboa", "entrada livre Lisboa"],
   alternates: { canonical: "/" },
-  robots: (await isPrelaunchMode())
+  robots: ((await isPrelaunchMode()) || (await isPreviewHost()))
     ? { index: false, follow: false, googleBot: { index: false, follow: false } }
     : { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
