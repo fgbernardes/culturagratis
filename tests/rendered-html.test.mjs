@@ -1,6 +1,24 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
-import test from "node:test";
+import test, { before } from "node:test";
+
+const notFoundAssets = { fetch: async () => new Response("Not found", { status: 404 }) };
+const executionContext = { waitUntil() {}, passThroughOnException() {} };
+
+// Import the built worker once: its runtime state lives on globalThis, so
+// re-importing per test adds cost without isolating anything.
+let worker;
+before(async () => {
+  ({ default: worker } = await import(new URL("../dist/server/index.js", import.meta.url).href));
+});
+
+function render(path, init = {}, env = {}) {
+  return worker.fetch(
+    new Request(`http://localhost${path}`, init),
+    { ASSETS: notFoundAssets, ...env },
+    executionContext,
+  );
+}
 
 test("bundles the approved fonts and uses the width-only mobile layout", async () => {
   const assetsDirectory = new URL("../dist/client/assets/", import.meta.url);
@@ -26,24 +44,8 @@ test("bundles the approved fonts and uses the width-only mobile layout", async (
 });
 
 test("renders the public site metadata without a development marker", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
 
-  const response = await worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  const response = await render("/", { headers: { accept: "text/html" } });
 
   assert.equal(response.status, 200);
   assert.match(
@@ -73,14 +75,7 @@ test("renders the public site metadata without a development marker", async () =
 });
 
 test("renders verified social links on the newsletter landing page", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-social`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await render("/", { headers: { accept: "text/html" } });
 
   const html = await response.text();
   assert.match(html, /class=["'][^"']*cgl-coming-socials/i);
@@ -105,14 +100,7 @@ test("renders verified social links on the newsletter landing page", async () =>
 });
 
 test("renders the privacy policy in a human voice without em dashes", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-privacy`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/privacidade", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await render("/privacidade", { headers: { accept: "text/html" } });
 
   assert.equal(response.status, 200);
   const html = await response.text();
@@ -125,18 +113,11 @@ test("renders the privacy policy in a human voice without em dashes", async () =
 });
 
 test("rejects a newsletter subscription without a first name", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-name`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/api/contactos", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email: "teste@example.com", consent: true, consentVersion: "v1.3", turnstileToken: "test" }),
-    }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await render("/api/contactos", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ email: "teste@example.com", consent: true, consentVersion: "v1.3", turnstileToken: "test" }),
+  });
 
   assert.equal(response.status, 400);
   assert.match((await response.json()).error, /primeiro nome/i);
@@ -158,17 +139,14 @@ test("sends the subscriber first name to Brevo", async () => {
   };
 
   try {
-    const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-    workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-brevo`);
-    const { default: worker } = await import(workerUrl.href);
-    const response = await worker.fetch(
-      new Request("http://localhost/api/contactos", {
+    const response = await render(
+      "/api/contactos",
+      {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ firstName: "  Filipe  ", email: "teste@example.com", consent: true, consentVersion: "v1.3", turnstileToken: "test" }),
-      }),
+      },
       {
-        ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
         BREVO_API_KEY: "test",
         BREVO_CONTACT_LIST_ID: "7",
         BREVO_DOI_TEMPLATE_ID: "3",
@@ -176,7 +154,6 @@ test("sends the subscriber first name to Brevo", async () => {
         TURNSTILE_SECRET_KEY: "test",
         TURNSTILE_EXPECTED_HOSTNAME: "localhost",
       },
-      { waitUntil() {}, passThroughOnException() {} },
     );
 
     assert.equal(response.status, 201);
@@ -189,14 +166,7 @@ test("sends the subscriber first name to Brevo", async () => {
 });
 
 test("renders the confirmed subscription message with the Cultura Grátis logo", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-confirmed`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/inscricao-confirmada", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await render("/inscricao-confirmada", { headers: { accept: "text/html" } });
 
   assert.equal(response.status, 200);
   const html = await response.text();
@@ -211,14 +181,7 @@ test("renders the confirmed subscription message with the Cultura Grátis logo",
 
 
 test("bloqueia as rotas da versão integral durante o pré-lançamento", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-prelaunch`);
-  const { default: worker } = await import(workerUrl.href);
-  const response = await worker.fetch(
-    new Request("http://localhost/agenda", { headers: { accept: "text/html" } }),
-    { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
-    { waitUntil() {}, passThroughOnException() {} },
-  );
+  const response = await render("/agenda", { headers: { accept: "text/html" } });
 
   assert.equal(response.status, 404);
   assert.equal(await response.text(), "Not found");
