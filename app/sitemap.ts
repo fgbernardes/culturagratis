@@ -4,8 +4,8 @@ import { absoluteUrl } from "./site-config";
 
 export const dynamic = "force-dynamic";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  if (isPrelaunchMode()) return [{ url: absoluteUrl("/"), priority: 1, changeFrequency: "weekly" }];
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (await isPrelaunchMode()) return [{ url: absoluteUrl("/"), priority: 1, changeFrequency: "weekly" }];
   return [
     { url: absoluteUrl("/"), priority: 1, changeFrequency: "daily" },
     { url: absoluteUrl("/agenda"), priority: 0.9, changeFrequency: "daily" },
