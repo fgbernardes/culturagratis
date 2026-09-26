@@ -3107,3 +3107,69 @@ summary:focus-visible {
   .cgl-signup-fields, .cgl-signup-actions { grid-template-columns: 1fr; }
   .cgl-signup-actions button { width: min(100%, 300px); min-height: 50px; justify-self: start; }
 }
+
+/* Biblioteca do Admin */
+.admin-library-grid {
+  width: min(1320px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 38px 0 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 18px;
+}
+.admin-library-card {
+  min-width: 0;
+  padding: 26px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.admin-library-card > p {
+  margin: 0;
+  color: #006b74;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.admin-library-card h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  line-height: 1.1;
+}
+.admin-library-card > span { line-height: 1.55; }
+.admin-library-card > div {
+  display: grid;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+}
+.admin-library-card a {
+  width: fit-content;
+  color: #006b74;
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.admin-library-card a:focus-visible {
+  outline: 3px solid #00838f;
+  outline-offset: 4px;
+}
+.admin-library-note {
+  width: min(1320px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 0 0 72px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .admin-library-grid,
+  .admin-library-note { width: calc(100% - 24px); }
+  .admin-library-grid { padding-top: 20px; }
+}
