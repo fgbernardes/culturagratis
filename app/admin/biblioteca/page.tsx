@@ -6,9 +6,10 @@ import AdminWorkspaceNav from "../../components/admin-workspace-nav";
 export const dynamic = "force-dynamic";
 
 const collections = [
-  { title: "Governação e decisões", eyebrow: "Fonte normativa", description: "Registo de decisões, ADRs, memória partilhada e regras de autoridade documental.", links: [{ label: "Registo de decisões vigente", href: "https://drive.google.com/drive/folders/1EQiWgk3Kv0AMH4LyyklzPWl5KaLgEj2r" }, { label: "Memória partilhada IA", href: "https://drive.google.com/drive/folders/1PA9MeTGIpAo2WEwcsfm45EUhBN9yz2m9" }] },
+  { title: "Governação e decisões", eyebrow: "Fonte normativa", description: "Registo de decisões, ADRs, memória partilhada e regras de autoridade documental.", links: [{ label: "Registo de decisões vigente", href: "https://drive.google.com/drive/folders/1cOQYPkWXEb0jRllLP4AVgqA3Tg8Nh6W5" }, { label: "Memória partilhada IA", href: "https://drive.google.com/drive/folders/1PA9MeTGIpAo2WEwcsfm45EUhBN9yz2m9" }] },
   { title: "Marca e identidade", eyebrow: "Brand OS", description: "Logótipos, tipografia, paleta, tokens, selos e direção Lisboa Material.", links: [{ label: "Documentação de marca", href: "https://drive.google.com/drive/folders/1EQiWgk3Kv0AMH4LyyklzPWl5KaLgEj2r" }] },
   { title: "Operação editorial", eyebrow: "Uso diário", description: "Critérios de gratuitidade, fontes culturais, acessibilidade e processo de verificação.", links: [{ label: "Abrir Gestão editorial", href: "/admin" }, { label: "Abrir Studio CGL", href: "/admin/studio" }] },
+  { title: "Ecossistema IA", eyebrow: "Colaboração", description: "Coordenação entre a Oficina, auditoria e restantes agentes do projeto.", links: [{ label: "Abrir pasta Ecossistema IA", href: "https://drive.google.com/drive/folders/1cqG1wC1Ni4g4oGVyoSvpz5pTkjzbuuG6" }] },
   { title: "Site e técnica", eyebrow: "Implementação", description: "Arquitetura, segurança, deploy, Supabase, Cloudflare e procedimentos de validação.", links: [{ label: "Abrir Dashboard", href: "/admin/dashboard" }, { label: "Repositório do site", href: "https://github.com/fgbernardes/culturagratis" }] },
 ];
 
