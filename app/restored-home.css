@@ -719,3 +719,23 @@
 .cgl-home-nav a:focus-visible, .cgl-home-actions a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
 
 @media (max-width: 520px) { .cgl-home-brand span { display: none; } }
+
+/* Match the subpage menu on small screens without a multirow sticky header. */
+.cgl-home-header .cgl-home-mobile-menu { display: none; }
+@media (max-width: 780px) {
+  .cgl-home-header {
+    min-height: 88px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  .cgl-home-header .cgl-home-nav,
+  .cgl-home-header .cgl-home-actions { display: none; }
+  .cgl-home-header .cgl-home-mobile-menu {
+    display: block;
+    margin-left: auto;
+  }
+  .cgl-home-mobile-menu nav {
+    max-height: min(70vh, 560px);
+    overflow-y: auto;
+  }
+}
