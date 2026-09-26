@@ -37,7 +37,7 @@ export const editorialPages: EditorialPage[] = [
     sections: [
       { title: "Apoio voluntário", body: ["Apoiar o Cultura Grátis Lisboa é uma escolha tua. Não é uma compra nem uma condição para consultar o site, sugerir uma iniciativa ou receber a newsletter."] },
       { title: "Buy Me a Coffee", body: ["Podes apoiar o projeto através do Buy Me a Coffee. O pagamento é feito na plataforma externa, sem ser processado neste site."] },
-      { title: "Outras formas de apoiar", body: ["Stripe: ligação de pagamento em configuração. MB WAY: QR em preparação. Não é necessário apoiar para consultar o site."] },
+      { title: "Outras formas de apoiar", body: ["O apoio é voluntário. Os meios disponíveis estão indicados na página Dá-nos uma mãozinha."] },
       { title: "Colaborar", body: ["Para propostas de colaboração ou dúvidas, escreve para ola@culturagratis.com."] },
     ],
     actions: [
@@ -332,7 +332,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Cookies e tecnologias semelhantes",
-        body: ["O Cloudflare Turnstile protege o formulário da newsletter contra envios automáticos. A configuração do projeto não ativa a funcionalidade de pre-clearance.", "A Cloudflare Web Analytics recolhe dados de navegação e desempenho através de um script próprio. A Cloudflare indica que esta ferramenta não usa cookies. O Cloudflare Turnstile protege o formulário contra envios automáticos; tecnologias necessárias à segurança e à autenticação da área reservada podem ser usadas. Não ativamos publicidade comportamental neste site.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
+        body: ["O Cloudflare Turnstile protege o formulário da newsletter contra envios automáticos. A configuração do projeto não ativa a funcionalidade de pre-clearance.", "Nesta fase, não ativámos ferramentas de medição de audiência. O Cloudflare Turnstile protege o formulário da newsletter contra envios automáticos; tecnologias necessárias à segurança e à autenticação da área reservada podem ser usadas. Não ativamos publicidade comportamental neste site.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
       },
       {
         title: "Direitos",
@@ -349,16 +349,16 @@ export const editorialPages: EditorialPage[] = [
     slug: "cookies",
     eyebrow: "TRANSPARÊNCIA",
     title: "Cookies e tecnologias semelhantes",
-    intro: "Informação sobre medição, proteção dos formulários e tecnologias necessárias ao site.",
+    intro: "Informação sobre a proteção dos formulários e as tecnologias necessárias ao site.",
     updated: "Versão 1.4 · 26 de setembro de 2026",
     sections: [
       {
         title: "Medição e proteção",
-        body: ["A Cloudflare Web Analytics mede visitas e desempenho sem cookies, segundo a documentação da Cloudflare. O Turnstile protege os formulários contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
+        body: ["Nesta fase, não ativámos medição de audiência. O Turnstile protege o formulário da newsletter contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
       },
       {
         title: "Se isto mudar",
-        body: ["Antes de ativarmos medição, marketing ou personalização, atualizaremos esta página e implementaremos escolhas válidas, com recusa por defeito para tudo o que não seja necessário."],
+        body: ["Antes de ativarmos medição de audiência ou outras tecnologias opcionais, atualizaremos esta página e aplicaremos os mecanismos de informação e escolha necessários."],
       },
     ],
   },
