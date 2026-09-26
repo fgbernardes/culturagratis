@@ -76,7 +76,7 @@ export default function Access52Page() {
         <div className="access52-section-heading">
           <p className="section-index">02 · ANTES DA VISITA</p>
           <h2 id="steps-title">Leva identificação e NIF</h2>
-          <p>Na primeira utilização, apresenta o documento de identificação e o NIF para registo. Nas visitas seguintes, volta a apresentar a identificação. Confirma as instruções de bilhética do local: os Jerónimos e a Torre de Belém também anunciaram a opção de Acesso 52 online.</p>
+          <p>Leva sempre o documento de identificação e o NIF. Na primeira utilização, o registo é feito com esses dados; nas visitas seguintes, apresenta a identificação e tem o NIF disponível se te for pedido. Confirma as instruções de bilhética do local: os Jerónimos e a Torre de Belém também anunciaram a opção de Acesso 52 online.</p>
         </div>
         <ol>
           <li><strong>Escolhe o local e o dia.</strong><span>Consulta a página oficial para confirmar abertura, horários e eventuais reservas.</span></li>
