@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
-import { isPrelaunchMode } from "./launch-state";
+import { isPrelaunchMode, isPreviewHost } from "./launch-state";
 import { absoluteUrl } from "./site-config";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (await isPreviewHost()) return [];
   if (await isPrelaunchMode()) return [{ url: absoluteUrl("/"), priority: 1, changeFrequency: "weekly" }];
   return [
     { url: absoluteUrl("/"), priority: 1, changeFrequency: "daily" },
