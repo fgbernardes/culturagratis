@@ -151,9 +151,9 @@ export function CglHome() {
       </section>
 
       <section className="cgl-home-week" id="agenda" aria-labelledby="agenda-title">
-        <div className="cgl-home-heading"><div><p>02 · PRÓXIMOS 7 DIAS</p><h2 id="agenda-title">A semana, sem caça ao tesouro</h2></div><Link href="/agenda">Ver agenda completa →</Link></div>
+        <div className="cgl-home-heading"><div><p>02 · PRÓXIMOS 7 DIAS</p><h2 id="agenda-title">A tua semana cultural</h2></div><Link href="/agenda">Ver agenda completa →</Link></div>
         <div className="cgl-home-week-strip">{days.map((day, index) => <Link className={index === 0 ? "today" : ""} href={`/agenda?data=${day.date}`} key={day.date}><span>{day.label}</span><strong>{day.day}</strong><small>{day.detail}</small></Link>)}</div>
-        <p>Atualizamos a agenda por curadoria. Confirma sempre as condições na fonte oficial antes de sair de casa.</p>
+        <p>Escolhe um dia para ver as propostas publicadas. Confirma as condições na fonte indicada em cada evento.</p>
       </section>
 
       <section className="cgl-home-discovery">
@@ -163,14 +163,14 @@ export function CglHome() {
         <div className="cgl-home-map" id="mapa"><div className="cgl-home-heading"><div><p>04 · LISBOA É O PALCO</p><h2>Começa por uma freguesia</h2></div><span>Mapa editorial</span></div><div className="cgl-home-map-canvas"><i /><b>TEJO</b>{parishPins.map((parish, index) => <Link href={`/agenda?freguesia=${encodeURIComponent(parish)}`} key={parish} className={`pin pin-${index + 1}`}><strong>{index + 1}</strong><span>{parish}</span></Link>)}</div><Link className="cgl-home-map-link" href="/freguesias">Explorar as 24 freguesias →</Link></div>
       </section>
 
-      <section className="cgl-home-access" aria-labelledby="access-title"><div><p>05 · GRÁTIS, MAS EXPLICADO</p><h2 id="access-title">Sem asteriscos escondidos</h2><span>Entrada livre, reserva ou levantamento de bilhete não são a mesma coisa. Nós dizemos-te o que conta antes de chegares à porta.</span><Link href="/corrigir-informacao">Detetaste um erro? Avisa-nos →</Link></div><div className="cgl-home-access-grid">
+      <section className="cgl-home-access" aria-labelledby="access-title"><div><p>05 · GRÁTIS, MAS EXPLICADO</p><h2 id="access-title">Sabe como entrar</h2><span>Entrada livre, reserva ou levantamento de bilhete não são a mesma coisa. Nós dizemos-te o que conta antes de chegares à porta.</span><Link href="/corrigir-informacao">Detetaste um erro? Avisa-nos →</Link></div><div className="cgl-home-access-grid">
         <article><span>01</span><h3>Entrada livre</h3><p>Não existe pagamento obrigatório. Pode haver lotação limitada.</p></article>
         <article><span>02</span><h3>Reserva gratuita</h3><p>É preciso reservar ou inscrever, mas não pagar. Indicamos sempre o passo.</p></article>
         <article><span>03</span><h3>Bilhete gratuito</h3><p>Pode exigir levantamento no próprio dia e ter limite por pessoa.</p></article>
         <article className="accent"><span>04</span><h3>Acesso 52</h3><p>O CGL destaca condições de acesso cultural para residentes em Lisboa.</p><Link href="/acesso-52">Ver como funciona →</Link></article>
       </div></section>
 
-      <section className="cgl-home-community" id="sobre"><div><p>06 · O QUE SOMOS</p><blockquote>“Lisboa tem cultura à porta. Procuramos propostas gratuitas, confirmamos as condições e damos-te a informação para escolheres.”</blockquote><span>Um serviço público digital independente, feito com olhar de bairro. Porque cultura gratuita não é cultura menor: é cidade mais aberta.</span></div><aside><article><p>NEWSLETTER</p><h2>Lisboa na caixa de entrada, sem spam nem palha</h2><span>Recebe a agenda e as escolhas editoriais quando abrirmos as subscrições regulares.</span><a href="mailto:ola@culturagratis.com?subject=Newsletter%20CGL">Quero entrar na lista →</a></article><article><p>COMUNIDADE</p><h2>Conheces um evento grátis?</h2><span>Envia a fonte oficial, data, local e condições de acesso. Nós fazemos a verificação.</span><Link href="/submeter-evento">Sugerir um evento →</Link></article></aside></section>
+      <section className="cgl-home-community" id="sobre"><div><p>06 · O QUE SOMOS</p><blockquote>“Lisboa tem cultura à porta. Procuramos propostas gratuitas, confirmamos as condições e damos-te a informação para escolheres.”</blockquote><span>Uma agenda cultural independente, feita com olhar de bairro. A cultura gratuita abre caminhos para conhecer Lisboa por inteiro.</span></div><aside><article><p>NEWSLETTER</p><h2>Lisboa na tua caixa de entrada</h2><span>Subscreve a newsletter e confirma o teu endereço por email. Receberás o aviso de abertura e as escolhas editoriais.</span><a href="https://www.culturagratis.com/#agenda-title">Subscrever a newsletter →</a></article><article><p>COMUNIDADE</p><h2>Conheces um evento grátis?</h2><span>Envia a fonte oficial, data, local e condições de acesso. Nós fazemos a verificação.</span><Link href="/submeter-evento">Sugerir um evento →</Link></article></aside></section>
 
       <footer className="cgl-home-footer">
   <div><img src="/cgl-emblem.png" alt="Cultura Grátis Lisboa" width="112" height="112" /><span><strong>Cultura Grátis Lisboa</strong><small>Cultura para todos. Lisboa para todos. Todos os dias.</small></span></div>
