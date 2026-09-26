@@ -37,10 +37,6 @@ export default function ApoiaPage() {
           <p>Cartão, Apple Pay e Google Pay.</p>
         </article>
 
-        <article className="cgl-support-page-pending">
-          <small>EM BREVE</small><strong>MB WAY</strong>
-          <p>QR de apoio em preparação.</p>
-        </article>
       </section>
 
       <section className="cgl-support-page-collaborate">
