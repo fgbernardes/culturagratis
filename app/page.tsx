@@ -74,6 +74,6 @@ function PrelaunchHome() {
   );
 }
 
-export default function Home() {
-  return isPrelaunchMode() ? <PrelaunchHome /> : <CglHome />;
+export default async function Home() {
+  return (await isPrelaunchMode()) ? <PrelaunchHome /> : <CglHome />;
 }
