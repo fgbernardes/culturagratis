@@ -1,0 +1,68 @@
+/* Public architecture: keep the prelaunch landing isolated. */
+.public-topbar { position: sticky; top: 0; z-index: 50; grid-template-columns: minmax(170px, 1fr) auto auto; gap: clamp(10px, 1.5vw, 24px); }
+.public-topbar > nav { gap: clamp(10px, 1.3vw, 22px); }
+.public-topbar-actions { flex-wrap: nowrap; }
+.public-support-action { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 10px 16px; border-radius: 8px; background: var(--sunset); color: var(--charcoal); font-weight: 800; white-space: nowrap; }
+.public-topbar-action { box-shadow: 4px 4px 0 #f6ce44; white-space: nowrap; }
+.public-support-action { box-shadow: 4px 4px 0 var(--sunset); }
+.public-support-action:hover, .public-support-action:focus-visible { background: var(--sun); }
+.public-topbar a:focus-visible, .public-mobile-menu summary:focus-visible, .directory-grid a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
+/* Keep the full navigation for widths where its links and actions fit. */
+.launch-home-hero .editorial-actions .secondary { color: var(--charcoal); }
+.launch-home-hero > p { color: var(--sun); }
+@media (max-width: 1380px) {
+  .public-topbar { grid-template-columns: 1fr auto; }
+  .public-topbar > nav { display: none; }
+  .public-mobile-menu { display: block; }
+}
+@media (max-width: 720px) {
+  .public-support-action, .public-topbar-action { display: none; }
+  .public-topbar { padding-inline: 16px; }
+  .public-mobile-menu nav { max-height: min(70vh, 560px); overflow-y: auto; }
+}
+
+/* Compact public footer with the official negative logo. */
+.public-footer { min-height: 0; display: grid; grid-template-columns: minmax(170px, .8fr) minmax(320px, 1.6fr) minmax(210px, .9fr); align-items: start; gap: clamp(20px, 3vw, 48px); padding-block: 36px; }
+.public-footer-brand { max-width: 240px; }
+.public-footer-brand > a { display: inline-flex; align-items: center; gap: 12px; }
+.public-footer-brand img { display: block; width: 58px; height: 58px; object-fit: contain; }
+.public-footer-brand strong { font-family: var(--font-display); font-size: 1.25rem; line-height: 1; }
+.public-footer-brand > span { font-size: .82rem; }
+.public-footer-contact { align-items: flex-end; text-align: right; }
+.public-footer-contact > a { font-weight: 750; overflow-wrap: anywhere; }
+.public-footer-contact nav { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 4px 12px; font-size: .76rem; }
+.public-footer-contact nav a { min-height: 36px; display: inline-flex; align-items: center; }
+@media (max-width: 1000px) {
+  .public-footer { grid-template-columns: 1fr 1fr; }
+  .public-footer-contact { grid-column: 1 / -1; align-items: flex-start; text-align: left; }
+  .public-footer-contact nav { justify-content: flex-start; }
+}
+@media (max-width: 640px) {
+  .public-footer { grid-template-columns: 1fr; gap: 24px; }
+  .public-footer-contact { grid-column: auto; }
+  .public-footer nav { justify-content: flex-start; }
+}
+
+/* Four editorial positions; their contents await Filipe's manual selection. */
+.launch-featured { padding: clamp(48px, 6vw, 90px) clamp(24px, 7vw, 108px); background: #fffdf8; }
+.launch-featured-heading { max-width: 710px; }
+.launch-featured-heading p { margin: 0 0 12px; color: #8a4b00; font-size: .8rem; font-weight: 800; letter-spacing: .14em; }
+.launch-featured-heading h2 { margin: 0 0 16px; font-family: var(--font-display); font-size: clamp(2.8rem, 6vw, 5.8rem); letter-spacing: -.055em; line-height: .94; }
+.launch-featured-heading span { color: var(--muted); line-height: 1.55; }
+.launch-featured-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 34px; }
+.launch-featured-slot { min-height: 220px; display: flex; flex-direction: column; justify-content: space-between; padding: 22px; border: 1px solid #d9d1c5; background: linear-gradient(135deg, #fff1db, #fffaf1 60%, #dde9e6); }
+.launch-featured-slot small { color: #8a4b00; font-weight: 850; }
+.launch-featured-slot strong { font-family: var(--font-display); font-size: clamp(1.4rem, 2.2vw, 2.2rem); line-height: 1; }
+@media (max-width: 980px) { .launch-featured-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .launch-featured-grid { grid-template-columns: 1fr 1fr; gap: 8px; } .launch-featured-slot { min-height: 150px; padding: 14px; } }
+
+/* Discovery and access guides bring back the useful structure of the earlier home. */
+.launch-discovery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: clamp(24px, 5vw, 72px) clamp(24px, 7vw, 108px); background: #f7f3ea; }
+.launch-discovery > div { padding: clamp(22px, 3vw, 44px); border: 1px solid #ded6ca; background: #fffdf8; }
+.launch-section-kicker { margin: 0 0 14px; color: #8a4b00; font-size: .78rem; font-weight: 800; letter-spacing: .14em; }
+.launch-discovery h2, .launch-section-intro h2 { margin: 0 0 16px; font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3.5rem); line-height: 1.05; letter-spacing: -.04em; }
+.launch-discovery p:not(.launch-section-kicker) { max-width: 48ch; line-height: 1.55; }
+.launch-discovery a { display: inline-flex; align-items: center; min-height: 44px; color: var(--charcoal); font-weight: 800; text-decoration: underline; text-underline-offset: 4px; }
+.launch-discovery a:focus-visible { outline: 3px solid var(--tejo); outline-offset: 3px; }
+.launch-section-intro { padding: clamp(36px, 5vw, 70px) clamp(24px, 7vw, 108px) 0; }
+@media (max-width: 720px) { .launch-discovery { grid-template-columns: 1fr; } }

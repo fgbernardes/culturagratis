@@ -1,16 +1,4 @@
-import { categories } from "./editorial-taxonomy";
-export const categories = [
-  { slug: "musica", name: "Música", description: "Concertos, recitais, festivais e música no espaço público." },
-  { slug: "teatro-e-performance", name: "Teatro e performance", description: "Teatro, circo contemporâneo, monólogos e artes performativas." },
-  { slug: "danca", name: "Dança", description: "Dança contemporânea, clássica, tradicional e urbana." },
-  { slug: "cinema", name: "Cinema", description: "Sessões ao ar livre, cineclubes, ciclos e mostras." },
-  { slug: "exposicoes-e-artes-visuais", name: "Exposições e artes visuais", description: "Galerias, fotografia, instalações, pintura, escultura e arte urbana." },
-  { slug: "literatura-e-conversas", name: "Literatura e conversas", description: "Livros, debates, poesia, mesas-redondas e tertúlias." },
-  { slug: "museus-e-patrimonio", name: "Museus e património", description: "Museus, monumentos, palácios e dias de entrada livre." },
-  { slug: "visitas-guiadas", name: "Visitas guiadas", description: "Percursos comentados, visitas orientadas e descoberta acompanhada de espaços, exposições e património." },
-  { slug: "ateliers-e-workshops", name: "Ateliers / Workshops", description: "Oficinas práticas, laboratórios criativos e experiências de aprendizagem participada." },
-  { slug: "cultura-comunitaria-e-festivais", name: "Cultura comunitária e festivais", description: "Festas de bairro, celebrações de comunidades, festivais interculturais, feiras culturais e iniciativas locais." },
-] as const;
+export { categories } from "./editorial-taxonomy";
 
 export const parishes = [
   ["ajuda", "Ajuda"], ["alcantara", "Alcântara"], ["alvalade", "Alvalade"],
@@ -42,16 +30,63 @@ export type EditorialPage = {
 
 export const editorialPages: EditorialPage[] = [
   {
+    slug: "apoia",
+    eyebrow: "APOIAR O PROJETO",
+    title: "Dá-nos uma mãozinha",
+    intro: "O teu apoio ajuda a manter uma agenda cultural independente e gratuita para quem a consulta.",
+    sections: [
+      { title: "Apoio voluntário", body: ["Apoiar o Cultura Grátis Lisboa é uma escolha tua. Não é uma compra nem uma condição para consultar o site, sugerir uma iniciativa ou receber a newsletter."] },
+      { title: "Buy Me a Coffee", body: ["Podes apoiar o projeto através do Buy Me a Coffee. O pagamento é feito na plataforma externa, sem ser processado neste site."] },
+      { title: "Outras formas de apoiar", body: ["O apoio é voluntário. Os meios disponíveis estão indicados na página Dá-nos uma mãozinha."] },
+      { title: "Colaborar", body: ["Para propostas de colaboração ou dúvidas, escreve para ola@culturagratis.com."] },
+    ],
+    actions: [
+      { label: "Apoiar no Buy Me a Coffee", href: "https://buymeacoffee.com/culturagratislisboa", primary: true },
+      { label: "Escrever ao CGL", href: "mailto:ola@culturagratis.com?subject=Apoiar%20o%20CGL" },
+    ],
+  },
+  {
+    slug: "noticias",
+    eyebrow: "NOTÍCIAS",
+    title: "Notícias",
+    intro: "Atualizações sobre o projeto e a cultura de Lisboa, com fontes e datas identificadas.",
+    sections: [
+      { title: "Primeiras notícias", body: ["Ainda não há notícias publicadas nesta secção. Quando houver, cada texto indicará a data e as fontes utilizadas."] },
+    ],
+    actions: [{ label: "Conhecer o projeto", href: "/sobre", primary: true }],
+  },
+  {
+    slug: "coletividades",
+    eyebrow: "COLETIVIDADES",
+    title: "A cultura também nasce no bairro",
+    intro: "Uma secção para dar visibilidade a coletividades, associações e espaços comunitários do município de Lisboa.",
+    sections: [
+      { title: "Diretório em preparação", body: ["Ainda não há entidades listadas. As futuras fichas terão identificação, freguesia, contactos públicos e ligações oficiais confirmadas antes da publicação."] },
+      { title: "Tens uma correção?", body: ["Se representas uma coletividade ou encontraste informação desatualizada, escreve para ola@culturagratis.com."] },
+    ],
+    actions: [{ label: "Contactar o CGL", href: "mailto:ola@culturagratis.com?subject=Coletividades", primary: true }],
+  },
+
+  {
+    slug: "merchandising",
+    eyebrow: "MERCHANDISING",
+    title: "Merchandising",
+    intro: "Brevemente",
+    sections: [
+      { title: "Estamos a preparar esta secção", body: ["As novidades do Cultura Grátis Lisboa serão apresentadas aqui quando estiverem prontas."] },
+    ],
+  },
+  {
     slug: "sobre",
     eyebrow: "O PROJETO",
-    title: "Cultura sem barreira económica, com Lisboa por inteiro.",
+    title: "Cultura sem barreira económica, com Lisboa por inteiro",
     intro: "O Cultura Grátis Lisboa é uma plataforma editorial independente para descobrir propostas culturais de acesso gratuito no município de Lisboa.",
     sections: [
       {
         title: "Para que existimos",
         body: [
           "A informação cultural está dispersa, muda depressa e nem sempre explica bem as condições de entrada. Reunimos, verificamos e organizamos essa informação para que seja útil antes de sair de casa.",
-          "Tratamos a cultura como um direito, a cidade como palco e a curadoria como responsabilidade. A utilidade vem antes das métricas e a clareza antes do entusiasmo fabricado.",
+          "Tratamos a cultura como um direito, a cidade como palco e a curadoria como responsabilidade. Trabalhamos para que cada pessoa saiba onde ir, quando ir e como entrar.",
         ],
       },
       {
@@ -66,8 +101,8 @@ export const editorialPages: EditorialPage[] = [
       {
         title: "Independente e responsável",
         body: [
-          "O site, e não as redes sociais, é a referência pública do projeto. Comunicamos com rigor editorial, mas o CGL não se apresenta como órgão de comunicação social nem reivindica estatuto jornalístico formal.",
-          "A seleção editorial mantém-se independente de promotores, espaços, plataformas e agendas políticas. O critério central é simples: dar visibilidade a eventos, atividades e outras iniciativas que dinamizem Lisboa e sejam acessíveis sem qualquer pagamento por parte do público.",
+          "O site reúne as propostas, as condições de acesso, as fontes e as atualizações editoriais do projeto.",
+          "Selecionamos propostas pela relevância cultural e pelas condições de acesso. Só publicamos iniciativas cujo público pode participar sem qualquer pagamento associado.",
         ],
       },
     ],
@@ -79,8 +114,8 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "politica-0-euros",
     eyebrow: "CRITÉRIO EDITORIAL",
-    title: "Grátis quer dizer 0 €.",
-    intro: "Publicamos apenas propostas culturais cujo acesso pode ser feito sem pagamento, custos ocultos ou consumo obrigatório.",
+    title: "Grátis quer dizer 0 €",
+    intro: "Publicamos propostas culturais sem qualquer pagamento associado à participação.",
     sections: [
       {
         title: "O que pode entrar",
@@ -89,16 +124,16 @@ export const editorialPages: EditorialPage[] = [
           "Bilhete ou reserva gratuitos, mesmo quando a lotação é limitada.",
           "Lista de espera ou levantamento prévio, quando a condição está explicada com clareza.",
           "Gratuitidade condicionada, quando o critério é objetivo, público e verificável.",
-          "Donativo voluntário apenas depois de revisão editorial humana.",
+          "Atividades cuja participação é gratuita em todas as etapas, incluindo reservas e materiais obrigatórios.",
         ],
       },
       {
         title: "O que fica de fora",
         bullets: [
-          "Consumo mínimo ou compra obrigatória.",
+          "Qualquer pagamento associado à participação, mesmo de valor reduzido ou apresentado como donativo.",
           "Preço escondido numa fase posterior da reserva.",
           "Pagamento à saída, contribuição obrigatória ou custo indireto necessário.",
-          "Eventos pagos — incluindo os que custam até 5 €.",
+          "Eventos com entrada paga, mesmo quando o preço é reduzido.",
         ],
       },
       {
@@ -113,7 +148,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "contactos",
     eyebrow: "CONTACTOS",
-    title: "Fala connosco.",
+    title: "Fala connosco",
     intro: "Escolhe o canal certo para conseguirmos responder e verificar a informação mais depressa.",
     sections: [
       {
@@ -137,7 +172,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "submeter-evento",
     eyebrow: "PARTICIPAR",
-    title: "Sugere um evento gratuito.",
+    title: "Sugere um evento gratuito",
     intro: "Partilha uma proposta que cumpra a política dos 0 €. Cada sugestão é verificada e nenhuma é publicada automaticamente.",
     sections: [
       {
@@ -152,7 +187,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Antes de enviar",
-        body: ["Confirma que o acesso é realmente 0 €. Propostas com consumo obrigatório, preço oculto ou pagamento posterior não são elegíveis."],
+        body: ["Confirma que a participação é gratuita em todas as etapas, sem compra, donativo ou outro pagamento associado."],
       },
     ],
   },
@@ -179,7 +214,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "verificacao",
     eyebrow: "CGL VERIFICA",
-    title: "Verificamos antes de publicar.",
+    title: "Verificamos antes de publicar",
     intro: "O selo CGL Verifica identifica informação prática que foi confirmada editorialmente numa fonte oficial ou primária identificável.",
     updated: "Metodologia v1.0 · agosto de 2026",
     sections: [
@@ -187,7 +222,7 @@ export const editorialPages: EditorialPage[] = [
         title: "O que significa o selo",
         body: [
           "Quando uma página apresenta o selo Verificado pelo CGL, significa que revimos os dados essenciais do evento e registámos a data dessa verificação. O selo confirma a informação publicada; não avalia a qualidade artística da proposta nem certifica a entidade organizadora.",
-          "O CGL é um projeto editorial independente. Este selo não é uma certificação oficial, uma garantia pública ou um selo atribuído pela organização do evento.",
+          "O selo identifica a verificação editorial feita pelo CGL e indica a fonte e a data da consulta.",
         ],
       },
       {
@@ -232,7 +267,7 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "acessibilidade",
     eyebrow: "ACESSIBILIDADE",
-    title: "Uma agenda para poder ser usada por todos.",
+    title: "Uma agenda para poder ser usada por todos",
     intro: "O nosso objetivo de produto é cumprir as WCAG 2.2 no nível AA. A construção e os testes de acessibilidade continuam antes do lançamento.",
     updated: "Estado: versão em construção · agosto de 2026",
     sections: [
@@ -261,7 +296,7 @@ export const editorialPages: EditorialPage[] = [
     eyebrow: "TRANSPARÊNCIA",
     title: "Política de Privacidade",
     intro: "Aqui explicamos, de forma clara, que dados recolhemos, para que servem e como os protegemos.",
-    updated: "Versão 1.3 · 1 de setembro de 2026",
+    updated: "Versão 1.4 · 26 de setembro de 2026",
     sections: [
       {
         title: "Quem é responsável pelo tratamento",
@@ -269,7 +304,11 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Que dados tratamos",
-        body: ["Recolhemos o primeiro nome e o endereço de email que introduzes no formulário. Guardamos também o estado da subscrição e da confirmação, a versão do texto de consentimento que aceitaste e as datas associadas à submissão, confirmação, cancelamento ou eliminação.", "Podemos ainda tratar alguns registos técnicos necessários para entregar as mensagens, proteger o formulário e prevenir abusos. Entre eles podem estar o endereço IP, informação sobre o navegador ou dispositivo, sinais de segurança tratados pelos fornecedores e dados sobre entrega, devolução ou cancelamento das mensagens.", "Não pedimos apelido, número de telemóvel ou outros dados através deste formulário. Também não criamos perfis nem tomamos decisões automáticas com efeitos jurídicos ou semelhantes."],
+        body: ["No formulário da newsletter, recolhemos o primeiro nome e o endereço de email que introduzes. Guardamos também o estado da subscrição e da confirmação, a versão do texto de consentimento que aceitaste e as datas associadas à submissão, confirmação, cancelamento ou eliminação.", "Podemos ainda tratar alguns registos técnicos necessários para entregar as mensagens, proteger o formulário e prevenir abusos. Entre eles podem estar o endereço IP, informação sobre o navegador ou dispositivo, sinais de segurança tratados pelos fornecedores e dados sobre entrega, devolução ou cancelamento das mensagens.", "O formulário da newsletter não pede apelido nem número de telemóvel. Não criamos perfis nem tomamos decisões automáticas com efeitos jurídicos ou semelhantes."],
+      },
+      {
+        title: "Sugestões de eventos e correções",
+        body: ["Estes formulários recolhem nome, endereço de email e os dados que envias sobre o evento ou a correção. Uma sugestão enviada por quem representa uma organização inclui ainda o nome da entidade e o papel da pessoa; no pedido de correção, a organização é opcional. Os campos de texto livre podem conter outros dados que decidas partilhar; evita dados pessoais desnecessários.", "Usamos os dados para receber, verificar e responder à proposta ou correção, gerir a fila editorial e proteger os formulários contra abuso. O fundamento é o nosso interesse legítimo em tratar os pedidos que nos envias e manter informação cultural correta; não usamos estes contactos para marketing nem inscrevemos ninguém automaticamente na newsletter.", "Conservamos os registos durante a análise e, depois dela, apenas enquanto forem necessários para responder, documentar a decisão editorial, tratar reclamações ou cumprir obrigações aplicáveis. Podes pedir informação ou eliminação através de privacidade@culturagratis.com; o pedido será apreciado à luz dos prazos e obrigações aplicáveis."],
       },
       {
         title: "Para que usamos os dados e com que fundamento",
@@ -281,7 +320,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Fornecedores e destinatários",
-        body: ["Para manter este serviço a funcionar, recorremos à Brevo / Sendinblue SAS, que aloja a lista, gere a dupla confirmação e envia as mensagens. Recorremos também à Cloudflare para o alojamento, a entrega e a proteção técnica do site, incluindo o Cloudflare Turnstile, que ajuda a prevenir spam, fraude e abuso.", "Estes prestadores tratam os dados de acordo com os respetivos contratos e condições de tratamento. Se houver tratamento fora do Espaço Económico Europeu, têm de ser aplicadas as garantias previstas no RGPD, como decisões de adequação ou cláusulas contratuais-tipo, conforme o caso.", "O CGL não vende listas nem entrega os contactos a terceiros para que façam publicidade própria."],
+        body: ["Para manter este serviço a funcionar, recorremos à Brevo / Sendinblue SAS, que aloja a lista, gere a dupla confirmação e envia as mensagens. Os pedidos de sugestão e correção são guardados na Supabase, que presta o serviço de base de dados. Recorremos também à Cloudflare para o alojamento, a entrega e a proteção técnica do site, incluindo o Cloudflare Turnstile, que ajuda a prevenir spam, fraude e abuso.", "Estes prestadores tratam os dados de acordo com os respetivos contratos e condições de tratamento. Se houver tratamento fora do Espaço Económico Europeu, têm de ser aplicadas as garantias previstas no RGPD, como decisões de adequação ou cláusulas contratuais-tipo, conforme o caso.", "O CGL não vende listas nem entrega os contactos a terceiros para que façam publicidade própria."],
       },
       {
         title: "Conservação",
@@ -293,7 +332,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Cookies e tecnologias semelhantes",
-        body: ["Esta página usa apenas a tecnologia necessária para proteger o formulário contra abusos. O Cloudflare Turnstile é usado exclusivamente para esse fim e a configuração não ativa a funcionalidade de pre-clearance. Antes de disponibilizarmos o formulário, testamos os cookies e os pedidos feitos a serviços externos.", "Nesta fase, o site não usa cookies de análise de audiência, marketing, personalização ou publicidade comportamental. Por isso não existe um banner de consentimento: não há nada a aceitar para além do que é estritamente necessário ao funcionamento e à segurança do formulário.", "Se os testes detetarem cookies ou tecnologias que não sejam estritamente necessários, o formulário não será disponibilizado sem um mecanismo válido de informação e consentimento."],
+        body: ["O Cloudflare Turnstile protege o formulário da newsletter contra envios automáticos, sem a funcionalidade de pre-clearance. Nesta fase, não ativámos ferramentas de medição de audiência nem publicidade comportamental. Podem ser usadas tecnologias necessárias à segurança do site e à autenticação da área de gestão.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
       },
       {
         title: "Direitos",
@@ -309,24 +348,24 @@ export const editorialPages: EditorialPage[] = [
   {
     slug: "cookies",
     eyebrow: "TRANSPARÊNCIA",
-    title: "Cookies e tecnologias semelhantes.",
-    intro: "A versão pública atual não ativa cookies opcionais de análise, marketing ou personalização.",
-    updated: "Versão de pré-lançamento · agosto de 2026",
+    title: "Cookies e tecnologias semelhantes",
+    intro: "Informação sobre a proteção dos formulários e as tecnologias necessárias ao site.",
+    updated: "Versão 1.4 · 26 de setembro de 2026",
     sections: [
       {
-        title: "Tecnologia estritamente necessária",
-        body: ["O alojamento e a segurança podem usar tecnologia técnica indispensável para entregar e proteger o serviço. A área de gestão recorre a autenticação, mas não faz parte da navegação pública."],
+        title: "Medição e proteção",
+        body: ["Nesta fase, não ativámos medição de audiência. O Turnstile protege o formulário da newsletter contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
       },
       {
         title: "Se isto mudar",
-        body: ["Antes de ativarmos medição, marketing ou personalização, atualizaremos esta página e implementaremos escolhas válidas, com recusa por defeito para tudo o que não seja necessário."],
+        body: ["Antes de ativarmos medição de audiência ou outras tecnologias opcionais, atualizaremos esta página e aplicaremos os mecanismos de informação e escolha necessários."],
       },
     ],
   },
   {
     slug: "termos",
     eyebrow: "TRANSPARÊNCIA",
-    title: "Termos de utilização.",
+    title: "Termos de utilização",
     intro: "O Cultura Grátis Lisboa organiza informação cultural para ajudar a descobrir propostas gratuitas na cidade. Esta versão acompanha a fase de construção do serviço.",
     updated: "Versão de pré-lançamento · agosto de 2026",
     sections: [

@@ -12,6 +12,10 @@ const ADMIN_PAGE_PREFIXES = ["/admin", "/gestao"];
 const ADMIN_API_PREFIXES = ["/api/gestao"];
 const CANONICAL_PRELAUNCH_HOSTS = new Set(["www.culturagratis.com", "culturagratis.com"]);
 
+export function isPublicPreviewHost(hostname: string) {
+  return hostname.toLowerCase().endsWith(".workers.dev");
+}
+
 export function isPrelaunchMode(env: { CGL_PRELAUNCH_MODE?: string }) {
   return env.CGL_PRELAUNCH_MODE !== "false";
 }
