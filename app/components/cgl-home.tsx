@@ -94,7 +94,7 @@ export function CglHome() {
           <span><strong>Cultura Grátis</strong><small>Lisboa, sem barreira económica.</small></span>
         </Link>
         <nav className="cgl-home-nav" aria-label="Navegação principal">
-          <Link href="/agenda">Agenda</Link><Link href="/categorias">Categorias</Link><Link href="/freguesias">Freguesias</Link><Link href="/noticias">Notícias</Link><Link href="/coletividades">Coletividades</Link><Link href="/merchandising">Merchandising</Link><Link href="/acesso-52">Acesso 52</Link><Link href="/sobre">Sobre</Link>
+          <Link href="/agenda">Agenda</Link><Link href="/categorias">Categorias</Link><Link href="/freguesias">Freguesias</Link><Link href="/noticias">Notícias</Link><Link href="/coletividades">Coletividades</Link><Link href="/acesso-52">Acesso 52</Link><Link href="/sobre">Sobre</Link>
         </nav>
         <div className="cgl-home-actions">
           <Link className="cgl-home-submit" href="/submeter-evento">Sugerir evento</Link>
@@ -108,7 +108,7 @@ export function CglHome() {
             <Link href="/freguesias">Freguesias</Link>
             <Link href="/noticias">Notícias</Link>
             <Link href="/coletividades">Coletividades</Link>
-            <Link href="/merchandising">Merchandising</Link>
+            
             <Link href="/acesso-52">Acesso 52</Link>
             <Link href="/sobre">Sobre</Link>
             <Link href="/submeter-evento">Sugerir evento</Link>
@@ -174,7 +174,7 @@ export function CglHome() {
 
       <footer className="cgl-home-footer">
   <div><img src="/cgl-emblem.png" alt="Cultura Grátis Lisboa" width="112" height="112" /><span><strong>Cultura Grátis Lisboa</strong><small>Cultura para todos. Lisboa para todos. Todos os dias.</small></span></div>
-  <nav className="cgl-home-footer-links" aria-label="Links institucionais"><Link href="/agenda">Agenda</Link><Link href="/categorias">Categorias</Link><Link href="/freguesias">Freguesias</Link><Link href="/noticias">Notícias</Link><Link href="/coletividades">Coletividades</Link><Link href="/merchandising">Merchandising</Link><Link href="/sobre">Sobre</Link><Link href="/privacidade">Privacidade</Link></nav>
+  <nav className="cgl-home-footer-links" aria-label="Links institucionais"><Link href="/agenda">Agenda</Link><Link href="/categorias">Categorias</Link><Link href="/freguesias">Freguesias</Link><Link href="/noticias">Notícias</Link><Link href="/coletividades">Coletividades</Link><Link href="/sobre">Sobre</Link><Link href="/privacidade">Privacidade</Link></nav>
   <div className="cgl-home-footer-meta">
     <a className="cgl-home-footer-email" href="mailto:ola@culturagratis.com">ola@culturagratis.com</a>
     <nav className="cgl-home-socials" aria-label="Redes sociais do Cultura Grátis Lisboa">
