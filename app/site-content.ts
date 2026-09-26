@@ -332,7 +332,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Cookies e tecnologias semelhantes",
-        body: ["Esta página usa apenas a tecnologia necessária para proteger o formulário contra abusos. O Cloudflare Turnstile é usado exclusivamente para esse fim e a configuração não ativa a funcionalidade de pre-clearance. Antes de disponibilizarmos o formulário, testamos os cookies e os pedidos feitos a serviços externos.", "A Cloudflare Web Analytics pode recolher dados de navegação e desempenho através de um script próprio. A Cloudflare indica que esta ferramenta não usa cookies. O Cloudflare Turnstile protege o formulário contra envios automáticos; tecnologias necessárias à segurança e à autenticação da área reservada podem ser usadas. Não ativamos publicidade comportamental neste site.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
+        body: ["O Cloudflare Turnstile protege o formulário da newsletter contra envios automáticos. A configuração do projeto não ativa a funcionalidade de pre-clearance.", "A Cloudflare Web Analytics recolhe dados de navegação e desempenho através de um script próprio. A Cloudflare indica que esta ferramenta não usa cookies. O Cloudflare Turnstile protege o formulário contra envios automáticos; tecnologias necessárias à segurança e à autenticação da área reservada podem ser usadas. Não ativamos publicidade comportamental neste site.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
       },
       {
         title: "Direitos",
@@ -354,7 +354,7 @@ export const editorialPages: EditorialPage[] = [
     sections: [
       {
         title: "Medição e proteção",
-        body: ["A Cloudflare Web Analytics pode medir visitas e desempenho sem cookies, segundo a documentação da Cloudflare. O Turnstile protege os formulários contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
+        body: ["A Cloudflare Web Analytics mede visitas e desempenho sem cookies, segundo a documentação da Cloudflare. O Turnstile protege os formulários contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
       },
       {
         title: "Se isto mudar",
