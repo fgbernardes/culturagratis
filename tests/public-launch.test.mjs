@@ -48,6 +48,6 @@ test("a home integral só aparece fora do hostname de pré-lançamento", () => {
   assert.match(home, /href="\/apoia"/);
   assert.match(home, /href="\/noticias"/);
   assert.match(home, /href="\/coletividades"/);
-  assert.match(page, /isPrelaunchMode\(\)\s*\?/);
+  assert.match(page, /await isPrelaunchMode\(\)\)\s*\?/);
   assert.match(home, /href=\"\/agenda\"/);
 });
