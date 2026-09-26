@@ -86,7 +86,7 @@ export const editorialPages: EditorialPage[] = [
         title: "Para que existimos",
         body: [
           "A informação cultural está dispersa, muda depressa e nem sempre explica bem as condições de entrada. Reunimos, verificamos e organizamos essa informação para que seja útil antes de sair de casa.",
-          "Tratamos a cultura como um direito, a cidade como palco e a curadoria como responsabilidade. A utilidade vem antes das métricas e a clareza antes do entusiasmo fabricado.",
+          "Tratamos a cultura como um direito, a cidade como palco e a curadoria como responsabilidade. Trabalhamos para que cada pessoa saiba onde ir, quando ir e como entrar.",
         ],
       },
       {
@@ -101,8 +101,8 @@ export const editorialPages: EditorialPage[] = [
       {
         title: "Independente e responsável",
         body: [
-          "O site, e não as redes sociais, é a referência pública do projeto. Comunicamos com rigor editorial, mas o CGL não se apresenta como órgão de comunicação social nem reivindica estatuto jornalístico formal.",
-          "A seleção editorial mantém-se independente de promotores, espaços, plataformas e agendas políticas. O critério central é simples: dar visibilidade a eventos, atividades e outras iniciativas que dinamizem Lisboa e sejam acessíveis sem qualquer pagamento por parte do público.",
+          "O site reúne as propostas, as condições de acesso, as fontes e as atualizações editoriais do projeto.",
+          "Selecionamos propostas pela relevância cultural e pelas condições de acesso. Só publicamos iniciativas cujo público pode participar sem qualquer pagamento associado.",
         ],
       },
     ],
@@ -115,7 +115,7 @@ export const editorialPages: EditorialPage[] = [
     slug: "politica-0-euros",
     eyebrow: "CRITÉRIO EDITORIAL",
     title: "Grátis quer dizer 0 €",
-    intro: "Publicamos apenas propostas culturais cujo acesso pode ser feito sem pagamento, custos ocultos ou consumo obrigatório.",
+    intro: "Publicamos propostas culturais sem qualquer pagamento associado à participação.",
     sections: [
       {
         title: "O que pode entrar",
@@ -124,16 +124,16 @@ export const editorialPages: EditorialPage[] = [
           "Bilhete ou reserva gratuitos, mesmo quando a lotação é limitada.",
           "Lista de espera ou levantamento prévio, quando a condição está explicada com clareza.",
           "Gratuitidade condicionada, quando o critério é objetivo, público e verificável.",
-          "Donativo voluntário apenas depois de revisão editorial humana.",
+          "Atividades cuja participação é gratuita em todas as etapas, incluindo reservas e materiais obrigatórios.",
         ],
       },
       {
         title: "O que fica de fora",
         bullets: [
-          "Consumo mínimo ou compra obrigatória.",
+          "Qualquer pagamento associado à participação, mesmo de valor reduzido ou apresentado como donativo.",
           "Preço escondido numa fase posterior da reserva.",
           "Pagamento à saída, contribuição obrigatória ou custo indireto necessário.",
-          "Eventos pagos. incluindo os que custam até 5 €.",
+          "Eventos com entrada paga, mesmo quando o preço é reduzido.",
         ],
       },
       {
@@ -187,7 +187,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Antes de enviar",
-        body: ["Confirma que o acesso é realmente 0 €. Propostas com consumo obrigatório, preço oculto ou pagamento posterior não são elegíveis."],
+        body: ["Confirma que a participação é gratuita em todas as etapas, sem compra, donativo ou outro pagamento associado."],
       },
     ],
   },
@@ -222,7 +222,7 @@ export const editorialPages: EditorialPage[] = [
         title: "O que significa o selo",
         body: [
           "Quando uma página apresenta o selo Verificado pelo CGL, significa que revimos os dados essenciais do evento e registámos a data dessa verificação. O selo confirma a informação publicada; não avalia a qualidade artística da proposta nem certifica a entidade organizadora.",
-          "O CGL é um projeto editorial independente. Este selo não é uma certificação oficial, uma garantia pública ou um selo atribuído pela organização do evento.",
+          "O selo identifica a verificação editorial feita pelo CGL e indica a fonte e a data da consulta.",
         ],
       },
       {
