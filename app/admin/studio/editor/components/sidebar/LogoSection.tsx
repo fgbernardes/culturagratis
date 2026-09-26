@@ -19,12 +19,15 @@ const POSITIONS: { pos: LogoPosition; label: string; short: string }[] = [
 
 const OFFICIAL_LOGOS = [
   { src: '/cgl-logos/com-lettering-cores.png', label: 'Cores + lettering', size: 210, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
-  { src: '/cgl-logos/com-lettering-preto-branco.png', label: 'P&B + lettering', size: 210, tone: 'bg-zinc-700/60 border-zinc-400 text-white' },
-  { src: '/cgl-logos/com-lettering-negativo.png', label: 'Negativo + lettering', size: 210, tone: 'bg-white/20 border-white text-white' },
   { src: '/cgl-emblem.png', label: 'Cores sem lettering', size: 140, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
-  { src: '/cgl-logos/sem-lettering-preto-branco.png', label: 'P&B sem lettering', size: 140, tone: 'bg-zinc-700/60 border-zinc-400 text-white' },
   { src: '/cgl-logos/sem-lettering-negativo.png', label: 'Negativo sem lettering', size: 140, tone: 'bg-white/20 border-white text-white' },
 ] as const;
+
+const INVALID_OFFICIAL_LOGOS = new Set([
+  '/cgl-logos/com-lettering-negativo.png',
+  '/cgl-logos/com-lettering-preto-branco.png',
+  '/cgl-logos/sem-lettering-preto-branco.png',
+]);
 
 const HIGHLIGHTS: { value: LogoBackgroundHighlight; label: string; swatch: string }[] = [
   { value: 'none', label: 'Transparente', swatch: 'bg-zinc-700' },
@@ -85,6 +88,14 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ isOpen, onToggle }) =>
                 </button>
               ))}
             </div>
+            {INVALID_OFFICIAL_LOGOS.has(brandLogo.src) && (
+              <p role="status" className="text-xs text-amber-300">
+                Este projeto usa um PNG danificado. Escolhe uma das variantes disponíveis acima.
+              </p>
+            )}
+            <p className="text-[10px] text-zinc-400">
+              As restantes variantes regressam quando houver PNGs oficiais íntegros.
+            </p>
           </div>
 
           {/* Upload e Visibilidade */}
