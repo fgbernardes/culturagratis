@@ -554,7 +554,7 @@ summary:focus-visible {
 .launch-progress > span { display: block; height: 100%; border-right: 1px solid var(--charcoal); background: linear-gradient(90deg, var(--sunset), var(--sun)); }
 .launch-score .launch-progress { border-color: #fff; background: #4b4944; }
 .launch-task-list { display: grid; border-top: 1px solid var(--line); }
-.launch-task-list article { display: grid; grid-template-columns: 128px minmax(0, 1fr) 64px; align-items: center; gap: 22px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.launch-task-list article { display: grid; grid-template-columns: 128px minmax(0, 1fr) minmax(120px, auto); align-items: center; gap: 22px; padding: 18px 0; border-bottom: 1px solid var(--line); }
 .launch-task-list article.later { opacity: .62; }
 .launch-task-id { display: grid; gap: 5px; }
 .launch-task-id span { width: max-content; padding: 5px 8px; border-radius: 999px; background: var(--charcoal); color: #fff; font-size: .7rem; font-weight: 850; }
