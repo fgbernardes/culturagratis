@@ -92,9 +92,18 @@ try {
       assert.ok(Math.abs(layout.actionsTop - layout.brandTop) < 80, `actions are below the brand at ${width}: ${JSON.stringify(layout)}`);
       assert.ok(layout.supportRight <= width - 12, `support CTA touches edge at ${width}`);
     }
-    assert.ok(layout.navVisible, `navigation missing at ${width}`);
+    if (width <= 780) {
+      const mobileMenu = page.locator(".cgl-home-mobile-menu");
+      assert.ok(await mobileMenu.locator("summary").isVisible(), `mobile menu trigger missing at ${width}`);
+      await mobileMenu.locator("summary").click();
+      assert.ok(await mobileMenu.locator("nav").isVisible(), `mobile navigation missing at ${width}`);
+      assert.equal(await mobileMenu.locator("nav a").count(), 9, `wrong mobile link count at ${width}`);
+      assert.equal(await mobileMenu.locator('a[href="/merchandising"]').count(), 0);
+    } else {
+      assert.ok(layout.navVisible, `desktop navigation missing at ${width}`);
+      assert.ok(layout.navBottom <= layout.headerBottom + 1, `navigation escapes header at ${width}: ${JSON.stringify(layout)}`);
+    }
     assert.ok(layout.orbitCenters.length === 2 && layout.orbitCenters.every((offset) => offset < 2), `emblem orbits are off-centre at ${width}: ${JSON.stringify(layout)}`);
-    assert.ok(layout.navBottom <= layout.headerBottom + 1, `navigation escapes header at ${width}: ${JSON.stringify(layout)}`);
     console.log(`${width}px: ${JSON.stringify(layout)}`);
     await page.close();
   }
