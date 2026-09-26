@@ -4,8 +4,8 @@ import { SITE_URL } from "./site-config";
 
 export const dynamic = "force-dynamic";
 
-export default function robots(): MetadataRoute.Robots {
-  return isPrelaunchMode()
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  return (await isPrelaunchMode())
     ? { rules: { userAgent: "*", disallow: "/" }, host: SITE_URL }
     : { rules: { userAgent: "*", allow: "/" }, sitemap: `${SITE_URL}/sitemap.xml`, host: SITE_URL };
 }
