@@ -164,7 +164,7 @@ export function CglHome() {
       </section>
 
       <section className="cgl-home-access" aria-labelledby="access-title"><div><p>05 · GRÁTIS, MAS EXPLICADO</p><h2 id="access-title">Sabe como entrar</h2><span>Entrada livre, reserva ou levantamento de bilhete não são a mesma coisa. Nós dizemos-te o que conta antes de chegares à porta.</span><Link href="/corrigir-informacao">Detetaste um erro? Avisa-nos →</Link></div><div className="cgl-home-access-grid">
-        <article><span>01</span><h3>Entrada livre</h3><p>Não existe pagamento obrigatório. Pode haver lotação limitada.</p></article>
+        <article><span>01</span><h3>Entrada livre</h3><p>Sem qualquer pagamento, nem donativo. Pode haver lotação limitada.</p></article>
         <article><span>02</span><h3>Reserva gratuita</h3><p>É preciso reservar ou inscrever, mas não pagar. Indicamos sempre o passo.</p></article>
         <article><span>03</span><h3>Bilhete gratuito</h3><p>Pode exigir levantamento no próprio dia e ter limite por pessoa.</p></article>
         <article className="accent"><span>04</span><h3>Acesso 52</h3><p>Conhece os 52 dias anuais de entrada gratuita para residentes em Portugal com NIF nos locais abrangidos.</p><Link href="/acesso-52">Ver como funciona →</Link></article>
