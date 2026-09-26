@@ -100,6 +100,21 @@ export function CglHome() {
           <Link className="cgl-home-submit" href="/submeter-evento">Sugerir evento</Link>
           <Link className="cgl-home-support-link" href="/apoia">Dá-nos uma mãozinha</Link>
         </div>
+        <details className="public-mobile-menu cgl-home-mobile-menu">
+          <summary aria-label="Abrir menu"><span /><span /><span /></summary>
+          <nav aria-label="Navegação móvel">
+            <Link href="/agenda">Agenda</Link>
+            <Link href="/categorias">Categorias</Link>
+            <Link href="/freguesias">Freguesias</Link>
+            <Link href="/noticias">Notícias</Link>
+            <Link href="/coletividades">Coletividades</Link>
+            <Link href="/merchandising">Merchandising</Link>
+            <Link href="/acesso-52">Acesso 52</Link>
+            <Link href="/sobre">Sobre</Link>
+            <Link href="/submeter-evento">Sugerir evento</Link>
+            <Link href="/apoia">Dá-nos uma mãozinha</Link>
+          </nav>
+        </details>
       </header>
 
       <section className="cgl-home-hero" id="conteudo">
