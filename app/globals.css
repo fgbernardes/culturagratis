@@ -3173,3 +3173,44 @@ summary:focus-visible {
   .admin-library-note { width: calc(100% - 24px); }
   .admin-library-grid { padding-top: 20px; }
 }
+
+/* Navegação das quatro áreas do Admin */
+.admin-workspace-nav {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px clamp(20px, 5vw, 72px);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+.admin-workspace-nav a {
+  min-width: 0;
+  display: grid;
+  align-content: center;
+  gap: 4px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--charcoal);
+  text-decoration: none;
+}
+.admin-workspace-nav a strong { font-weight: 800; }
+.admin-workspace-nav a small { color: #4d4942; line-height: 1.35; }
+.admin-workspace-nav a.is-active {
+  border-color: var(--charcoal);
+  background: var(--charcoal);
+  color: #fff;
+}
+.admin-workspace-nav a.is-active small { color: #e8e1d6; }
+.admin-workspace-nav a:focus-visible {
+  outline: 3px solid #00838f;
+  outline-offset: 2px;
+}
+@media (max-width: 760px) {
+  .admin-workspace-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 12px;
+  }
+  .admin-workspace-nav a { padding: 10px; }
+}
