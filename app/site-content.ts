@@ -296,7 +296,7 @@ export const editorialPages: EditorialPage[] = [
     eyebrow: "TRANSPARÊNCIA",
     title: "Política de Privacidade",
     intro: "Aqui explicamos, de forma clara, que dados recolhemos, para que servem e como os protegemos.",
-    updated: "Versão 1.3 · 1 de setembro de 2026",
+    updated: "Versão 1.4 · 26 de setembro de 2026",
     sections: [
       {
         title: "Quem é responsável pelo tratamento",
@@ -304,7 +304,11 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Que dados tratamos",
-        body: ["Recolhemos o primeiro nome e o endereço de email que introduzes no formulário. Guardamos também o estado da subscrição e da confirmação, a versão do texto de consentimento que aceitaste e as datas associadas à submissão, confirmação, cancelamento ou eliminação.", "Podemos ainda tratar alguns registos técnicos necessários para entregar as mensagens, proteger o formulário e prevenir abusos. Entre eles podem estar o endereço IP, informação sobre o navegador ou dispositivo, sinais de segurança tratados pelos fornecedores e dados sobre entrega, devolução ou cancelamento das mensagens.", "Não pedimos apelido, número de telemóvel ou outros dados através deste formulário. Também não criamos perfis nem tomamos decisões automáticas com efeitos jurídicos ou semelhantes."],
+        body: ["Recolhemos o primeiro nome e o endereço de email que introduzes no formulário. Guardamos também o estado da subscrição e da confirmação, a versão do texto de consentimento que aceitaste e as datas associadas à submissão, confirmação, cancelamento ou eliminação.", "Podemos ainda tratar alguns registos técnicos necessários para entregar as mensagens, proteger o formulário e prevenir abusos. Entre eles podem estar o endereço IP, informação sobre o navegador ou dispositivo, sinais de segurança tratados pelos fornecedores e dados sobre entrega, devolução ou cancelamento das mensagens.", "O formulário da newsletter não pede apelido nem número de telemóvel. Não criamos perfis nem tomamos decisões automáticas com efeitos jurídicos ou semelhantes."],
+      },
+      {
+        title: "Sugestões de eventos e correções",
+        body: ["Estes formulários recolhem nome, endereço de email e os dados que envias sobre o evento ou a correção. Uma sugestão enviada por quem representa uma organização inclui ainda o nome da entidade e o papel da pessoa. A descrição e os anexos textuais podem conter outros dados que decidas partilhar; evita dados pessoais desnecessários.", "Usamos os dados para receber, verificar e responder à proposta ou correção, gerir a fila editorial e proteger os formulários contra abuso. O fundamento é o nosso interesse legítimo em tratar os pedidos que nos envias e manter informação cultural correta; não usamos estes contactos para marketing nem inscrevemos ninguém automaticamente na newsletter.", "Conservamos os registos durante a análise e, depois dela, apenas enquanto forem necessários para responder, documentar a decisão editorial, tratar reclamações ou cumprir obrigações aplicáveis. Podes pedir informação ou eliminação através de privacidade@culturagratis.com; o pedido será apreciado à luz dos prazos e obrigações aplicáveis."],
       },
       {
         title: "Para que usamos os dados e com que fundamento",
@@ -328,7 +332,7 @@ export const editorialPages: EditorialPage[] = [
       },
       {
         title: "Cookies e tecnologias semelhantes",
-        body: ["Esta página usa apenas a tecnologia necessária para proteger o formulário contra abusos. O Cloudflare Turnstile é usado exclusivamente para esse fim e a configuração não ativa a funcionalidade de pre-clearance. Antes de disponibilizarmos o formulário, testamos os cookies e os pedidos feitos a serviços externos.", "Nesta fase, o site não usa cookies de análise de audiência, marketing, personalização ou publicidade comportamental. Por isso não existe um banner de consentimento: não há nada a aceitar para além do que é estritamente necessário ao funcionamento e à segurança do formulário.", "Se os testes detetarem cookies ou tecnologias que não sejam estritamente necessários, o formulário não será disponibilizado sem um mecanismo válido de informação e consentimento."],
+        body: ["Esta página usa apenas a tecnologia necessária para proteger o formulário contra abusos. O Cloudflare Turnstile é usado exclusivamente para esse fim e a configuração não ativa a funcionalidade de pre-clearance. Antes de disponibilizarmos o formulário, testamos os cookies e os pedidos feitos a serviços externos.", "A Cloudflare Web Analytics pode recolher dados de navegação e desempenho através de um script próprio. A Cloudflare indica que esta ferramenta não usa cookies. O Cloudflare Turnstile protege o formulário contra envios automáticos; tecnologias necessárias à segurança e à autenticação da área reservada podem ser usadas. Não ativamos publicidade comportamental neste site.", "Revemos as tecnologias ativas e atualizamos esta política sempre que os fornecedores ou as finalidades mudarem."],
       },
       {
         title: "Direitos",
@@ -345,12 +349,12 @@ export const editorialPages: EditorialPage[] = [
     slug: "cookies",
     eyebrow: "TRANSPARÊNCIA",
     title: "Cookies e tecnologias semelhantes",
-    intro: "A versão pública atual não ativa cookies opcionais de análise, marketing ou personalização.",
-    updated: "Versão de pré-lançamento · agosto de 2026",
+    intro: "Informação sobre medição, proteção dos formulários e tecnologias necessárias ao site.",
+    updated: "Versão 1.4 · 26 de setembro de 2026",
     sections: [
       {
-        title: "Tecnologia estritamente necessária",
-        body: ["O alojamento e a segurança podem usar tecnologia técnica indispensável para entregar e proteger o serviço. A área de gestão recorre a autenticação, mas não faz parte da navegação pública."],
+        title: "Medição e proteção",
+        body: ["A Cloudflare Web Analytics pode medir visitas e desempenho sem cookies, segundo a documentação da Cloudflare. O Turnstile protege os formulários contra envios automáticos. O alojamento, a segurança e a autenticação da área de gestão podem usar tecnologia necessária ao funcionamento do serviço."],
       },
       {
         title: "Se isto mudar",
