@@ -31,7 +31,7 @@ test("preview pages and robots forbid indexing and sitemap is unavailable", asyn
   assert.match(privacy.headers.get("x-robots-tag") ?? "", /noindex, nofollow/);
   const robots = await get(host, "/robots.txt");
   assert.equal(robots.status, 200);
-  assert.match(await robots.text(), /Disallow: \\//);
+  assert.ok((await robots.text()).includes("Disallow: /"));
   const sitemap = await get(host, "/sitemap.xml");
   assert.equal(sitemap.status, 404);
 });
