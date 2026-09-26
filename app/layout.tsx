@@ -7,7 +7,7 @@ import "./globals.css";
 import "./site-architecture.css";
 import "./restored-home.css";
 
-export function generateMetadata(): Metadata {
+export async function generateMetadata(): Promise<Metadata> {
   return {
   title: SITE_NAME,
   description: SITE_DESCRIPTION,
@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
   category: "Cultura",
   keywords: ["cultura grátis Lisboa", "eventos gratuitos Lisboa", "agenda cultural Lisboa", "entrada livre Lisboa"],
   alternates: { canonical: "/" },
-  robots: isPrelaunchMode()
+  robots: (await isPrelaunchMode())
     ? { index: false, follow: false, googleBot: { index: false, follow: false } }
     : { index: true, follow: true, googleBot: { index: true, follow: true } },
   openGraph: {
