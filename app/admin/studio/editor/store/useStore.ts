@@ -27,11 +27,16 @@ export const ASPECT_RATIO_DIMENSIONS: Record<AspectRatio, { width: number; heigh
   '4:5': { width: 1080, height: 1350 },
 };
 
-const BROKEN_OFFICIAL_LOGO_SRC = '/cgl-logos/sem-lettering-cores.png';
+const BROKEN_OFFICIAL_LOGO_SOURCES = new Set([
+  '/cgl-logos/sem-lettering-cores.png',
+  '/cgl-logos/com-lettering-cores.png',
+]);
 const OFFICIAL_LOGO_SRC = '/cgl-emblem.png';
 
 const normalizeOfficialBrandLogo = (logo: BrandLogo): BrandLogo =>
-  logo.src === BROKEN_OFFICIAL_LOGO_SRC ? { ...logo, src: OFFICIAL_LOGO_SRC } : logo;
+  BROKEN_OFFICIAL_LOGO_SOURCES.has(logo.src)
+    ? { ...logo, src: OFFICIAL_LOGO_SRC, size: logo.src === '/cgl-logos/com-lettering-cores.png' && logo.size === 210 ? 140 : logo.size }
+    : logo;
 
 const createDefaultBrandLogo = (): BrandLogo => ({
   src: OFFICIAL_LOGO_SRC,
@@ -2047,7 +2052,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'cgl_editor_state',
-      version: 4,
+      version: 5,
       storage: createJSONStorage(() => editorStorage),
       /**
        * O histórico NÃO é persistido.
