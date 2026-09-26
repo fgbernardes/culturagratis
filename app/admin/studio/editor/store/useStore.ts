@@ -27,7 +27,11 @@ export const ASPECT_RATIO_DIMENSIONS: Record<AspectRatio, { width: number; heigh
   '4:5': { width: 1080, height: 1350 },
 };
 
-const OFFICIAL_LOGO_SRC = '/cgl-logos/sem-lettering-cores.png';
+const BROKEN_OFFICIAL_LOGO_SRC = '/cgl-logos/sem-lettering-cores.png';
+const OFFICIAL_LOGO_SRC = '/cgl-emblem.png';
+
+const normalizeOfficialBrandLogo = (logo: BrandLogo): BrandLogo =>
+  logo.src === BROKEN_OFFICIAL_LOGO_SRC ? { ...logo, src: OFFICIAL_LOGO_SRC } : logo;
 
 const createDefaultBrandLogo = (): BrandLogo => ({
   src: OFFICIAL_LOGO_SRC,
@@ -2043,7 +2047,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: 'cgl_editor_state',
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => editorStorage),
       /**
        * O histórico NÃO é persistido.
@@ -2067,13 +2071,13 @@ export const useStore = create<AppState>()(
       /** Descarta o histórico gigante deixado pelas versões anteriores. */
       migrate: (persisted) => {
         const legacy = persisted as Partial<AppState>;
-        const fallbackLogo = legacy.brandLogo || createDefaultBrandLogo();
+        const fallbackLogo = normalizeOfficialBrandLogo(legacy.brandLogo || createDefaultBrandLogo());
         return {
           ...legacy,
           brandLogo: fallbackLogo,
           slides: (legacy.slides || []).map((slide) => ({
             ...slide,
-            brandLogo: slide.brandLogo || { ...fallbackLogo },
+            brandLogo: normalizeOfficialBrandLogo(slide.brandLogo || { ...fallbackLogo }),
           })),
           past: [],
           future: [],
