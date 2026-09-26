@@ -30,7 +30,7 @@ test("public editorial sections have working routes and matching navigation", as
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), new RegExp(heading, "i"), path);
   }
-  assert.doesNotMatch(html, /href=["']\\/merchandising["']/, "coming-soon merchandising should be absent from Home navigation");
+  assert.equal(html.includes('href="/merchandising"'), false, "coming-soon merchandising should be absent from Home navigation");
   const merchandising = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", "/merchandising");
   assert.equal(merchandising.status, 200);
   assert.match(await merchandising.text(), /Brevemente/i);
