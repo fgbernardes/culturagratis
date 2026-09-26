@@ -24,13 +24,16 @@ test("public editorial sections have working routes and matching navigation", as
     ["/apoia", "Dá-nos uma mãozinha"],
     ["/noticias", "Notícias"],
     ["/coletividades", "A cultura também nasce no bairro"],
-    ["/merchandising", "Brevemente"],
   ]) {
     assert.match(html, new RegExp(`href=["']${path}["']`));
     const response = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", path);
     assert.equal(response.status, 200, path);
     assert.match(await response.text(), new RegExp(heading, "i"), path);
   }
+  assert.doesNotMatch(html, /href=["']\\/merchandising["']/, "coming-soon merchandising should be absent from Home navigation");
+  const merchandising = await render("cultura-gratis-lisboa.fgbernardes.workers.dev", "/merchandising");
+  assert.equal(merchandising.status, 200);
+  assert.match(await merchandising.text(), /Brevemente/i);
 });
 
 test("canonical prelaunch host keeps new public sections behind the gate", async () => {
