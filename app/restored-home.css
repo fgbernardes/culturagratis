@@ -600,9 +600,10 @@
   max-width: 920px;
   margin: 0 0 26px;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(3.5rem, 8vw, 8.4rem);
-  line-height: .82;
-  letter-spacing: -.08em;
+  font-size: clamp(2rem, 8vw, 8.4rem);
+  line-height: .9;
+  letter-spacing: -.06em;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
