@@ -63,18 +63,22 @@ const worker = {
       return new Response("Not found", { status: 404, headers: { "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
     }
     if (previewHost && url.pathname === "/robots.txt") {
-      return new Response("User-agent: *\nDisallow: /\n", { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
+      return new Response("User-agent: *\nAllow: /\n", { headers: { "content-type": "text/plain; charset=utf-8", "x-robots-tag": "noindex, nofollow", "cache-control": "no-store" } });
     }
 
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
-      return handleImageOptimization(request, {
+      const imageResponse = await handleImageOptimization(request, {
         fetchAsset: (path) => env.ASSETS.fetch(new Request(new URL(path, request.url))),
         transformImage: async (body, { width, format, quality }) => {
           const result = await env.IMAGES.input(body).transform(width > 0 ? { width } : {}).output({ format, quality });
           return result.response();
         },
       }, allowedWidths);
+      if (!previewHost) return imageResponse;
+      const imageHeaders = new Headers(imageResponse.headers);
+      imageHeaders.set("x-robots-tag", "noindex, nofollow");
+      return new Response(imageResponse.body, { status: imageResponse.status, statusText: imageResponse.statusText, headers: imageHeaders });
     }
 
     const response = await handler.fetch(routedRequest, env, ctx);
