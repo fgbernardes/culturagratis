@@ -21,7 +21,7 @@ const OFFICIAL_LOGOS = [
   { src: '/cgl-logos/com-lettering-cores.png', label: 'Cores + lettering', size: 210, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
   { src: '/cgl-logos/com-lettering-preto-branco.png', label: 'P&B + lettering', size: 210, tone: 'bg-zinc-700/60 border-zinc-400 text-white' },
   { src: '/cgl-logos/com-lettering-negativo.png', label: 'Negativo + lettering', size: 210, tone: 'bg-white/20 border-white text-white' },
-  { src: '/cgl-logos/sem-lettering-cores.png', label: 'Cores sem lettering', size: 140, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
+  { src: '/cgl-emblem.png', label: 'Cores sem lettering', size: 140, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
   { src: '/cgl-logos/sem-lettering-preto-branco.png', label: 'P&B sem lettering', size: 140, tone: 'bg-zinc-700/60 border-zinc-400 text-white' },
   { src: '/cgl-logos/sem-lettering-negativo.png', label: 'Negativo sem lettering', size: 140, tone: 'bg-white/20 border-white text-white' },
 ] as const;
