@@ -18,12 +18,12 @@ const POSITIONS: { pos: LogoPosition; label: string; short: string }[] = [
 ];
 
 const OFFICIAL_LOGOS = [
-  { src: '/cgl-logos/com-lettering-cores.png', label: 'Cores + lettering', size: 210, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
   { src: '/cgl-emblem.png', label: 'Cores sem lettering', size: 140, tone: 'bg-cgl-orange/20 border-cgl-orange text-cgl-orange' },
   { src: '/cgl-logos/sem-lettering-negativo.png', label: 'Negativo sem lettering', size: 140, tone: 'bg-white/20 border-white text-white' },
 ] as const;
 
 const INVALID_OFFICIAL_LOGOS = new Set([
+  '/cgl-logos/com-lettering-cores.png',
   '/cgl-logos/com-lettering-negativo.png',
   '/cgl-logos/com-lettering-preto-branco.png',
   '/cgl-logos/sem-lettering-preto-branco.png',
