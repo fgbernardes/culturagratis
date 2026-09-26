@@ -107,6 +107,34 @@ try {
     console.log(`${width}px: ${JSON.stringify(layout)}`);
     await page.close();
   }
+
+  for (const width of [320, 390, 768, 1024, 1440]) {
+    const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
+    const response = await page.goto(origin + "/acesso-52", { waitUntil: "domcontentloaded", timeout: 30000 });
+    assert.equal(response?.status(), 200, `Acesso 52 unavailable at ${width}px`);
+    const layout = await page.evaluate(() => {
+      const heading = document.querySelector(".access52-steps h2")?.getBoundingClientRect();
+      const intro = document.querySelector(".access52-steps .access52-section-heading > p:last-child")?.getBoundingClientRect();
+      const list = document.querySelector(".access52-places--closed ul")?.getBoundingClientRect();
+      const items = [...document.querySelectorAll(".access52-places--closed li")].map((item) => item.getBoundingClientRect());
+      return {
+        scrollWidth: document.documentElement.scrollWidth,
+        viewport: innerWidth,
+        headingBottom: heading?.bottom,
+        introTop: intro?.top,
+        listLeft: list?.left,
+        items: items.map((item) => ({ left: item.left, width: item.width, top: item.top, bottom: item.bottom })),
+      };
+    });
+    await page.screenshot({ path: `visual-review/acesso-52-${width}.png`, fullPage: true });
+    assert.ok(layout.scrollWidth <= layout.viewport, `Acesso 52 horizontal overflow at ${width}: ${JSON.stringify(layout)}`);
+    assert.ok(layout.headingBottom <= layout.introTop + 1, `Acesso 52 step heading overlaps intro at ${width}: ${JSON.stringify(layout)}`);
+    assert.equal(layout.items.length, 5, `missing closed museums at ${width}`);
+    assert.ok(layout.items.every((item) => Math.abs(item.left - layout.listLeft) <= 1 && item.width > 200), `closed museums misaligned at ${width}: ${JSON.stringify(layout)}`);
+    assert.ok(layout.items.every((item, index) => index === 0 || item.top >= layout.items[index - 1].bottom - 1), `closed museums overlap at ${width}: ${JSON.stringify(layout)}`);
+    console.log(`Access 52 ${width}px: ${JSON.stringify(layout)}`);
+    await page.close();
+  }
 } finally {
   if (browser) await browser.close();
   await new Promise((resolveClose) => server.close(resolveClose));
