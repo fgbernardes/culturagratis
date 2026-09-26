@@ -45,6 +45,10 @@ const worker = {
       : env;
     const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
     runtime.__CGL_ENV = effectiveEnv;
+    // The mode passed to rendering must be request scoped. Never read it back from this global.
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-cgl-prelaunch-mode", effectiveEnv.CGL_PRELAUNCH_MODE === "false" ? "false" : "true");
+    const routedRequest = new Request(request, { headers: requestHeaders });
 
     if (isPrelaunchMode(effectiveEnv) && !isPrelaunchRequestAllowed(request.method, url.pathname)) {
       return new Response("Not found", {
@@ -64,7 +68,7 @@ const worker = {
       }, allowedWidths);
     }
 
-    return handler.fetch(request, env, ctx);
+    return handler.fetch(routedRequest, env, ctx);
   },
 };
 
