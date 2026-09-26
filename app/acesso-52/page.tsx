@@ -68,7 +68,7 @@ export default function Access52Page() {
         </div>
         <aside className="access52-badge-key">
           <Access52Badge variant="compact" size={56} />
-          <p><strong>Procura esta assinatura na agenda.</strong> É um selo editorial do CGL e não um símbolo oficial da MMP.</p>
+          <p><strong>O selo é nosso, a política não.</strong> Acesso 52 é uma medida pública. Esta assinatura apenas identifica a informação editorial do CGL; não é um símbolo oficial da MMP.</p>
         </aside>
       </section>
 
@@ -97,7 +97,7 @@ export default function Access52Page() {
         </ul>
       </section>
 
-      <section className="access52-places" aria-labelledby="closed-title">
+      <section className="access52-places access52-places--closed" aria-labelledby="closed-title">
         <div className="access52-section-heading">
           <p className="section-index">04 · ABRANGIDOS, MAS ENCERRADOS</p>
           <h2 id="closed-title">Não planeies uma visita a estes museus sem confirmar a reabertura</h2>
