@@ -31,7 +31,7 @@ test("concurrent hosts keep their Home and both discourage indexing", async () =
       assert.match(body, /noindex/, "both prelaunch and preview must discourage indexing");
       if (!canonical) assert.match(robotsTag ?? "", /noindex, nofollow/, "preview must send X-Robots-Tag");
     } else {
-      assert.equal(/Disallow:\s*\//i.test(body), canonical, "wrong robots.txt for hostname");
+      assert.match(body, /Disallow:\s*\//i, "both prelaunch and preview must disallow crawling");
     }
   }
 });
