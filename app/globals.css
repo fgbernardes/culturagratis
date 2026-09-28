@@ -3075,7 +3075,8 @@ summary:focus-visible {
   .cgl-coming-header { min-height: 124px; }
   .cgl-coming-header a { width: 138px; height: 120px; }
   .cgl-coming-status p { padding: 10px 12px 8px; box-shadow: 4px 4px 0 var(--charcoal); font-size: clamp(1.12rem, 5vw, 1.35rem); }
-  .cgl-coming-stage { grid-template-columns: 1fr; gap: 28px; padding: 26px 20px 30px; }
+  .cgl-coming-stage { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 26px 20px 30px; }
+  .cgl-coming-manifesto { order: 2; }
   .cgl-coming-manifesto h1 { margin: 10px 0 20px; font-size: clamp(2.65rem, 12vw, 3.25rem); line-height: .94; }
   .cgl-coming-prose { gap: 18px; font-size: 1rem; line-height: 1.42; }
   .cgl-coming-principles ul { grid-template-columns: 1fr; padding-inline: 20px; }
@@ -3083,16 +3084,21 @@ summary:focus-visible {
   .cgl-coming-principles strong { font-size: 1.32rem; }
   .cgl-coming-principles span { font-size: .82rem; line-height: 1.28; white-space: normal; }
   .cgl-coming-principles li:last-child { border-bottom: 0; }
-  .cgl-coming-signup { gap: 20px; padding: 25px 0 0; border-top: 1px solid #d9d1c5; border-left: 0; }
+  .cgl-coming-signup { order: 1; min-width: 0; gap: 20px; padding: 0; border: 0; }
+  .cgl-coming-signup-intro, .cgl-signup-form, .cgl-signup-fields, .cgl-signup-fields label { min-width: 0; }
   .cgl-coming-signup-intro { grid-template-columns: 1fr; gap: 8px; }
   .cgl-coming-signup-intro .cgl-coming-eyebrow, .cgl-coming-signup h2, .cgl-coming-signup-intro > p:last-child { grid-column: 1; }
   .cgl-coming-signup h2 { max-width: 470px; font-size: clamp(2.15rem, 9.8vw, 2.65rem); line-height: .95; }
   .cgl-coming-signup-intro > p:last-child { font-size: .9rem; }
   .cgl-signup-form { gap: 12px; }
-  .cgl-signup-fields, .cgl-signup-actions { grid-template-columns: 1fr; }
+  .cgl-signup-fields, .cgl-signup-actions { grid-template-columns: minmax(0, 1fr); }
   .cgl-signup-fields { gap: 14px; }
   .cgl-signup-fields input { min-height: 46px; }
-  .cgl-consent { font-size: .86rem; }
+  .cgl-consent { grid-template-columns: 20px minmax(0, 1fr); font-size: .86rem; }
+  .cgl-consent span, .cgl-signup-note { min-width: 0; overflow-wrap: anywhere; }
+  .cgl-coming-socials { flex-wrap: wrap; }
+  .cgl-coming-socials a { flex: 0 0 48px; }
+  .cgl-turnstile { max-width: 100%; }
   .cgl-signup-actions button { min-height: 50px; }
   .cgl-coming-footer { flex: 1 0 46px; width: 100%; max-width: none; min-height: 46px; margin: 0; padding-top: 15px; padding-bottom: max(15px, env(safe-area-inset-bottom)); align-items: flex-start; border-top-color: #363636; background: #1a1a1a; color: #d7d1c7; }
   .cgl-coming-footer a, .cgl-coming-footer button { color: #ffc107; }
