@@ -17,7 +17,7 @@ test("bundles the approved fonts and uses the width-only mobile layout", async (
   assert.ok(assetNames.some((name) => /bricolage-grotesque-latin[^/]*\.woff2$/i.test(name)));
   assert.match(css, /@media\s*\(width\s*<=\s*767px\)/i);
   assert.doesNotMatch(css, /\(hover:\s*none\)\s*and\s*\(pointer:\s*coarse\)/i);
-  assert.match(css, /\.cgl-coming-stage\s*\{\s*grid-template-columns:\s*1fr/i);
+  assert.match(css, /\.cgl-coming-stage\s*\{\s*grid-template-columns:\s*minmax\(0,1fr\)/i);
   assert.match(css, /\.cgl-coming-header\s*\{[^}]*min-height:\s*clamp\(144px,11\.5vw,172px\)/i);
   assert.match(css, /\.cgl-coming\s*\{[^}]*grid-template-rows:\s*clamp\(144px,11\.5vw,172px\)\s+minmax\(0,1fr\)\s+64px\s+32px/i);
   assert.match(css, /\.cgl-coming\s*\{[^}]*min-height:\s*0/i);
