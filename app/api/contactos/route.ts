@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 const CONSENT_VERSION = "v1.3";
-type RuntimeEnv = { BREVO_API_KEY?: string; BREVO_DOI_TEMPLATE_ID?: string; BREVO_CONTACT_LIST_ID?: string; BREVO_DOI_REDIRECT_URL?: string; TURNSTILE_SECRET_KEY?: string; TURNSTILE_EXPECTED_HOSTNAME?: string; };
+type RuntimeEnv = { BREVO_API_KEY?: string; BREVO_DOI_TEMPLATE_ID?: string; BREVO_CONTACT_LIST_ID?: string; BREVO_DOI_REDIRECT_URL?: string; TURNSTILE_SECRET_KEY?: string; };
 
 function runtimeEnv(): RuntimeEnv {
   const runtime = globalThis as typeof globalThis & { __CGL_ENV?: RuntimeEnv };
@@ -47,8 +47,13 @@ async function verifyTurnstile(token: string, request: Request, env: RuntimeEnv)
   const forwarded = request.headers.get("cf-connecting-ip");
   if (forwarded) form.set("remoteip", forwarded);
   const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
-  const result = await response.json() as { success?: boolean; hostname?: string };
-  return result.success === true && (!env.TURNSTILE_EXPECTED_HOSTNAME || result.hostname === env.TURNSTILE_EXPECTED_HOSTNAME);
+  const result = await response.json() as { success?: boolean; hostname?: string; "error-codes"?: string[] };
+  const expectedHostname = new URL(request.url).hostname;
+  if (result.success !== true || result.hostname !== expectedHostname) {
+    console.warn("newsletter_turnstile_rejected", { expectedHostname, receivedHostname: result.hostname, errorCodes: result["error-codes"] });
+    return false;
+  }
+  return true;
 }
 
 function isEmail(value: string) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value); }
