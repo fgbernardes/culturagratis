@@ -188,6 +188,44 @@ test("sends the subscriber first name to Brevo", async () => {
   }
 });
 
+test("validates Turnstile against the hostname of each newsletter request", async () => {
+  const originalFetch = globalThis.fetch;
+  let tokenHostname = "www.culturagratis.com";
+  let brevoCalls = 0;
+  globalThis.fetch = async (input) => {
+    const url = typeof input === "string" ? input : input.url;
+    if (url.includes("challenges.cloudflare.com/turnstile")) return Response.json({ success: true, hostname: tokenHostname });
+    if (url.includes("api.brevo.com/v3/contacts/doubleOptinConfirmation")) { brevoCalls++; return new Response(null, { status: 204 }); }
+    throw new Error(`Unexpected request: ${url}`);
+  };
+
+  try {
+    const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+    workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-hostnames`);
+    const { default: worker } = await import(workerUrl.href);
+    const env = {
+      ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) },
+      BREVO_API_KEY: "test", BREVO_CONTACT_LIST_ID: "7", BREVO_DOI_TEMPLATE_ID: "3",
+      BREVO_DOI_REDIRECT_URL: "https://www.culturagratis.com/inscricao-confirmada",
+      TURNSTILE_SECRET_KEY: "test", TURNSTILE_EXPECTED_HOSTNAME: "www.culturagratis.com",
+    };
+    const context = { waitUntil() {}, passThroughOnException() {} };
+    const submit = (host) => worker.fetch(new Request(`https://${host}/api/contactos`, {
+      method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ firstName: "Filipe", email: "teste@example.com", consent: true, consentVersion: "v1.3", turnstileToken: "test" }),
+    }), env, context);
+
+    assert.equal((await submit("www.culturagratis.com")).status, 201);
+    tokenHostname = "cultura-gratis-lisboa.fgbernardes.workers.dev";
+    assert.equal((await submit(tokenHostname)).status, 201);
+    tokenHostname = "www.culturagratis.com";
+    assert.equal((await submit("cultura-gratis-lisboa.fgbernardes.workers.dev")).status, 400);
+    assert.equal(brevoCalls, 2);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test("renders the confirmed subscription message with the Cultura Grátis logo", async () => {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}-confirmed`);
