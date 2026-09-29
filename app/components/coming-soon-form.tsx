@@ -20,7 +20,7 @@ export function ComingSoonForm({ siteKey }: { siteKey: string }) {
     if (!siteKey || !challengeRef.current) return;
     const render = () => {
       if (!challengeRef.current || !window.turnstile || widgetIdRef.current) return;
-      widgetIdRef.current = window.turnstile.render(challengeRef.current, { sitekey: siteKey, callback: setTurnstileToken, "expired-callback": () => setTurnstileToken(""), "error-callback": () => setError("Não foi possível validar a proteção do formulário. Atualiza a página e tenta novamente.") });
+      widgetIdRef.current = window.turnstile.render(challengeRef.current, { sitekey: siteKey, callback: (token) => { setTurnstileToken(token); setError(""); setStatus("idle"); }, "expired-callback": () => setTurnstileToken(""), "error-callback": () => { setTurnstileToken(""); setError("Não foi possível validar a proteção do formulário. Atualiza a página e tenta novamente."); } });
     };
     const existing = document.querySelector<HTMLScriptElement>('script[src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"]');
     if (existing) {
