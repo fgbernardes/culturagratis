@@ -5,31 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { cglLogoColor } from "../brand-assets";
 import type { EventItem } from "../data/events";
+import { nextSevenDaysInLisbon } from "../data/lisbon-calendar";
 import { ComingSoonForm } from "./coming-soon-form";
 import { categories } from "../site-content";
 
 const quickCategories = categories;
 const categorySymbols = ["♪", "◎", "▧", "⌂", "▶", "✦"];
 const parishPins = ["Alvalade", "Arroios", "Misericórdia", "Olivais"];
-
-function isoDate(date: Date) {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
-
-function weekDays() {
-  const today = new Date();
-  today.setHours(12, 0, 0, 0);
-  return Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(today);
-    date.setDate(today.getDate() + index);
-    return {
-      date: isoDate(date),
-      day: String(date.getDate()).padStart(2, "0"),
-      label: index === 0 ? "HOJE" : index === 1 ? "AMANHÃ" : new Intl.DateTimeFormat("pt-PT", { weekday: "short" }).format(date).replace(".", "").toLocaleUpperCase("pt-PT"),
-      detail: index === 0 ? "Agenda" : new Intl.DateTimeFormat("pt-PT", { month: "short" }).format(date).replace(".", "").toLocaleUpperCase("pt-PT"),
-    };
-  });
-}
 
 function categoryQuery(category: string) {
   return `/agenda?categoria=${encodeURIComponent(category)}`;
@@ -58,7 +40,7 @@ export function CglHome({ siteKey }: { siteKey: string }) {
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
-  const days = useMemo(() => weekDays(), []);
+  const days = useMemo(() => nextSevenDaysInLisbon(), []);
 
   useEffect(() => {
     let active = true;
