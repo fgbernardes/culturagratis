@@ -6,6 +6,7 @@ import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import { Access52Badge } from "../components/access52-badge";
 import { VerificationChip } from "../components/verification-badge";
 import type { EventItem } from "../data/events";
+import { dateRangeInLisbon } from "../data/lisbon-calendar";
 import { categories as editorialCategories, parishes } from "../site-content";
 
 const categories = ["Tudo", ...editorialCategories.map((item) => item.name)];
@@ -26,41 +27,8 @@ function isIsoDate(value: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(value);
 }
 
-function toIsoDate(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function addDays(date: Date, days: number) {
-  const copy = new Date(date);
-  copy.setDate(copy.getDate() + days);
-  return copy;
-}
-
-function dateRange(filter: string): [string, string] | null {
-  const today = new Date();
-  today.setHours(12, 0, 0, 0);
-
-  if (isIsoDate(filter)) return [filter, filter];
-  if (filter === "hoje") return [toIsoDate(today), toIsoDate(today)];
-  if (filter === "amanha") {
-    const tomorrow = addDays(today, 1);
-    return [toIsoDate(tomorrow), toIsoDate(tomorrow)];
-  }
-  if (filter === "7-dias") return [toIsoDate(today), toIsoDate(addDays(today, 6))];
-  if (filter === "fim-de-semana") {
-    const weekday = today.getDay();
-    const daysUntilSaturday = weekday === 0 ? -1 : weekday === 6 ? 0 : 6 - weekday;
-    const saturday = addDays(today, daysUntilSaturday);
-    return [toIsoDate(weekday === 0 ? today : saturday), toIsoDate(addDays(saturday, 1))];
-  }
-  return null;
-}
-
 function matchesDate(event: EventItem, filter: string) {
-  const range = dateRange(filter);
+  const range = dateRangeInLisbon(filter);
   if (!range) return true;
   const [start, end] = range;
   return event.startDate <= end && (event.endDate ?? event.startDate) >= start;
