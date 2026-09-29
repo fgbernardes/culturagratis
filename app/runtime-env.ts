@@ -5,7 +5,6 @@ export type CglRuntimeEnv = {
   SUPABASE_SECRET_KEY?: string;
   TURNSTILE_SITE_KEY?: string;
   TURNSTILE_SECRET_KEY?: string;
-  TURNSTILE_EXPECTED_HOSTNAME?: string;
   BREVO_API_KEY?: string;
   BREVO_DOI_TEMPLATE_ID?: string;
   BREVO_CONTACT_LIST_ID?: string;
