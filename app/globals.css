@@ -2324,12 +2324,21 @@ summary:focus-visible {
 .event-detail-intro {
   position: relative;
   display: grid;
-  grid-template-columns: 180px 1fr;
+  grid-template-columns: 180px minmax(0, 1fr);
   gap: clamp(28px, 5vw, 76px);
   align-items: start;
   padding-bottom: 64px;
   border-bottom: 1px solid var(--charcoal);
 }
+.event-detail-intro > div:last-child { min-width: 0; }
+.event-detail h1 { overflow-wrap: anywhere; }
+.event-facts span, .event-confidence span { min-width: 0; overflow-wrap: anywhere; }
+
+.cgl-home-community .cgl-signup-form { margin-top: 18px; }
+.cgl-home-community .cgl-signup-fields,
+.cgl-home-community .cgl-signup-actions { grid-template-columns: minmax(0, 1fr); }
+.cgl-home-community .cgl-signup-actions { justify-content: stretch; }
+.cgl-home-community .cgl-signup-actions button { width: min(100%, 300px); transform: none; }
 
 .event-detail-intro::after {
   position: absolute;

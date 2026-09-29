@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { cglLogoColor } from "../../brand-assets";
 import { Access52Badge } from "../../components/access52-badge";
-import { PublicSearchLink } from "../../components/public-chrome";
+import { PublicHeader, PublicFooter } from "../../components/public-chrome";
 import { VerificationSeal, formatVerificationDate } from "../../components/verification-badge";
 import { toEventItem } from "../../data/events";
 import { absoluteUrl, SITE_NAME } from "../../site-config";
@@ -71,16 +70,7 @@ export default async function EventPage({ params }: EventPageProps) {
     <main className="subpage-shell" id="conteudo">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }} />
       <a className="skip-link" href="#evento">Saltar para o evento</a>
-      <header className="subpage-header">
-        <Link className="subpage-brand" href="/" aria-label="Cultura Grátis Lisboa — início">
-          <img src={cglLogoColor} alt="" width="58" height="58" />
-          <span>Cultura Grátis Lisboa</span>
-        </Link>
-        <div className="subpage-header-actions">
-          <PublicSearchLink compact />
-          <Link className="quiet-link" href="/agenda">← Voltar à agenda</Link>
-        </div>
-      </header>
+      <PublicHeader />
 
       <article className="event-detail" id="evento">
         <div className={`event-detail-intro ${event.art}`}>
@@ -140,6 +130,7 @@ export default async function EventPage({ params }: EventPageProps) {
           </a>
         </aside>
       </article>
+      <PublicFooter />
     </main>
   );
 }

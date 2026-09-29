@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { cglLogoColor } from "../brand-assets";
+import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import { Access52Badge } from "../components/access52-badge";
 import { VerificationChip } from "../components/verification-badge";
 import type { EventItem } from "../data/events";
@@ -147,13 +147,7 @@ export default function AgendaPage() {
   return (
     <main className="subpage-shell">
       <a className="skip-link" href="#agenda-list">Saltar para a agenda</a>
-      <header className="subpage-header">
-        <Link className="subpage-brand" href="/" aria-label="Cultura Grátis Lisboa — início">
-          <img src={cglLogoColor} alt="" width="58" height="58" />
-          <span>Cultura Grátis Lisboa</span>
-        </Link>
-        <Link className="quiet-link" href="/">← Voltar ao início</Link>
-      </header>
+      <PublicHeader />
 
       <section className="agenda-hero">
         <p className="section-index">LISBOA · SEMPRE GRÁTIS</p>
@@ -272,6 +266,7 @@ export default function AgendaPage() {
           ) : null}
         </div>
       </section>
+      <PublicFooter />
     </main>
   );
 }

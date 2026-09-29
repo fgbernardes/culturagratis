@@ -75,5 +75,5 @@ function PrelaunchHome() {
 }
 
 export default async function Home() {
-  return (await isPrelaunchMode()) ? <PrelaunchHome /> : <CglHome />;
+  return (await isPrelaunchMode()) ? <PrelaunchHome /> : <CglHome siteKey={turnstileSiteKey()} />;
 }

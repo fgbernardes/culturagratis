@@ -205,7 +205,7 @@ test("renders the confirmed subscription message with the Cultura Grátis logo",
   assert.match(html, /Obrigado por nos acompanhares\./i);
   assert.match(html, /promessa de não te entupir a caixa de e-mail de spam\./i);
   assert.match(html, /anúncio do lançamento do site/i);
-  assert.match(html, /Eventos, claro, grátis! ;\)/i);
+  assert.match(html, /eventos gratuitos para juntares à agenda/i);
   assert.doesNotMatch(html, /&#x20;/i);
 });
 

@@ -5,6 +5,7 @@ import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import SubmissionForm from "../components/submission-form";
 import { editorialPages, getEditorialPage } from "../site-content";
 import { pageMetadata } from "../site-config";
+import { isPrelaunchMode } from "../launch-state";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function EditorialPageRoute({ params }: PageProps) {
   const page = getEditorialPage((await params).slug);
   if (!page) notFound();
-  const isLaunchPrivacyPage = page.slug === "privacidade";
+  const isLaunchPrivacyPage = page.slug === "privacidade" && await isPrelaunchMode();
 
   return (
     <main className="editorial-shell">

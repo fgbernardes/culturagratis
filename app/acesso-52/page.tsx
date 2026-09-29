@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { Access52Badge } from "../components/access52-badge";
-import { cglLogoColor } from "../brand-assets";
+import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import { pageMetadata } from "../site-config";
 
 export const metadata: Metadata = pageMetadata(
@@ -34,13 +33,7 @@ export default function Access52Page() {
   return (
     <main className="subpage-shell access52-lab" id="conteudo">
       <a className="skip-link" href="#como-funciona">Saltar para as condições</a>
-      <header className="subpage-header">
-        <Link className="subpage-brand" href="/" aria-label="Cultura Grátis Lisboa, início">
-          <img src={cglLogoColor} alt="" width="58" height="58" />
-          <span>Cultura Grátis Lisboa</span>
-        </Link>
-        <Link className="quiet-link" href="/">← Voltar ao início</Link>
-      </header>
+      <PublicHeader />
 
       <section className="access52-lab-hero">
         <div>
@@ -121,6 +114,7 @@ export default function Access52Page() {
           <a href="https://mosteirojeronimos.torrebelem.gov.pt/" target="_blank" rel="noopener noreferrer">Jerónimos e Torre de Belém ↗</a>
         </div>
       </section>
+      <PublicFooter />
     </main>
   );
 }
