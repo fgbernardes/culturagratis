@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { cglLogoColor } from "../brand-assets";
 import type { EventItem } from "../data/events";
+import { ComingSoonForm } from "./coming-soon-form";
 import { categories } from "../site-content";
 
 const quickCategories = categories;
@@ -51,7 +52,7 @@ function FooterSocialIcon({ name }: { name: (typeof footerSocialLinks)[number]["
   if (name === "youtube") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.8 4.7 12 4.7 12 4.7s-5.8 0-7.6.5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.8.5 7.6.5 7.6.5s5.8 0 7.6-.5a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11.2 11.2 0 0 0 2.8 17l-1.3 4.7 4.8-1.3a11.2 11.2 0 0 0 14.2-16.9ZM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-2.8.7.8-2.7-.2-.3A8 8 0 1 1 12 20Zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1l-.6.8c-.1.2-.3.2-.5.1a6.5 6.5 0 0 1-1.9-1.2 7 7 0 0 1-1.3-1.7c-.1-.2 0-.4.1-.5l.4-.5c.1-.1.1-.3.2-.4 0-.2 0-.3-.1-.4l-.8-1.8c-.2-.5-.5-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.6 2.5 3.8 3.5.5.2 1 .4 1.3.5.6.2 1.1.2 1.5.1.5-.1 1.4-.6 1.6-1.2.2-.6.2-1.1.1-1.2-.1-.1-.2-.2-.4-.3Z" /></svg>;
 }
-export function CglHome() {
+export function CglHome({ siteKey }: { siteKey: string }) {
   const [events, setEvents] = useState<EventItem[]>([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
@@ -170,7 +171,7 @@ export function CglHome() {
         <article className="accent"><span>04</span><h3>Acesso 52</h3><p>Conhece os 52 dias anuais de entrada gratuita para residentes em Portugal com NIF nos locais abrangidos.</p><Link href="/acesso-52">Ver como funciona →</Link></article>
       </div></section>
 
-      <section className="cgl-home-community" id="sobre"><div><p>06 · O QUE SOMOS</p><blockquote>“Lisboa tem cultura à porta. Procuramos propostas gratuitas, confirmamos as condições e damos-te a informação para escolheres.”</blockquote><span>Uma agenda cultural independente, feita com olhar de bairro. A cultura gratuita abre caminhos para conhecer Lisboa por inteiro.</span></div><aside><article><p>NEWSLETTER</p><h2>Lisboa na tua caixa de entrada</h2><span>Subscreve e confirma o teu endereço por email. O primeiro email anuncia a abertura; depois, enviamos novidades sobre a cultura gratuita em Lisboa.</span><a href="https://www.culturagratis.com/#agenda-title">Subscrever a newsletter →</a></article><article><p>COMUNIDADE</p><h2>Conheces um evento grátis?</h2><span>Envia a fonte oficial, data, local e condições de acesso. Nós fazemos a verificação.</span><Link href="/submeter-evento">Sugerir um evento →</Link></article></aside></section>
+      <section className="cgl-home-community" id="sobre"><div><p>06 · O QUE SOMOS</p><blockquote>“Lisboa tem cultura à porta. Procuramos propostas gratuitas, confirmamos as condições e damos-te a informação para escolheres.”</blockquote><span>Uma agenda cultural independente, feita com olhar de bairro. A cultura gratuita abre caminhos para conhecer Lisboa por inteiro.</span></div><aside><article id="newsletter"><p>NEWSLETTER</p><h2>Lisboa na tua caixa de entrada</h2><span>Subscreve e confirma o teu endereço por email para receber novidades sobre a cultura gratuita em Lisboa.</span><ComingSoonForm siteKey={siteKey} /></article><article><p>COMUNIDADE</p><h2>Conheces um evento grátis?</h2><span>Envia a fonte oficial, data, local e condições de acesso. Nós fazemos a verificação.</span><Link href="/submeter-evento">Sugerir um evento →</Link></article></aside></section>
 
       <footer className="cgl-home-footer">
   <div><img src="/cgl-emblem.png" alt="Cultura Grátis Lisboa" width="112" height="112" /><span><strong>Cultura Grátis Lisboa</strong><small>Cultura para todos. Lisboa para todos. Todos os dias.</small></span></div>
