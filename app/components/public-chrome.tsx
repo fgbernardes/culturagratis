@@ -70,7 +70,7 @@ export function PublicFooter() {
         <Link href="/politica-0-euros">Política dos 0 €</Link>
         <Link href="/contactos">Contactos</Link>
         <Link href="/acesso-52">Acesso 52</Link>
-        <Link href="/verificacao">Verificação CGL</Link>
+        <Link href="/verificacao">Como verificamos</Link>
         <Link href="/acessibilidade">Acessibilidade</Link>
         <Link href="/privacidade">Privacidade</Link>
         <Link href="/cookies">Cookies</Link>
