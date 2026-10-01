@@ -1,7 +1,7 @@
 /** Cloudflare Worker entry point for the vinext-starter template. */
 import { handleImageOptimization, DEFAULT_DEVICE_SIZES, DEFAULT_IMAGE_SIZES } from "vinext/server/image-optimization";
 import handler from "vinext/server/app-router-entry";
-import { isCanonicalPrelaunchHost, isPrelaunchMode, isPrelaunchRequestAllowed, isPublicPreviewHost } from "./prelaunch";
+import { isPrelaunchMode, isPrelaunchRequestAllowed, isPublicPreviewHost } from "./prelaunch";
 
 interface Env {
   ASSETS: Fetcher;
@@ -40,9 +40,7 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
     const previewHost = isPublicPreviewHost(url.hostname);
-    const effectiveEnv: Env = isCanonicalPrelaunchHost(url.hostname)
-      ? { ...env, CGL_PRELAUNCH_MODE: "true" }
-      : env;
+    const effectiveEnv: Env = env;
     const runtime = globalThis as typeof globalThis & { __CGL_ENV?: Env };
     runtime.__CGL_ENV = effectiveEnv;
     // The mode passed to rendering must be request scoped. Never read it back from this global.

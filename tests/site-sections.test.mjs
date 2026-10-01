@@ -36,14 +36,14 @@ test("public editorial sections have working routes and matching navigation", as
   assert.match(await merchandising.text(), /Brevemente/i);
 });
 
-test("canonical prelaunch host keeps new public sections behind the gate", async () => {
+test("canonical launched host serves public sections", async () => {
   for (const path of ["/apoia", "/noticias", "/coletividades", "/merchandising"]) {
     const response = await render("www.culturagratis.com", path);
-    assert.equal(response.status, 404, path);
+    assert.equal(response.status, 200, path);
   }
   const home = await render("www.culturagratis.com", "/");
   assert.equal(home.status, 200);
-  assert.match(await home.text(), /Brevemente/);
+  assert.doesNotMatch(await home.text(), /class="cgl-coming"/);
 });
 
 
