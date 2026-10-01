@@ -617,7 +617,8 @@
 
 .cgl-support-page-options {
   display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
+  grid-template-columns: minmax(0, 620px);
+  justify-content: center;
   gap: 16px;
   padding: clamp(38px, 7vw, 96px) clamp(18px, 12vw, 180px);
 }
