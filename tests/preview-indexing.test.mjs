@@ -36,11 +36,19 @@ test("preview pages and robots forbid indexing and sitemap is unavailable", asyn
   assert.equal(sitemap.status, 404);
 });
 
-test("canonical prelaunch stays gated and request mode never comes from app global", async () => {
+test("canonical launch serves Agenda and request mode never comes from app global", async () => {
   const canonical = await get("www.culturagratis.com", "/");
   assert.equal(canonical.status, 200);
-  assert.match(await canonical.text(), /Brevemente/);
-  assert.equal((await get("www.culturagratis.com", "/agenda")).status, 404);
+  assert.doesNotMatch(await canonical.text(), /class="cgl-coming"/);
+  assert.equal((await get("www.culturagratis.com", "/agenda")).status, 200);
   const launchState = fs.readFileSync(new URL("../app/launch-state.ts", import.meta.url), "utf8");
   assert.doesNotMatch(launchState, /__CGL_ENV|globalThis|CGL_PRELAUNCH_MODE/);
+});
+
+test("explicit prelaunch mode restores the canonical gate", async () => {
+  const gated = { ...env, CGL_PRELAUNCH_MODE: "true" };
+  const home = await worker.fetch(new Request("https://www.culturagratis.com/"), gated, context);
+  assert.match(await home.text(), /Brevemente/);
+  const agenda = await worker.fetch(new Request("https://www.culturagratis.com/agenda"), gated, context);
+  assert.equal(agenda.status, 404);
 });
