@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Access52Badge } from "../../components/access52-badge";
 import { PublicHeader, PublicFooter } from "../../components/public-chrome";
-import { VerificationSeal, formatVerificationDate } from "../../components/verification-badge";
+import { formatVerificationDate } from "../../components/verification-badge";
 import { toEventItem } from "../../data/events";
 import { absoluteUrl, SITE_NAME } from "../../site-config";
 import { getPublishedEventBySlug } from "../../../db/events";
@@ -96,10 +96,8 @@ export default async function EventPage({ params }: EventPageProps) {
 
         {event.verifiedAt ? (
           <aside className="event-verification-panel" aria-labelledby="verification-title">
-            <VerificationSeal verifiedAt={event.verifiedAt} size={112} />
             <div>
-              <p className="section-index">CGL VERIFICA</p>
-              <h2 id="verification-title">Informação verificada</h2>
+              <h2 id="verification-title">Como verificamos a informação</h2>
               <p>Confirmámos data, horário, local, gratuitidade e condições de acesso na fonte identificada.</p>
               <small>Última verificação: {formatVerificationDate(event.verifiedAt)} · Fonte: {event.source}</small>
               <Link href="/verificacao">Conhecer o método de verificação →</Link>
