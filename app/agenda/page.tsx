@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { PublicFooter, PublicHeader } from "../components/public-chrome";
 import { Access52Badge } from "../components/access52-badge";
-import { VerificationChip } from "../components/verification-badge";
 import type { EventItem } from "../data/events";
 import { dateRangeInLisbon } from "../data/lisbon-calendar";
+import { todayInLisbon } from "../data/event-visibility";
 import { categories as editorialCategories, parishes } from "../site-content";
 
 const categories = ["Tudo", ...editorialCategories.map((item) => item.name)];
@@ -164,7 +164,7 @@ export default function AgendaPage() {
             <span>Data</span>
             <select
               value={isIsoDate(dateFilter) ? "personalizada" : dateFilter}
-              onChange={(event) => setDateFilter(event.target.value === "personalizada" ? toIsoDate(new Date()) : event.target.value)}
+              onChange={(event) => setDateFilter(event.target.value === "personalizada" ? todayInLisbon() : event.target.value)}
             >
               <option value="todas">Todas as datas</option>
               <option value="hoje">Hoje</option>
@@ -203,7 +203,6 @@ export default function AgendaPage() {
                 <small>{event.time}</small>
                 {event.verifiedAt || event.access52 ? (
                   <div className="agenda-editorial-badges">
-                    {event.verifiedAt ? <VerificationChip verifiedAt={event.verifiedAt} className="agenda-verification" /> : null}
                     {event.access52 ? <Access52Badge variant="compact" size={48} /> : null}
                   </div>
                 ) : null}
