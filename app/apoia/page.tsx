@@ -25,11 +25,6 @@ export default function ApoiaPage() {
           <div><small>APOIO IMEDIATO</small><strong>Oferece-nos um café</strong><p>Buy Me a Coffee →</p></div>
         </a>
 
-        <article className="cgl-support-page-pending">
-          <small>EM BREVE</small><strong>Stripe</strong>
-          <p>Cartão, Apple Pay e Google Pay.</p>
-        </article>
-
       </section>
 
       <section className="cgl-support-page-collaborate">
