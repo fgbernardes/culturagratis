@@ -74,7 +74,7 @@ export function CglHome({ siteKey }: { siteKey: string }) {
       <header className={`cgl-home-header${isHeaderCompact ? " is-compact" : ""}`}>
         <Link className="cgl-home-brand" href="/" aria-label="Cultura Grátis Lisboa, início">
           <img src={cglLogoColor} alt="" width="94" height="94" />
-          <span><strong>Cultura Grátis</strong><small>Lisboa, sem barreira económica.</small></span>
+          <span><strong>Cultura Grátis</strong><small>Lisboa sem barreiras</small></span>
         </Link>
         <nav className="cgl-home-nav" aria-label="Navegação principal">
           <Link href="/agenda">Agenda</Link><Link href="/categorias">Categorias</Link><Link href="/freguesias">Freguesias</Link><Link href="/noticias">Notícias</Link><Link href="/coletividades">Coletividades</Link><Link href="/acesso-52">Acesso 52</Link><Link href="/sobre">Sobre</Link>
