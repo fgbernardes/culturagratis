@@ -213,16 +213,16 @@ export const editorialPages: EditorialPage[] = [
   },
   {
     slug: "verificacao",
-    eyebrow: "CGL VERIFICA",
+    eyebrow: "COMO VERIFICAMOS",
     title: "Verificamos antes de publicar",
-    intro: "O selo CGL Verifica identifica informação prática que foi confirmada editorialmente numa fonte oficial ou primária identificável.",
+    intro: "Antes de publicar, confirmamos a informação prática numa fonte oficial ou primária identificável.",
     updated: "Metodologia v1.0 · agosto de 2026",
     sections: [
       {
-        title: "O que significa o selo",
+        title: "O nosso método",
         body: [
-          "Quando uma página apresenta o selo Verificado pelo CGL, significa que revimos os dados essenciais do evento e registámos a data dessa verificação. O selo confirma a informação publicada; não avalia a qualidade artística da proposta nem certifica a entidade organizadora.",
-          "O selo identifica a verificação editorial feita pelo CGL e indica a fonte e a data da consulta.",
+          "Revemos os dados essenciais de cada evento antes de o publicar e registamos a data da verificação. A verificação editorial não avalia a qualidade artística nem certifica a entidade organizadora.",
+          "Identificamos a fonte e a data da consulta na página do evento.",
         ],
       },
       {
@@ -243,7 +243,7 @@ export const editorialPages: EditorialPage[] = [
         ],
       },
       {
-        title: "O que o selo não garante",
+        title: "Limites da verificação",
         bullets: [
           "Que a programação não será alterada depois da verificação.",
           "Que ainda existem lugares disponíveis ou que a entrada está assegurada.",
@@ -268,8 +268,8 @@ export const editorialPages: EditorialPage[] = [
     slug: "acessibilidade",
     eyebrow: "ACESSIBILIDADE",
     title: "Uma agenda para poder ser usada por todos",
-    intro: "O nosso objetivo de produto é cumprir as WCAG 2.2 no nível AA. A construção e os testes de acessibilidade continuam antes do lançamento.",
-    updated: "Estado: versão em construção · agosto de 2026",
+    intro: "Trabalhamos para cumprir as WCAG 2.2 no nível AA e continuamos a testar e melhorar a acessibilidade do site.",
+    updated: "Estado: em melhoria contínua · 1 de outubro de 2026",
     sections: [
       {
         title: "O que estamos a implementar",
@@ -366,8 +366,8 @@ export const editorialPages: EditorialPage[] = [
     slug: "termos",
     eyebrow: "TRANSPARÊNCIA",
     title: "Termos de utilização",
-    intro: "O Cultura Grátis Lisboa organiza informação cultural para ajudar a descobrir propostas gratuitas na cidade. Esta versão acompanha a fase de construção do serviço.",
-    updated: "Versão de pré-lançamento · agosto de 2026",
+    intro: "O Cultura Grátis Lisboa organiza informação cultural para ajudar a descobrir propostas gratuitas na cidade.",
+    updated: "Versão 1.0 · 1 de outubro de 2026",
     sections: [
       {
         title: "Informação editorial",
