@@ -12,6 +12,7 @@ import {
   waitForCanvasReady,
 } from '../../utils/exportCanvas';
 import { buildCaptionDraft } from '../../utils/captionDraft';
+import { PublishedEventExport } from './PublishedEventExport';
 import {
   Undo2,
   Redo2,
@@ -136,7 +137,7 @@ export const TopBar: React.FC<TopBarProps> = ({ canvasRef }) => {
   // Copiar Legenda Formatada & Hashtags do Projeto
   const handleCopyCaption = async () => {
     try {
-      await navigator.clipboard.writeText(buildCaptionDraft(slides));
+      await navigator.clipboard.writeText(buildCaptionDraft(slides[activeSlideIndex]?.pipelineEvent ? [slides[activeSlideIndex]] : slides));
       setCopiedCaptionSuccess(true);
       setTimeout(() => setCopiedCaptionSuccess(false), 2000);
     } catch (err) {
@@ -307,6 +308,7 @@ export const TopBar: React.FC<TopBarProps> = ({ canvasRef }) => {
 
       {/* Direita: Ações de Exportação */}
       <div className="flex items-center gap-2">
+        <PublishedEventExport canvasRef={canvasRef} />
         <button
           onClick={handleCopyCaption}
           className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-zinc-600 text-zinc-200 rounded-lg transition cursor-pointer shadow-xs"

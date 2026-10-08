@@ -691,6 +691,7 @@ export const Canvas = forwardRef<HTMLDivElement>((_, ref) => {
           return (
             <div
               key={el.id}
+              data-studio-element={el.id}
               onClick={(e) => {
                 e.stopPropagation();
                 if (selectedElementId === el.id) {

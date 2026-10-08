@@ -89,7 +89,7 @@ export const LogoSection: React.FC<LogoSectionProps> = ({ isOpen, onToggle }) =>
                 </button>
               ))}
             </div>
-            {INVALID_OFFICIAL_LOGOS.has(brandLogo.src) && (
+            {INVALID_OFFICIAL_LOGOS.has(brandLogo.src ?? '') && (
               <p role="status" className="text-xs text-amber-300">
                 Este projeto usa um PNG danificado. Escolhe uma das variantes disponíveis acima.
               </p>

@@ -1,4 +1,5 @@
 import type { ParsedEvent } from '../types';
+import { readEventEnvelope, mapPublishedEvent } from './publishedEvent';
 
 export const CATEGORY_COLORS: Record<string, string> = {
   'MÚSICA': '#FE7D02',
@@ -16,63 +17,12 @@ export const parseEventText = (rawInput: string): ParsedEvent => {
     return { title: 'Novo Evento' };
   }
 
-  // 1. Tentar interpretar como JSON estruturado
-  if (text.startsWith('{') && text.endsWith('}')) {
-    try {
-      const data = JSON.parse(text);
-      const title = data.title || data.titulo || data.name || 'Novo Evento';
-      let category = data.category || data.categoria;
-      let categoryColor = '#FE7D02';
-
-      if (category) {
-        const catUpper = category.toUpperCase().trim();
-        if (catUpper.includes('TEATRO') || catUpper.includes('DANÇA') || catUpper.includes('DANCA')) {
-          category = 'TEATRO';
-          categoryColor = CATEGORY_COLORS['TEATRO'];
-        } else if (catUpper.includes('EXPOSIÇÃO') || catUpper.includes('EXPOSICAO') || catUpper.includes('ARTE')) {
-          category = 'EXPOSIÇÃO';
-          categoryColor = CATEGORY_COLORS['EXPOSIÇÃO'];
-        } else if (catUpper.includes('CINEMA') || catUpper.includes('FILME')) {
-          category = 'CINEMA';
-          categoryColor = CATEGORY_COLORS['CINEMA'];
-        } else if (catUpper.includes('FAMÍLIA') || catUpper.includes('FAMILIA') || catUpper.includes('CRIANÇA') || catUpper.includes('CRIANCA')) {
-          category = 'FAMÍLIAS';
-          categoryColor = CATEGORY_COLORS['FAMÍLIAS'];
-        } else if (catUpper.includes('AR LIVRE')) {
-          category = 'AR LIVRE';
-          categoryColor = CATEGORY_COLORS['AR LIVRE'];
-        } else if (catUpper.includes('MÚSICA') || catUpper.includes('MUSICA') || catUpper.includes('CONCERTO') || catUpper.includes('JAZZ') || catUpper.includes('FADO')) {
-          category = 'MÚSICA';
-          categoryColor = CATEGORY_COLORS['MÚSICA'];
-        } else {
-          category = catUpper;
-          categoryColor = CATEGORY_COLORS[catUpper] || '#FE7D02';
-        }
-      }
-
-      // Detetar gratuidade
-      const jsonStr = JSON.stringify(data).toLowerCase();
-      const isFree =
-        Boolean(data.free || data.isFree || data.gratis || data.entradaLivre) ||
-        jsonStr.includes('grátis') ||
-        jsonStr.includes('gratis') ||
-        jsonStr.includes('livre') ||
-        jsonStr.includes('gratuito') ||
-        jsonStr.includes('0€') ||
-        jsonStr.includes('0 eur') ||
-        jsonStr.includes('free');
-
-      return {
-        title,
-        date: data.date || data.data || data.datetime || data.time || undefined,
-        venue: data.venue || data.location || data.local || data.localizacao || data.place || undefined,
-        category: category || undefined,
-        categoryColor,
-        isFree,
-      };
-    } catch (e) {
-      console.warn('Falha ao interpretar como JSON, processando como texto livre...', e);
-    }
+  // Um JSON da pipeline nunca cai silenciosamente no interpretador de texto livre.
+  if (text.startsWith('{') || text.startsWith('[')) {
+    const { events } = readEventEnvelope(text);
+    if (events.length !== 1) throw new Error('Escolhe um evento do lote na importação JSON.');
+    const event = mapPublishedEvent(events[0]);
+    return { ...event.studio, access: event.access, pipelineEvent: event };
   }
 
   // 2. Interpretador de texto livre / não formatado

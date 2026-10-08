@@ -1,3 +1,7 @@
+import type { PublishedEventMetadata } from '../types';
+import { buildEventCaption, synchronizeEventContent } from './publishedEvent';
+import type { ImageElement } from '../types';
+
 interface CaptionTextElement {
   id?: string;
   type: string;
@@ -7,6 +11,7 @@ interface CaptionTextElement {
 
 interface CaptionSlide {
   elements: CaptionTextElement[];
+  pipelineEvent?: PublishedEventMetadata;
 }
 
 const normalise = (value: string) => value.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
@@ -21,6 +26,8 @@ const prefixedLine = (elements: CaptionTextElement[], prefix: string) => {
 };
 
 export function buildCaptionDraft(slides: CaptionSlide[]): string {
+  const imported=slides.find(slide=>slide.pipelineEvent);
+  if(imported?.pipelineEvent)return buildEventCaption(synchronizeEventContent(imported.pipelineEvent,imported.elements as ImageElement[]));
   const textElements = slides.flatMap((slide) => slide.elements.filter((element) => element.type === 'text' && element.content));
   const title = textElements.slice().sort((a, b) => (b.fontSize || 0) - (a.fontSize || 0))[0]?.content;
   const venue = prefixedLine(textElements, '📍');
