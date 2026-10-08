@@ -121,6 +121,11 @@ export interface ParsedEvent {
   category?: string;
   categoryColor?: string;
   isFree?: boolean;
+  access?: string;
+  accessType?: string;
+  freguesia?: string;
+  source?: string;
+  sourceUrl?: string;
 }
 
 export type ParsedEventData = ParsedEvent;

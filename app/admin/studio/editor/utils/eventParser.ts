@@ -52,7 +52,11 @@ export const parseEventText = (rawInput: string): ParsedEvent => {
 
       // Detetar gratuidade
       const jsonStr = JSON.stringify(data).toLowerCase();
-      const isFree =
+      const access = typeof (data.access ?? data.condicao) === 'string' ? (data.access ?? data.condicao).trim() : undefined;
+      const accessType = typeof data.accessType === 'string' ? data.accessType.trim() : access;
+      const isFree = accessType
+        ? /^entrada livre$/i.test(accessType)
+        :
         Boolean(data.free || data.isFree || data.gratis || data.entradaLivre) ||
         jsonStr.includes('grátis') ||
         jsonStr.includes('gratis') ||
@@ -69,6 +73,11 @@ export const parseEventText = (rawInput: string): ParsedEvent => {
         category: category || undefined,
         categoryColor,
         isFree,
+        access,
+        accessType,
+        freguesia: data.freguesia || data.area || undefined,
+        source: data.source || data.sourceName || undefined,
+        sourceUrl: data.sourceUrl || undefined,
       };
     } catch (e) {
       console.warn('Falha ao interpretar como JSON, processando como texto livre...', e);

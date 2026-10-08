@@ -1872,6 +1872,7 @@ export const useStore = create<AppState>()(
           const textColor = isBgLight ? '#1A1A1A' : '#FFFFFF';
 
           const remainingElements = state.elements.filter((el) => {
+            if (el.id.startsWith('cgl-event-')) return false;
             if (el.type === 'text') {
               const lower = (el.content || '').toLowerCase();
               if (
@@ -1941,16 +1942,18 @@ export const useStore = create<AppState>()(
           // 3. Informações de Data / Horário / Local
           const infoLines: string[] = [];
           if (parsedData.date) infoLines.push(`📅  ${parsedData.date}`);
-          if (parsedData.venue) infoLines.push(`📍  ${parsedData.venue}`);
+          if (parsedData.venue) infoLines.push(`📍  ${parsedData.venue}${parsedData.freguesia ? ` · ${parsedData.freguesia}` : ''}`);
+          if (parsedData.access) infoLines.push(`🎟  ${parsedData.access}`);
+          if (parsedData.source) infoLines.push(`Fonte: ${parsedData.source}`);
 
           if (infoLines.length > 0) {
             newElements.push({
-              id: crypto.randomUUID(),
+              id: `cgl-event-${crypto.randomUUID()}`,
               type: 'text',
               content: infoLines.join('\n'),
               x: 80,
               y: 440,
-              fontSize: 32,
+              fontSize: infoLines.length > 2 ? 27 : 32,
               fontFamily: '"Inter", sans-serif',
               color: textColor,
               fontWeight: 400,

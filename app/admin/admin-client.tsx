@@ -6,6 +6,7 @@ import type { EventRecord, EventStatus } from "../../db/events";
 import type { SubmissionRecord, SubmissionStatus } from "../../db/submissions";
 import { formatVerificationDate } from "../components/verification-badge";
 import { categories } from "../site-content";
+import { buildStudioEventPayload, STUDIO_HANDOFF_KEY } from "./studio-event-payload";
 
 const statusLabels: Record<EventStatus, string> = {
   draft: "Candidato", review: "Em verificação", verified: "Verificado", published: "Publicado", archived: "Arquivado", rejected: "Não elegível",
@@ -196,12 +197,23 @@ function SubmissionRow({ submission, busy, onChange }: { submission: SubmissionR
 function EventRow({ event, busy, onChange, onAccess52Change }: { event: EventRecord; busy: boolean; onChange: (id: string, status: EventStatus) => void; onAccess52Change: (id: string, access52: boolean) => void }) {
   const [status, setStatus] = useState<EventStatus>(event.status);
   const [access52, setAccess52] = useState(event.access52);
+  const [studioError, setStudioError] = useState("");
   const isReverification = event.status === "published" && status === "published";
+  const openStudio = () => {
+    const result = buildStudioEventPayload(event);
+    if (!result.payload) { setStudioError(result.errors.join(" ")); return; }
+    try {
+      sessionStorage.setItem(STUDIO_HANDOFF_KEY, JSON.stringify(result.payload));
+      window.location.assign("/admin/studio");
+    } catch {
+      setStudioError("Não foi possível passar o evento ao Studio neste browser. Verifica o armazenamento e tenta novamente.");
+    }
+  };
   return (
     <article className="admin-event-row">
       <div className={`admin-status admin-status-${event.status}`}>{statusLabels[event.status]}</div>
       <div><small>{event.startDate}{event.endDate ? ` — ${event.endDate}` : ""} · {event.category}</small><h3>{event.title}</h3><p>{event.venue} · {event.streetAddress}, {event.postalCode} Lisboa · {event.area}</p>{event.verifiedAt ? <p className="admin-verification-date">✓ Verificado em {formatVerificationDate(event.verifiedAt)}</p> : null}{event.access52 ? <p className="admin-access52-date">Acesso 52 · classificação ativa</p> : null}<a href={event.sourceUrl} target="_blank" rel="noreferrer">Abrir fonte oficial ↗</a></div>
-      <div className="admin-status-control"><label>Estado<select value={status} onChange={(e) => setStatus(e.target.value as EventStatus)}><option value="draft">Candidato</option><option value="review">Em verificação</option><option value="verified">Verificado</option><option value="published">Publicado</option><option value="archived">Arquivado</option><option value="rejected">Não elegível</option></select></label><button type="button" disabled={busy || (status === event.status && !isReverification)} onClick={() => onChange(event.id, status)}>{isReverification ? "Renovar verificação" : "Atualizar"}</button><label className="admin-access52-toggle"><input type="checkbox" checked={access52} onChange={(event) => setAccess52(event.target.checked)} /> Acesso 52</label><button type="button" disabled={busy || access52 === event.access52} onClick={() => onAccess52Change(event.id, access52)}>Guardar classificação</button></div>
+      <div className="admin-status-control"><label>Estado<select value={status} onChange={(e) => setStatus(e.target.value as EventStatus)}><option value="draft">Candidato</option><option value="review">Em verificação</option><option value="verified">Verificado</option><option value="published">Publicado</option><option value="archived">Arquivado</option><option value="rejected">Não elegível</option></select></label><button type="button" disabled={busy || (status === event.status && !isReverification)} onClick={() => onChange(event.id, status)}>{isReverification ? "Renovar verificação" : "Atualizar"}</button><label className="admin-access52-toggle"><input type="checkbox" checked={access52} onChange={(event) => setAccess52(event.target.checked)} /> Acesso 52</label><button type="button" disabled={busy || access52 === event.access52} onClick={() => onAccess52Change(event.id, access52)}>Guardar classificação</button>{(event.status === "verified" || event.status === "published") && <button type="button" disabled={busy} onClick={openStudio}>Gerar peças sociais</button>}{studioError && <p role="alert">{studioError}</p>}</div>
     </article>
   );
 }
