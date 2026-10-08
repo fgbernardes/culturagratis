@@ -13,6 +13,7 @@ import {
   waitForCanvasReady,
 } from '../../utils/exportCanvas';
 import { buildCaptionDraft } from '../../utils/captionDraft';
+import { PublishedEventExport } from '../header/PublishedEventExport';
 
 interface ExportSectionProps {
   canvasRef: React.RefObject<HTMLDivElement | null>;
@@ -99,7 +100,7 @@ export const ExportSection: React.FC<ExportSectionProps> = ({ canvasRef }) => {
 
   const handleCopyCaption = async () => {
     try {
-      await navigator.clipboard.writeText(buildCaptionDraft(slides));
+      await navigator.clipboard.writeText(buildCaptionDraft(slides[activeSlideIndex]?.pipelineEvent ? [slides[activeSlideIndex]] : slides));
       setCopiedCaption(true);
       setTimeout(() => setCopiedCaption(false), 2000);
     } catch (err) {
@@ -110,6 +111,7 @@ export const ExportSection: React.FC<ExportSectionProps> = ({ canvasRef }) => {
 
   return (
     <div className="mt-auto flex flex-col gap-2 pt-4">
+      <PublishedEventExport canvasRef={canvasRef} />
       <button
         onClick={handleCopyCaption}
         className="w-full flex items-center justify-center gap-2 bg-zinc-800 hover:bg-zinc-700 font-bold py-2.5 px-3 rounded text-xs transition"

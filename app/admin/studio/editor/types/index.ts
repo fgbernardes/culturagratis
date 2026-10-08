@@ -102,6 +102,8 @@ export interface Slide {
   photo?: SlidePhoto;
   textureType: TextureType;
   textureOpacity: number;
+  pipelineEvent?: PublishedEventMetadata;
+  pipelineFormat?: AspectRatio;
 }
 
 export interface CustomPreset {
@@ -112,6 +114,8 @@ export interface CustomPreset {
   background: BackgroundSettings;
   elements: ImageElement[];
   photo?: SlidePhoto;
+  brandLogo?: BrandLogo;
+  pipelineEvent?: PublishedEventMetadata;
 }
 
 export interface ParsedEvent {
@@ -121,6 +125,17 @@ export interface ParsedEvent {
   category?: string;
   categoryColor?: string;
   isFree?: boolean;
+  access?: string;
+  pipelineEvent?: PublishedEventMetadata;
+}
+
+export interface PublishedEventMetadata {
+  studio: Omit<ParsedEvent, 'pipelineEvent'>;
+  id: string;
+  slug: string;
+  access: string;
+  description: string;
+  sourceUrl: string;
 }
 
 export type ParsedEventData = ParsedEvent;

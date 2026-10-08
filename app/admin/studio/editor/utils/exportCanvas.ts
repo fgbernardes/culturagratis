@@ -1,5 +1,6 @@
 import { toPng, toBlob } from 'html-to-image';
 import { useStore } from '../store/useStore';
+import { synchronizeEventContent, validateProjectData } from './publishedEvent';
 
 /**
  * Módulo único de exportação do CGL Studio.
@@ -158,6 +159,21 @@ export const withCleanCanvas = async <T>(
 
     node.style.transform = 'none';
     await waitForCanvasReady(node);
+    const current = useStore.getState();
+    const event = current.slides[current.activeSlideIndex]?.pipelineEvent;
+    if (event) {
+      validateProjectData(synchronizeEventContent(event, current.elements), current.elements);
+      const bounds = node.getBoundingClientRect();
+      const blocks = Array.from(node.querySelectorAll<HTMLElement>('[data-studio-element]')).filter(el => el.dataset.studioElement?.startsWith('pipeline-'));
+      const rectangles = blocks.map(el => el.getBoundingClientRect());
+      if (rectangles.some(rect => rect.left < bounds.left - 1 || rect.top < bounds.top - 1 || rect.right > bounds.right + 1 || rect.bottom > bounds.bottom + 1)) {
+        throw new Error('Há texto fora da peça. Encurta-o ou ajusta a posição antes de exportar.');
+      }
+      for (let i = 0; i < rectangles.length; i++) for (let j = i + 1; j < rectangles.length; j++) {
+        const a = rectangles[i], b = rectangles[j];
+        if (Math.min(a.right,b.right)-Math.max(a.left,b.left)>2 && Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2) throw new Error('Há campos do evento sobrepostos. Ajusta-os antes de exportar.');
+      }
+    }
 
     // Rede de segurança final: se a captura encravar, queremos um erro
     // visível e o estado reposto, nunca um editor partido em silêncio.

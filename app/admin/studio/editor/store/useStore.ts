@@ -5,6 +5,7 @@ import { resolveAsset } from '../utils/assetStore';
 import { inlineAssetsForExport, storeAssetsFromImport } from '../utils/assetMigration';
 import { STICKERS } from '../data/stickers';
 import { extractColorsFromImage } from '../utils/colorExtractor';
+import { buildStudioProject, adaptPublishedSlide, synchronizeEventContent } from '../utils/publishedEvent';
 import type {
   AspectRatio,
   CanvasSettings,
@@ -18,6 +19,7 @@ import type {
   CustomPreset,
   TextureType,
   HistorySnapshot,
+  PublishedEventMetadata,
 } from '../types';
 
 export const ASPECT_RATIO_DIMENSIONS: Record<AspectRatio, { width: number; height: number }> = {
@@ -34,7 +36,7 @@ const BROKEN_OFFICIAL_LOGO_SOURCES = new Set([
 const OFFICIAL_LOGO_SRC = '/cgl-emblem.png';
 
 const normalizeOfficialBrandLogo = (logo: BrandLogo): BrandLogo =>
-  BROKEN_OFFICIAL_LOGO_SOURCES.has(logo.src)
+  BROKEN_OFFICIAL_LOGO_SOURCES.has(logo.src ?? '')
     ? { ...logo, src: OFFICIAL_LOGO_SRC, size: logo.src === '/cgl-logos/com-lettering-cores.png' && logo.size === 210 ? 140 : logo.size }
     : logo;
 
@@ -122,6 +124,8 @@ interface AppState {
   setActiveSlide: (index: number) => void;
   resetProject: () => void;
   autoFillEvent: (parsedData: ParsedEvent) => void;
+  importPublishedEvent: (event: PublishedEventMetadata) => void;
+  exportingEventPack: boolean;
 }
 
 // Migração segura caso o utilizador já tivesse dados guardados na chave anterior
@@ -211,6 +215,7 @@ export const useStore = create<AppState>()(
       canRedo: false,
       lastSavedAt: Date.now(),
       saveError: null,
+      exportingEventPack: false,
       customPresets: [],
       slides: [
         {
@@ -315,8 +320,14 @@ export const useStore = create<AppState>()(
         set((state) => {
           const history = recordHistory(state);
           const dimensions = ASPECT_RATIO_DIMENSIONS[ratio] || { width: 1080, height: 1080 };
+          const slides = state.slides.map((slide, index) => {
+            const current = index === state.activeSlideIndex ? { ...slide, elements: state.elements, brandLogo: state.brandLogo } : slide;
+            return adaptPublishedSlide(current, current.pipelineFormat || state.canvasSettings.aspectRatio, ratio);
+          });
           return {
             ...history,
+            slides,
+            elements: slides[state.activeSlideIndex]?.elements || state.elements,
             canvasSettings: {
               ...state.canvasSettings,
               aspectRatio: ratio,
@@ -527,6 +538,8 @@ export const useStore = create<AppState>()(
             return {
               ...s,
               elements: mergedElements,
+              pipelineEvent: undefined,
+              pipelineFormat: undefined,
               backgroundColor: mergedSettings.backgroundColor,
               backgroundImage: mergedSettings.backgroundImage,
               textureType: mergedSettings.textureType,
@@ -642,6 +655,8 @@ export const useStore = create<AppState>()(
             return {
               ...s,
               elements: agendaElements,
+              pipelineEvent: undefined,
+              pipelineFormat: undefined,
               photo: currentPhoto,
               backgroundColor: '#1A1A1A',
             };
@@ -874,6 +889,8 @@ export const useStore = create<AppState>()(
               return {
                 ...s,
                 elements: tiktokElements,
+                pipelineEvent: undefined,
+                pipelineFormat: undefined,
               };
             });
 
@@ -974,6 +991,8 @@ export const useStore = create<AppState>()(
               return {
                 ...s,
                 elements: whatsappElements,
+                pipelineEvent: undefined,
+                pipelineFormat: undefined,
                 backgroundColor: '#1A1A1A',
               };
             });
@@ -1075,6 +1094,8 @@ export const useStore = create<AppState>()(
               return {
                 ...s,
                 elements: facebookElements,
+                pipelineEvent: undefined,
+                pipelineFormat: undefined,
                 backgroundColor: '#1A1A1A',
               };
             });
@@ -1222,7 +1243,7 @@ export const useStore = create<AppState>()(
         set((state) => {
           const history = recordHistory(state);
           const updatedSlides = state.slides.map((s, idx) =>
-            idx === state.activeSlideIndex ? { ...s, elements: [] } : s
+            idx === state.activeSlideIndex ? { ...s, elements: [], pipelineEvent: undefined, pipelineFormat: undefined } : s
           );
           return {
             ...history,
@@ -1576,6 +1597,10 @@ export const useStore = create<AppState>()(
             },
             elements: state.elements.map((el) => ({ ...el })),
             photo: activePhoto ? { ...activePhoto } : undefined,
+            brandLogo: { ...state.brandLogo },
+            pipelineEvent: state.slides[state.activeSlideIndex]?.pipelineEvent
+              ? structuredClone(synchronizeEventContent(state.slides[state.activeSlideIndex].pipelineEvent!, state.elements))
+              : undefined,
           };
 
           return {
@@ -1592,7 +1617,7 @@ export const useStore = create<AppState>()(
           const dimensions = ASPECT_RATIO_DIMENSIONS[preset.format] || { width: 1080, height: 1080 };
           const clonedElements = preset.elements.map((el) => ({
             ...el,
-            id: crypto.randomUUID(),
+            id: preset.pipelineEvent && el.id.startsWith('pipeline-') ? el.id : crypto.randomUUID(),
           }));
 
           const clonedPhoto = preset.photo ? { ...preset.photo } : undefined;
@@ -1607,6 +1632,9 @@ export const useStore = create<AppState>()(
               textureType: preset.background.textureType,
               textureOpacity: preset.background.textureOpacity,
               photo: clonedPhoto,
+              brandLogo: { ...(preset.brandLogo || state.brandLogo) },
+              pipelineEvent: preset.pipelineEvent ? structuredClone(preset.pipelineEvent) : undefined,
+              pipelineFormat: preset.pipelineEvent ? preset.format : undefined,
             };
           });
 
@@ -1615,6 +1643,7 @@ export const useStore = create<AppState>()(
             elements: clonedElements,
             slides: updatedSlides,
             selectedElementId: null,
+            brandLogo: { ...(preset.brandLogo || state.brandLogo) },
             canvasSettings: {
               ...state.canvasSettings,
               width: dimensions.width,
@@ -1687,6 +1716,7 @@ export const useStore = create<AppState>()(
         set((state) => {
           const history = recordHistory(state);
           const currentSlide: Slide = {
+            ...state.slides[state.activeSlideIndex],
             id: state.slides[state.activeSlideIndex]?.id || crypto.randomUUID(),
             elements: state.elements,
             backgroundColor: state.canvasSettings.backgroundColor,
@@ -1735,6 +1765,7 @@ export const useStore = create<AppState>()(
         set((state) => {
           const history = recordHistory(state);
           const currentSlide: Slide = {
+            ...state.slides[state.activeSlideIndex],
             id: state.slides[state.activeSlideIndex]?.id || crypto.randomUUID(),
             elements: state.elements,
             backgroundColor: state.canvasSettings.backgroundColor,
@@ -1752,8 +1783,10 @@ export const useStore = create<AppState>()(
           if (!targetSlide) return {};
 
           const duplicatedSlide: Slide = {
+            ...targetSlide,
             id: crypto.randomUUID(),
-            elements: targetSlide.elements.map((el) => ({ ...el, id: crypto.randomUUID() })),
+            elements: targetSlide.elements.map((el) => ({ ...el, id: targetSlide.pipelineEvent && el.id.startsWith('pipeline-') ? el.id : crypto.randomUUID() })),
+            pipelineEvent: targetSlide.pipelineEvent ? structuredClone(targetSlide.pipelineEvent) : undefined,
             backgroundColor: targetSlide.backgroundColor,
             backgroundImage: targetSlide.backgroundImage,
             photo: targetSlide.photo ? { ...targetSlide.photo } : undefined,
@@ -1825,6 +1858,7 @@ export const useStore = create<AppState>()(
 
           // Guardar estado do slide atual antes de alternar
           const currentSlide: Slide = {
+            ...state.slides[state.activeSlideIndex],
             id: state.slides[state.activeSlideIndex]?.id || crypto.randomUUID(),
             elements: state.elements,
             backgroundColor: state.canvasSettings.backgroundColor,
@@ -1858,6 +1892,10 @@ export const useStore = create<AppState>()(
       },
 
       autoFillEvent: (parsedData: ParsedEvent) => {
+        if (parsedData.pipelineEvent) {
+          get().importPublishedEvent(parsedData.pipelineEvent);
+          return;
+        }
         set((state) => {
           const history = recordHistory(state);
           const isLight = (hex: string) => {
@@ -1979,7 +2017,7 @@ export const useStore = create<AppState>()(
           const combinedElements = [...remainingElements, ...newElements];
 
           const updatedSlides = state.slides.map((s, idx) =>
-            idx === state.activeSlideIndex ? { ...s, elements: combinedElements } : s
+            idx === state.activeSlideIndex ? { ...s, elements: combinedElements, pipelineEvent: undefined, pipelineFormat: undefined } : s
           );
 
           return {
@@ -1987,6 +2025,27 @@ export const useStore = create<AppState>()(
             elements: combinedElements,
             slides: updatedSlides,
             selectedElementId: null,
+          };
+        });
+      },
+
+      importPublishedEvent: (event) => {
+        set((state) => {
+          const project = buildStudioProject(event, state.canvasSettings.aspectRatio);
+          const slide: Slide = {
+            ...project.slides[0],
+            id: state.slides[state.activeSlideIndex]?.id || crypto.randomUUID(),
+            pipelineEvent: event,
+            pipelineFormat: state.canvasSettings.aspectRatio,
+          };
+          return {
+            ...recordHistory(state),
+            slides: state.slides.map((current, index) => index === state.activeSlideIndex ? slide : current),
+            elements: slide.elements,
+            brandLogo: project.brandLogo,
+            canvasSettings: { ...project.canvasSettings, zoom: state.canvasSettings.zoom },
+            selectedElementId: null,
+            inspectingPhoto: false,
           };
         });
       },
