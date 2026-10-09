@@ -136,6 +136,9 @@ export interface PublishedEventMetadata {
   access: string;
   description: string;
   sourceUrl: string;
+  sourceName?: string;
+  hook?: string;
+  schedule?: string;
 }
 
 export type ParsedEventData = ParsedEvent;
