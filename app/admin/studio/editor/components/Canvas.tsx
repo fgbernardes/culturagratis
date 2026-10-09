@@ -325,6 +325,17 @@ export const Canvas = forwardRef<HTMLDivElement>((_, ref) => {
             }}
             className="shadow-2xl select-none overflow-hidden"
           >
+        {slides[activeSlideIndex]?.pipelineEvent && (() => {
+          const ratio=canvasSettings.aspectRatio;
+          const tall=ratio==='9:16',wide=ratio==='16:9',square=ratio==='1:1';
+          const top=tall?315:wide?170:square?145:155;
+          const height=tall?700:wide?370:square?375:510;
+          return <div aria-hidden="true" style={{position:'absolute',inset:0,zIndex:10,pointerEvents:'none'}}>
+            <div style={{position:'absolute',left:0,top,width:'100%',height,background:'#FE7D02',clipPath:'polygon(0 0, 100% 0, 100% 88%, 0 100%)'}}/>
+            <div style={{position:'absolute',right:wide?100:65,top:top+height-18,width:wide?320:180,height:wide?320:180,border:'18px solid #00838F',borderRadius:'50%',opacity:.9}}/>
+            <div style={{position:'absolute',left:wide?120:80,top:top+height+25,width:wide?430:250,height:12,background:'#FFC107'}}/>
+          </div>;
+        })()}
         {/* Filtro SVG de Ruído CGL */}
         {canvasSettings.textureType === 'noise' && (
           <svg style={{ position: 'absolute', width: 0, height: 0, pointerEvents: 'none', zIndex: 1 }} width="0" height="0">
