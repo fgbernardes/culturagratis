@@ -7,6 +7,8 @@ const compiled = buildSync({entryPoints:['app/admin/studio/editor/utils/eventPar
 const {parseEventText} = await import('data:text/javascript;base64,' + Buffer.from(compiled.outputFiles[0].text).toString('base64'));
 const captionCode=buildSync({entryPoints:['app/admin/studio/editor/utils/captionDraft.ts'],bundle:true,write:false,format:'esm',platform:'node'}).outputFiles[0].text;
 const {buildCaptionDraft}=await import('data:text/javascript;base64,'+Buffer.from(captionCode).toString('base64'));
+const publishedCode=buildSync({entryPoints:['app/admin/studio/editor/utils/publishedEvent.ts'],bundle:true,write:false,format:'esm',platform:'node'}).outputFiles[0].text;
+const requirePublished=()=>import('data:text/javascript;base64,'+Buffer.from(publishedCode).toString('base64'));
 const event = {id:'test-1',slug:'jazz-teste',status:'published',title:'Jazz no jardim',startDate:'2026-10-10',timeLabel:'18h30',venue:'Jardim de teste',area:'Estrela',category:'Música',condition:'Entrada gratuita com reserva',access:'Reserva prévia obrigatória',sourceUrl:'https://example.org/evento',description:'Evento fictício de teste',free:false};
 // Só a fronteira de armazenamento do navegador é substituída neste teste Node.
 const browserStorage=new Map();
@@ -20,10 +22,27 @@ test.afterEach(()=>useStore.setState(baseline));
 
 test('a importação JSON mantém data, horário, freguesia e acesso condicional',()=>{
   const parsed=parseEventText(JSON.stringify(event));
-  assert.equal(parsed.date,'10 out. 2026 · 18h30');
+  assert.equal(parsed.date,'10 out. 2026');
+  assert.equal(parsed.pipelineEvent?.schedule,'18h30');
   assert.equal(parsed.venue,'Jardim de teste · Estrela');
   assert.equal(parsed.access,'Entrada gratuita com reserva · Reserva prévia obrigatória');
   assert.equal(parsed.isFree,false);
+});
+test('o modelo editorial separa datas e horários e conserva o título oficial',async()=>{
+  const {mapPublishedEvent,buildStudioProject,buildEventCaption}=await requirePublished();
+  const mapped=mapPublishedEvent({...event,title:'3.º Aniversário do MAC/CCB',startDate:'2026-10-23',endDate:'2026-10-25',timeLabel:'23/10 a partir das 18h; 24 e 25/10 a partir das 15h',area:'Belém',category:'Exposições e artes visuais'});
+  assert.equal(mapped.studio.date,'23 a 25 out. 2026');
+  assert.equal(mapped.schedule,'23/10 a partir das 18h; 24 e 25/10 a partir das 15h');
+  assert.equal(mapped.studio.title,'3.º Aniversário do MAC/CCB');
+  assert.equal(mapped.hook,'3 DIAS DE ARTE GRÁTIS · BELÉM');
+  for(const ratio of ['9:16','4:5']) {
+    const project=buildStudioProject(mapped,ratio);
+    assert.equal(project.elements.find(el=>el.id==='pipeline-date')?.content,'23 a 25 out. 2026');
+    assert.equal(project.elements.find(el=>el.id==='pipeline-schedule')?.content,mapped.schedule);
+    assert.equal(project.elements.find(el=>el.id==='pipeline-title')?.content,mapped.studio.title);
+    assert.ok(project.elements.find(el=>el.id==='pipeline-hook'));
+  }
+  assert.match(buildEventCaption(mapped),/23\/10 a partir das 18h/);
 });
 test('o Studio rejeita rascunhos e JSON inválido sem os transformar em texto livre',()=>{
   assert.throws(()=>parseEventText(JSON.stringify({...event,status:'draft'})),/publicado/);
@@ -53,7 +72,7 @@ test('mudar de formato mantém texto, cor e posição ajustados pelo utilizador'
   assert.equal(title?.color,'#00838F');
   const date=state.elements.find(el=>el.id==='pipeline-date');
   assert.equal(date?.x,120);
-  assert.equal(date?.y,562);
+  assert.equal(date?.y,635);
   assert.equal(date?.fontSize,40);
   assert.equal(state.canvasSettings.width,1080);
   assert.equal(state.canvasSettings.height,1080);
@@ -98,7 +117,7 @@ test('guardar e carregar um modelo de evento conserva campos editados e logo',()
   const loaded=useStore.getState();
   assert.equal(loaded.slides[1].pipelineEvent?.id,'test-1');
   assert.equal(loaded.elements.find(el=>el.id==='pipeline-title')?.content,'Título guardado');
-  assert.equal(loaded.brandLogo.size,200);
+  assert.equal(loaded.brandLogo.size,130);
   useStore.getState().setAspectRatio('1:1');
   assert.equal(useStore.getState().slides[1].pipelineEvent?.studio.title,'Título guardado');
 });
