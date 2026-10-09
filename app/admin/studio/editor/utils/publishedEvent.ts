@@ -29,6 +29,23 @@ function civilDate(value:string,label:string):string {
   const months=['jan.','fev.','mar.','abr.','mai.','jun.','jul.','ago.','set.','out.','nov.','dez.'];
   return `${date.getUTCDate()} ${months[date.getUTCMonth()]} ${date.getUTCFullYear()}`;
 }
+function compactDateRange(start:string,end:string):string {
+  if(!end||start===end)return civilDate(start,'Data de início');
+  const first=civilDate(start,'Data de início'),last=civilDate(end,'Data de fim');
+  if(end<start)throw new Error('A data de fim é anterior ao início.');
+  if(start.slice(0,7)===end.slice(0,7))return `${Number(start.slice(8))} a ${last}`;
+  return `${first} a ${last}`;
+}
+function suggestHook(category:string,area:string,start:string,end:string,access:string):string {
+  const location=area?` · ${area.toLocaleUpperCase('pt-PT')}`:'';
+  const free=/gr[aá]tis|gratuit[ao]|entrada livre/i.test(access);
+  const arts=/^exposi[cç]/i.test(category);
+  if(start&&end&&arts&&free){
+    const days=Math.round((Date.parse(`${end}T12:00:00Z`)-Date.parse(`${start}T12:00:00Z`))/86_400_000)+1;
+    if(days>=2&&days<=7)return `${days} DIAS DE ARTE GRÁTIS${location}`;
+  }
+  return `CULTURA GRÁTIS${location}`;
+}
 export function mapPublishedEvent(input:unknown,confirmedPublished=false):MappedEvent {
   const data=object(input),used=new Set<string>(),mapping:MappingRow[]=[],warnings:string[]=[];
   function pick(label:string,to:string,keys:string[],required=false):string {
@@ -52,9 +69,10 @@ export function mapPublishedEvent(input:unknown,confirmedPublished=false):Mapped
   const plainDate=pick('Data descritiva','date',['date','data','datetime']);
   const time=pick('Horário','date',['time','timeLabel','time_label','hora','horario']);
   if(!start&&!plainDate)throw new Error('Falta a data do evento. O horário sozinho não substitui uma data.');
-  let date=start?civilDate(start,'Data de início'):plainDate;
-  if(end){const formatted=civilDate(end,'Data de fim');if(start&&end<start)throw new Error('A data de fim é anterior ao início.');if(end!==start)date+=` a ${formatted}`;}
-  if(time)date+=` · ${time}`;
+  let date=start?compactDateRange(start,end):plainDate;
+  if(!start&&end)date+=` a ${civilDate(end,'Data de fim')}`;
+  // A data é curta na peça; o horário mantém-se num campo editável próprio.
+  if(!start&&time)date+=` · ${time}`;
   const venue=pick('Local','venue',['venue','location','local','localizacao','place'],true);
   const area=pick('Freguesia / bairro','venue',['area','freguesia','bairro']);
   const category=pick('Categoria','category',['category','categoria']);
@@ -64,36 +82,45 @@ export function mapPublishedEvent(input:unknown,confirmedPublished=false):Mapped
   if(!accessLabel)warnings.push('Faltam as condições de acesso. Revê o evento antes de usar as peças.');
   const description=pick('Descrição','legenda',['description','descricao']);
   const sourceUrl=pick('Fonte oficial','legenda',['sourceUrl','source_url','fonte_url']);
+  const sourceName=pick('Nome da fonte','rodapé',['sourceName','source_name','fonte']);
+  const hook=pick('Chamada social','chamada',['socialHeadline','social_headline','hook']);
   if(sourceUrl&&!/^https?:\/\//i.test(sourceUrl))throw new Error('A ligação da fonte deve começar por https:// ou http://.');
   const id=typeof data.id==='number'?String(data.id):pick('ID','rastreabilidade',['id']);
   if(typeof data.id==='number')used.add('id');
   const slug=pick('Slug','rastreabilidade',['slug']);
   const colors:Record<string,string>={'teatro':'#FFC107','dança':'#FFC107','exposição':'#00838F','exposições':'#00838F','ar livre':'#00838F','cinema':'#FFC107'};
   // Sem selo genérico: as condições de acesso são desenhadas por extenso.
-  return {studio:{title,date,venue:[venue,area].filter(Boolean).join(' · '),category,categoryColor:colors[category.toLowerCase()]||'#FE7D02',isFree:false},id,slug,access:accessLabel||'Acesso a confirmar',description,sourceUrl,mapping,ignored:Object.keys(data).filter(k=>!used.has(k)),warnings};
+  return {studio:{title,date,venue:[venue,area].filter(Boolean).join(' · '),category,categoryColor:colors[category.toLowerCase()]||'#FE7D02',isFree:false},id,slug,access:accessLabel||'Acesso a confirmar',description,sourceUrl,sourceName,hook:hook||suggestHook(category,area,start,end,accessLabel),schedule:start?time:'',mapping,ignored:Object.keys(data).filter(k=>!used.has(k)),warnings};
 }
 export function buildStudioProject(event:PublishedEventMetadata,ratio:AspectRatio) {
   const format=FORMATS.find(f=>f.ratio===ratio);if(!format)throw new Error('Formato desconhecido.');
-  const {width,height}=format,tall=ratio==='9:16',wide=ratio==='16:9';
+  const {width,height}=format,tall=ratio==='9:16',wide=ratio==='16:9',square=ratio==='1:1';
   const left=wide?120:80,contentWidth=width-2*left-(tall?40:0);
   const text=(id:string,content:string,y:number,size:number,color='#FFFFFF',display=false):ImageElement=>({id,type:'text',content,x:left,y,width:contentWidth,fontSize:size,fontFamily:display?'"Bricolage Grotesque", sans-serif':'"Inter", sans-serif',color,fontWeight:display?700:500,textAlign:'left'});
-  const titleSize=event.studio.title.length>130?(wide?66:54):event.studio.title.length>70?(wide?86:68):(wide?106:86);
+  const titleSize=event.studio.title.length>110?(wide?65:square?38:48):event.studio.title.length>65?(wide?82:square?52:60):(wide?104:82);
+  const positions=tall?{category:235,hook:355,title:495,date:1080,schedule:1170,venue:1320,access:1440,source:1550,link:1620}
+    :wide?{category:100,hook:205,title:300,date:585,schedule:670,venue:765,access:850,source:935,link:970}
+    :square?{category:85,hook:180,title:275,date:555,schedule:625,venue:730,access:820,source:905,link:955}
+    :{category:95,hook:190,title:285,date:700,schedule:790,venue:910,access:1030,source:1160,link:1220};
   const elements:ImageElement[]=[
-    {...text('pipeline-category',event.studio.category||'Cultura em Lisboa',tall?210:90,26,'#1A1A1A'),width:undefined,hasBadge:true,badgeColor:event.studio.categoryColor||'#FE7D02',tagShape:'pill'},
-    text('pipeline-title',event.studio.title,tall?350:190,titleSize,'#FFFFFF',true),
-    text('pipeline-date',event.studio.date||'',tall?970:wide?550:height===1080?530:760,36,'#FFC107'),
-    text('pipeline-venue',event.studio.venue||'',tall?1110:wide?680:height===1080?660:920,34),
-    text('pipeline-access',event.access,tall?1260:wide?790:height===1080?785:1050,26),
-    {...text('pipeline-link','Mais informações em culturagratis.com',tall?1580:height-135,30),width:width-left-300},
+    {...text('pipeline-category',event.studio.category||'Cultura em Lisboa',positions.category,25,'#1A1A1A'),width:undefined,hasBadge:true,badgeColor:'#FFC107',tagShape:'pill'},
+    text('pipeline-hook',event.hook||'CULTURA GRÁTIS EM LISBOA',positions.hook,wide?36:30,'#1A1A1A',true),
+    text('pipeline-title',event.studio.title,positions.title,titleSize,'#1A1A1A',true),
+    text('pipeline-date',event.studio.date||'',positions.date,wide?46:42,'#FFC107',true),
+    ...(event.schedule?[text('pipeline-schedule',event.schedule,positions.schedule,wide?28:26)]:[]),
+    text('pipeline-venue',event.studio.venue||'',positions.venue,wide?32:30),
+    text('pipeline-access',event.access,positions.access,event.access.length>100?21:wide?26:25,'#FFFFFF'),
+    ...(event.sourceName?[text('pipeline-source',`Fonte: ${event.sourceName}`,positions.source,19,'#D1D5DB')]:[]),
+    {...text('pipeline-link','culturagratis.com',positions.link,25,'#FFFFFF',true),width:width-left-280},
   ];
-  const brandLogo:BrandLogo={src:'/cgl-emblem.png',visible:true,position:'bottom-right',size:200,opacity:1,margin:60,backgroundHighlight:'none',logoColorMode:'original',logoShape:'original',removeWhiteBg:false,blendMode:'normal'};
+  const brandLogo:BrandLogo={src:'/cgl-emblem.png',visible:true,position:tall?'top-right':'bottom-right',size:tall?135:wide?145:130,opacity:1,margin:tall?80:50,backgroundHighlight:'none',logoColorMode:'original',logoShape:'original',removeWhiteBg:false,blendMode:'normal'};
   const canvasSettings:CanvasSettings={width,height,aspectRatio:ratio,backgroundColor:'#1A1A1A',backgroundImage:null,showSafeZones:false,textureType:'none',textureOpacity:0,zoom:tall?0.25:wide?0.32:0.4};
   const slide:Slide={id:'pipeline-event',elements,brandLogo,backgroundColor:'#1A1A1A',backgroundImage:null,textureType:'none',textureOpacity:0};
   return {canvasSettings,elements,brandLogo,slides:[slide],activeSlideIndex:0,selectedElementId:null,inspectingPhoto:false,past:[],future:[],canUndo:false,canRedo:false,lastSavedAt:Date.now()};
 }
 export function buildEventCaption(event:PublishedEventMetadata):string {
   const link=event.slug?`https://www.culturagratis.com/eventos/${encodeURIComponent(event.slug)}`:'https://www.culturagratis.com/';
-  return [event.studio.title,`📅 ${event.studio.date}`,`📍 ${event.studio.venue}`,event.description,`🎟️ ${event.access}`,event.sourceUrl?`Fonte oficial: ${event.sourceUrl}`:'',`Mais informação: ${link}`].filter(Boolean).join('\n\n');
+  return [event.studio.title,`📅 ${event.studio.date}${event.schedule?` · ${event.schedule}`:''}`,`📍 ${event.studio.venue}`,event.description,`🎟️ ${event.access}`,event.sourceUrl?`Fonte oficial: ${event.sourceName?`${event.sourceName} · `:''}${event.sourceUrl}`:'',`Mais informação: ${link}`].filter(Boolean).join('\n\n');
 }
 const SOCIAL_FIELDS = { 'pipeline-title':'title', 'pipeline-date':'date', 'pipeline-venue':'venue', 'pipeline-category':'category', 'pipeline-access':'access' } as const;
 export function synchronizeEventContent<T extends PublishedEventMetadata>(event:T,elements:ImageElement[]):T {
@@ -103,6 +130,8 @@ export function synchronizeEventContent<T extends PublishedEventMetadata>(event:
     if(!element||typeof element.content!=='string')continue;
     if(key==='access')next.access=element.content;else next.studio[key]=element.content;
   }
+  const hook=elements.find(el=>el.id==='pipeline-hook');if(hook?.content)next.hook=hook.content;
+  const schedule=elements.find(el=>el.id==='pipeline-schedule');if(schedule?.content!==undefined)next.schedule=schedule.content;
   return next;
 }
 export function validateProjectData(event:PublishedEventMetadata,elements:ImageElement[]):void {
